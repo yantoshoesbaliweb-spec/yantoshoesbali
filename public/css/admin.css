@@ -1,0 +1,373 @@
+/* ============================================================
+   YANTO SHOES BALI — Admin Theme Customizations (#391802 Palette)
+   ============================================================ */
+
+:root {
+  /* Core #391802 Palette */
+  --admin-brand: #391802;
+  --admin-bg: #f8f4ef;
+  --admin-surface: #ffffff;
+  --admin-surface-soft: #fcf9f5;
+  --admin-border: #e8ded2;
+  --admin-border-light: #f2ebe1;
+  --admin-text: #210e02;
+  --admin-muted: #7d6756;
+  
+  --admin-primary: #391802;
+  --admin-primary-dark: #210e02;
+  --admin-gold: #dba24c;
+  --admin-gold-light: #f3c77d;
+  --admin-gold-dark: #b27a29;
+  
+  --admin-sidebar: #210e02;
+  --admin-sidebar-soft: #391802;
+  --admin-sidebar-border: #4d2205;
+  --admin-sidebar-text: #ebdcc9;
+  --admin-sidebar-text-strong: #ffffff;
+  --admin-sidebar-muted: #c2aa96;
+}
+
+html[data-theme="dark"] {
+  --admin-bg: #1a0b01;
+  --admin-surface: #2b1303;
+  --admin-surface-soft: #391802;
+  --admin-border: #4e2205;
+  --admin-border-light: #612d08;
+  --admin-text: #f7eee3;
+  --admin-muted: #c4ad99;
+  
+  --admin-primary: #dba24c;
+  --admin-primary-dark: #f3c77d;
+  --admin-gold: #dba24c;
+  --admin-gold-light: #f3c77d;
+  
+  --admin-sidebar: #170901;
+  --admin-sidebar-soft: #281002;
+  --admin-sidebar-border: #391802;
+  --admin-sidebar-text: #f6ede3;
+  --admin-sidebar-text-strong: #ffffff;
+  --admin-sidebar-muted: #c2aa96;
+}
+
+/* Typography & General */
+body {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  background-color: var(--admin-bg) !important;
+  color: var(--admin-text) !important;
+}
+
+h1, h2, h3, .brand-title, .metric-value, .font-serif {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* Navbar */
+.admin-navbar {
+  background: var(--admin-surface) !important;
+  border-bottom: 1px solid var(--admin-border) !important;
+}
+
+.search-input {
+  background: var(--admin-surface-soft) !important;
+  border-color: var(--admin-border) !important;
+  color: var(--admin-text) !important;
+}
+
+.search-input:focus {
+  border-color: var(--admin-gold) !important;
+  box-shadow: 0 0 0 3px rgba(219, 162, 76, 0.25) !important;
+}
+
+/* Brand & Sidebar Customization */
+.brand-icon {
+  background: var(--admin-sidebar-soft) !important;
+  border: 1px solid var(--admin-gold) !important;
+}
+
+.brand-title {
+  font-size: 1.15rem !important;
+  letter-spacing: 0.08em;
+  color: #ffffff !important;
+}
+
+.brand-subtitle {
+  color: var(--admin-gold) !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.06em;
+}
+
+.sidebar-nav .nav-link.active {
+  background: var(--admin-sidebar-soft) !important;
+  color: var(--admin-gold) !important;
+  border-left: 3px solid var(--admin-gold) !important;
+}
+
+.sidebar-nav .nav-link:hover {
+  color: var(--admin-gold-light) !important;
+}
+
+.sidebar-nav .nav-link .nav-icon {
+  color: var(--admin-gold) !important;
+}
+
+/* Sidebar Submenu */
+.sidebar-submenu {
+  border-left: 2px solid rgba(219, 162, 76, 0.25);
+  margin-left: 1rem;
+}
+
+.sidebar-submenu .sub-link {
+  color: var(--admin-sidebar-muted) !important;
+  font-weight: 500 !important;
+  border-radius: 6px;
+}
+
+.sidebar-submenu .sub-link:hover,
+.sidebar-submenu .sub-link.active {
+  color: var(--admin-gold) !important;
+  background: var(--admin-sidebar-soft) !important;
+}
+
+.sidebar-menu-group .nav-link[aria-expanded="true"] .submenu-arrow {
+  transform: rotate(180deg);
+}
+
+/* Cards & Panels */
+.card, .panel, .metric-card, .table-container {
+  background: var(--admin-surface) !important;
+  border: 1px solid var(--admin-border) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 20px rgba(33, 14, 2, 0.04) !important;
+}
+
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .panel,
+html[data-theme="dark"] .metric-card,
+html[data-theme="dark"] .table-container {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Tables */
+.table {
+  color: var(--admin-text) !important;
+  border-color: var(--admin-border) !important;
+}
+
+.table th {
+  background: var(--admin-surface-soft) !important;
+  color: var(--admin-muted) !important;
+  font-size: 0.76rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600 !important;
+  border-bottom: 1px solid var(--admin-border) !important;
+}
+
+.table td {
+  border-bottom: 1px solid var(--admin-border) !important;
+  vertical-align: middle !important;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--admin-brand) !important;
+  border-color: var(--admin-brand) !important;
+  color: #ffffff !important;
+}
+
+.btn-primary:hover {
+  background-color: #210e02 !important;
+  border-color: #210e02 !important;
+  color: var(--admin-gold-light) !important;
+}
+
+html[data-theme="dark"] .btn-primary {
+  background-color: var(--admin-gold) !important;
+  border-color: var(--admin-gold) !important;
+  color: #210e02 !important;
+  font-weight: 600 !important;
+}
+
+html[data-theme="dark"] .btn-primary:hover {
+  background-color: var(--admin-gold-light) !important;
+  border-color: var(--admin-gold-light) !important;
+}
+
+/* Metric Cards */
+.metric-card {
+  padding: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--admin-gold) !important;
+}
+
+.metric-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--admin-muted);
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.metric-value {
+  font-size: 2.1rem;
+  font-weight: 600;
+  color: var(--admin-text);
+  line-height: 1.1;
+}
+
+.metric-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+}
+
+/* Icon Buttons */
+.icon-button {
+  background: var(--admin-surface-soft) !important;
+  border: 1px solid var(--admin-border) !important;
+  color: var(--admin-text) !important;
+}
+
+.icon-button:hover {
+  color: var(--admin-gold) !important;
+  border-color: var(--admin-gold) !important;
+}
+
+/* ============================================================
+   DATATABLES CUSTOM STYLING (#391802 Leather Theme)
+   ============================================================ */
+.dataTables_wrapper {
+  color: var(--admin-text) !important;
+  font-size: 0.85rem;
+}
+
+.dataTables_wrapper .row:first-child,
+.dataTables_wrapper .row:last-child {
+  padding: 1rem 1.25rem;
+  align-items: center;
+  gap: 0.5rem 0;
+}
+
+.dataTables_wrapper .dataTables_length label,
+.dataTables_wrapper .dataTables_filter label,
+.dataTables_wrapper .dataTables_info {
+  color: var(--admin-muted) !important;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+  background: var(--admin-surface-soft) !important;
+  border: 1px solid var(--admin-border) !important;
+  color: var(--admin-text) !important;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.84rem;
+  margin-left: 8px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.dataTables_wrapper .dataTables_filter input:focus {
+  border-color: var(--admin-gold) !important;
+  box-shadow: 0 0 0 3px rgba(219, 162, 76, 0.25) !important;
+}
+
+.dataTables_wrapper .dataTables_length select {
+  background: var(--admin-surface-soft) !important;
+  border: 1px solid var(--admin-border) !important;
+  color: var(--admin-text) !important;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.84rem;
+  margin: 0 6px;
+  outline: none;
+}
+
+.dataTables_wrapper .dataTables_length select:focus {
+  border-color: var(--admin-gold) !important;
+}
+
+.dataTables_wrapper .pagination {
+  margin: 0;
+  gap: 4px;
+}
+
+.dataTables_wrapper .pagination .page-item .page-link {
+  background: var(--admin-surface-soft);
+  border: 1px solid var(--admin-border);
+  color: var(--admin-text);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 6px !important;
+  transition: all 0.2s ease;
+}
+
+.dataTables_wrapper .pagination .page-item.active .page-link {
+  background: var(--admin-brand) !important;
+  border-color: var(--admin-gold) !important;
+  color: var(--admin-gold) !important;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(33, 14, 2, 0.2);
+}
+
+html[data-theme="dark"] .dataTables_wrapper .pagination .page-item.active .page-link {
+  background: var(--admin-gold) !important;
+  border-color: var(--admin-gold) !important;
+  color: #210e02 !important;
+}
+
+.dataTables_wrapper .pagination .page-item:not(.active):not(.disabled) .page-link:hover {
+  background: var(--admin-surface);
+  color: var(--admin-gold);
+  border-color: var(--admin-gold);
+}
+
+.dataTables_wrapper .pagination .page-item.disabled .page-link {
+  opacity: 0.45;
+  background: var(--admin-surface-soft);
+  border-color: var(--admin-border);
+}
+
+table.dataTable {
+  border-collapse: collapse !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+table.dataTable thead th {
+  border-bottom: 2px solid var(--admin-border) !important;
+  color: var(--admin-muted) !important;
+  font-weight: 600 !important;
+  font-size: 0.78rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 12px 16px !important;
+}
+
+table.dataTable tbody td {
+  padding: 12px 16px !important;
+  border-bottom: 1px solid var(--admin-border) !important;
+}
+
+table.dataTable.table-hover > tbody > tr:hover > * {
+  background-color: var(--admin-surface-soft) !important;
+}
+
+/* Sorting arrows custom tint */
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc {
+  cursor: pointer;
+}
+
