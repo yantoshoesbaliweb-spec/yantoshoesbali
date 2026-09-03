@@ -2,6 +2,81 @@
 
 @section('title', 'Header & Hero Slider Settings - Yanto Shoes Admin')
 
+@push('styles')
+<style>
+  .slide-item {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  }
+  .drag-handle {
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+    color: var(--admin-muted);
+    transition: color 0.15s ease, transform 0.15s ease;
+  }
+  .drag-handle:hover {
+    color: var(--admin-gold, #dba24c);
+    transform: scale(1.15);
+  }
+  .drag-handle:active {
+    cursor: grabbing;
+  }
+  /* SortableJS States */
+  .slide-sortable-ghost {
+    opacity: 0.45;
+    background: rgba(219, 162, 76, 0.08) !important;
+    border: 2px dashed var(--admin-gold, #dba24c) !important;
+  }
+  .slide-sortable-chosen {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+    border-color: var(--admin-gold, #dba24c) !important;
+  }
+  .slide-sortable-drag {
+    opacity: 0.95;
+    cursor: grabbing !important;
+  }
+  /* Flash animation on position swap */
+  @keyframes slideHighlight {
+    0% {
+      background-color: rgba(219, 162, 76, 0.25);
+      border-color: var(--admin-gold, #dba24c);
+      transform: scale(1.008);
+    }
+    100% {
+      background-color: var(--admin-surface-soft);
+      transform: scale(1);
+    }
+  }
+  .slide-reorder-highlight {
+    animation: slideHighlight 0.6s ease-out;
+  }
+  .btn-move-slide {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    color: var(--admin-text);
+    border-color: var(--admin-border);
+    background: var(--admin-surface);
+  }
+  .btn-move-slide:hover:not(:disabled) {
+    background-color: var(--admin-gold, #dba24c);
+    border-color: var(--admin-gold, #dba24c);
+    color: #ffffff;
+  }
+  .btn-move-slide:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .slide-preview-box {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+</style>
+@endpush
+
 @section('content')
 <div class="container-fluid px-0">
 
@@ -18,7 +93,7 @@
       <h1 class="h3 fw-bold mb-0" style="color: var(--admin-text); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.85rem;">
         Header &amp; Hero Slider Settings
       </h1>
-      <p class="text-muted mb-0" style="font-size: 0.85rem;">Configure the announcement rotator bar, dynamic hero slides (add, edit, delete), and brand marquee strip.</p>
+      <p class="text-muted mb-0" style="font-size: 0.85rem;">Upload slider images, reorder slides with drag &amp; drop or arrow buttons, and configure announcement rotator.</p>
     </div>
 
     <div class="d-flex align-items-center gap-2">
@@ -37,7 +112,22 @@
   </div>
   @endif
 
-  <form action="{{ route('admin.content.header.update') }}" method="POST" id="header-settings-form">
+  @if($errors->any())
+  <div class="alert alert-danger alert-dismissible fade show d-flex align-items-start gap-2 mb-4" role="alert">
+    <i class="bi bi-exclamation-triangle-fill text-danger fs-5 mt-1"></i>
+    <div>
+      <strong>Validation error:</strong>
+      <ul class="mb-0 ps-3 mt-1">
+        @foreach($errors->all() as $error)
+          <li>{{ $error }}</li>
+        @endforeach
+      </ul>
+    </div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  @endif
+
+  <form action="{{ route('admin.content.header.update') }}" method="POST" id="header-settings-form" enctype="multipart/form-data">
     @csrf
 
     <!-- 1. Announcement Bar Settings -->
@@ -63,7 +153,7 @@
           <h5 class="card-title fw-bold mb-0" style="color: var(--admin-text); font-size: 1.05rem;">
             <i class="bi bi-images me-2" style="color: var(--admin-gold, #dba24c);"></i>Hero Slides Management
           </h5>
-          <small class="text-muted">Add new slides, delete unwanted slides, or edit content and background images.</small>
+          <small class="text-muted">Upload slider images, drag handle <i class="bi bi-grip-vertical"></i> or use arrows <i class="bi bi-arrow-up"></i><i class="bi bi-arrow-down"></i> to reorder slides.</small>
         </div>
         <button type="button" class="btn btn-sm btn-primary d-inline-flex align-items-center gap-1" id="add-slide-btn">
           <i class="bi bi-plus-circle"></i>
@@ -93,15 +183,37 @@
           @foreach($slides as $i => $slide)
           <div class="slide-item p-3 rounded border position-relative" data-slide-index="{{ $i }}" style="background: var(--admin-surface-soft); border-color: var(--admin-border) !important;">
             
-            <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2" style="border-color: var(--admin-border) !important;">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3 border-bottom pb-2" style="border-color: var(--admin-border) !important;">
               <div class="d-flex align-items-center gap-2">
+                <!-- Drag Handle -->
+                <div class="drag-handle d-flex align-items-center px-1" title="Drag to reorder slide">
+                  <i class="bi bi-grip-vertical fs-5"></i>
+                </div>
+                <!-- Badge -->
                 <span class="badge bg-warning text-dark fw-bold px-2 py-1 slide-badge">Slide #{{ $i + 1 }}</span>
-                <span class="text-muted slide-info" style="font-size: 0.78rem;">Hero frame</span>
+                <!-- Live Title Preview -->
+                <span class="text-truncate slide-title-preview fw-semibold ms-1" style="font-size: 0.85rem; max-width: 260px; color: var(--admin-text);">
+                  {{ !empty($slide['title']) ? $slide['title'] : 'Untitled Slide' }}
+                </span>
               </div>
-              <button type="button" class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1 delete-slide-btn" onclick="removeSlide(this)" title="Delete this slide">
-                <i class="bi bi-trash"></i>
-                <span class="d-none d-sm-inline">Delete Slide</span>
-              </button>
+
+              <div class="d-flex align-items-center gap-1">
+                <!-- Move Up / Down Buttons -->
+                <div class="btn-group me-1" role="group" aria-label="Reorder Slide">
+                  <button type="button" class="btn btn-sm btn-outline-secondary btn-move-slide move-up-btn" onclick="moveSlideUp(this)" title="Pindahkan Ke Atas (Move Up)" {{ $loop->first ? 'disabled' : '' }}>
+                    <i class="bi bi-arrow-up"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary btn-move-slide move-down-btn" onclick="moveSlideDown(this)" title="Pindahkan Ke Bawah (Move Down)" {{ $loop->last ? 'disabled' : '' }}>
+                    <i class="bi bi-arrow-down"></i>
+                  </button>
+                </div>
+
+                <!-- Delete Button -->
+                <button type="button" class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1 delete-slide-btn" onclick="removeSlide(this)" title="Delete this slide">
+                  <i class="bi bi-trash"></i>
+                  <span class="d-none d-sm-inline">Delete</span>
+                </button>
+              </div>
             </div>
 
             <div class="row g-3">
@@ -111,13 +223,27 @@
               </div>
 
               <div class="col-12 col-md-6">
-                <label class="form-label fw-semibold" style="font-size: 0.8rem;">Background Image Path</label>
-                <input type="text" class="form-control form-control-sm input-image" name="content[slides][{{ $i }}][image]" value="{{ $slide['image'] ?? '' }}" placeholder="e.g. images/hero_boots.png" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);" />
+                <label class="form-label fw-semibold" style="font-size: 0.8rem;">Background Image (Upload)</label>
+                <div class="d-flex align-items-center gap-3">
+                  <!-- Live Thumbnail Preview Box -->
+                  <div class="slide-preview-box rounded border position-relative overflow-hidden flex-shrink-0" style="width: 96px; height: 62px; background: var(--admin-surface); border-color: var(--admin-border) !important;">
+                    <img src="{{ !empty($slide['image']) ? asset($slide['image']) : asset('images/hero_boots.png') }}" alt="Slide Image" class="slide-preview-img w-100 h-100" style="object-fit: cover;" onerror="this.src='{{ asset('images/hero_boots.png') }}'" />
+                  </div>
+                  
+                  <!-- File Input and Hidden Path -->
+                  <div class="flex-grow-1 min-w-0">
+                    <input type="file" class="form-control form-control-sm input-image-file mb-1" name="slide_files[{{ $i }}]" accept="image/jpeg,image/png,image/webp,image/jpg,image/svg+xml" onchange="previewSlideImage(this)" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text); font-size: 0.78rem;" />
+                    <input type="hidden" class="input-image" name="content[slides][{{ $i }}][image]" value="{{ $slide['image'] ?? 'images/hero_boots.png' }}" />
+                    <small class="text-muted d-block text-truncate current-image-label" style="font-size: 0.72rem;">
+                      {{ $slide['image'] ?? 'images/hero_boots.png' }}
+                    </small>
+                  </div>
+                </div>
               </div>
 
               <div class="col-12 col-md-6">
                 <label class="form-label fw-semibold" style="font-size: 0.8rem;">Main Title (Line 1)</label>
-                <input type="text" class="form-control form-control-sm input-title" name="content[slides][{{ $i }}][title]" value="{{ $slide['title'] ?? '' }}" placeholder="e.g. YANTO SHOES" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);" />
+                <input type="text" class="form-control form-control-sm input-title" name="content[slides][{{ $i }}][title]" value="{{ $slide['title'] ?? '' }}" placeholder="e.g. YANTO SHOES" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);" oninput="updateSlideTitlePreview(this.closest('.slide-item'), this.value)" />
               </div>
 
               <div class="col-12 col-md-6">
@@ -196,10 +322,30 @@
 @endsection
 
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
 <script>
+  // Function to preview selected image instantly
+  function previewSlideImage(input) {
+    const file = input.files && input.files[0];
+    if (file) {
+      const reader = new FileReader();
+      const slideItem = input.closest('.slide-item');
+      const previewImg = slideItem.querySelector('.slide-preview-img');
+      const label = slideItem.querySelector('.current-image-label');
+
+      reader.onload = function(e) {
+        if (previewImg) previewImg.src = e.target.result;
+        if (label) label.textContent = 'Selected: ' + file.name;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   // Function to re-index all slides in the form
   function reindexSlides() {
-    const slideItems = document.querySelectorAll('.slide-item');
+    const slideItems = document.querySelectorAll('#slides-container .slide-item');
+    const total = slideItems.length;
+
     slideItems.forEach((item, idx) => {
       item.setAttribute('data-slide-index', idx);
       
@@ -207,24 +353,99 @@
       const badge = item.querySelector('.slide-badge');
       if (badge) badge.textContent = `Slide #${idx + 1}`;
 
+      // Update Move Up / Move Down buttons disabled state
+      const upBtn = item.querySelector('.move-up-btn');
+      const downBtn = item.querySelector('.move-down-btn');
+      if (upBtn) upBtn.disabled = (idx === 0);
+      if (downBtn) downBtn.disabled = (idx === total - 1);
+
       // Update input names
-      item.querySelector('.input-subtitle').name = `content[slides][${idx}][subtitle]`;
-      item.querySelector('.input-image').name = `content[slides][${idx}][image]`;
-      item.querySelector('.input-title').name = `content[slides][${idx}][title]`;
-      item.querySelector('.input-title-highlight').name = `content[slides][${idx}][title_highlight]`;
-      item.querySelector('.input-description').name = `content[slides][${idx}][description]`;
-      item.querySelector('.input-btn-p-text').name = `content[slides][${idx}][btn_primary_text]`;
-      item.querySelector('.input-btn-p-link').name = `content[slides][${idx}][btn_primary_link]`;
-      item.querySelector('.input-btn-s-text').name = `content[slides][${idx}][btn_secondary_text]`;
-      item.querySelector('.input-btn-s-link').name = `content[slides][${idx}][btn_secondary_link]`;
+      const subtitleInput = item.querySelector('.input-subtitle');
+      if (subtitleInput) subtitleInput.name = `content[slides][${idx}][subtitle]`;
+
+      const fileInput = item.querySelector('.input-image-file');
+      if (fileInput) fileInput.name = `slide_files[${idx}]`;
+
+      const imageInput = item.querySelector('.input-image');
+      if (imageInput) imageInput.name = `content[slides][${idx}][image]`;
+
+      const titleInput = item.querySelector('.input-title');
+      if (titleInput) {
+        titleInput.name = `content[slides][${idx}][title]`;
+        updateSlideTitlePreview(item, titleInput.value);
+      }
+
+      const titleHighlightInput = item.querySelector('.input-title-highlight');
+      if (titleHighlightInput) titleHighlightInput.name = `content[slides][${idx}][title_highlight]`;
+
+      const descInput = item.querySelector('.input-description');
+      if (descInput) descInput.name = `content[slides][${idx}][description]`;
+
+      const btnPText = item.querySelector('.input-btn-p-text');
+      if (btnPText) btnPText.name = `content[slides][${idx}][btn_primary_text]`;
+
+      const btnPLink = item.querySelector('.input-btn-p-link');
+      if (btnPLink) btnPLink.name = `content[slides][${idx}][btn_primary_link]`;
+
+      const btnSText = item.querySelector('.input-btn-s-text');
+      if (btnSText) btnSText.name = `content[slides][${idx}][btn_secondary_text]`;
+
+      const btnSLink = item.querySelector('.input-btn-s-link');
+      if (btnSLink) btnSLink.name = `content[slides][${idx}][btn_secondary_link]`;
     });
   }
 
-  // Remove a slide with smooth removal and re-indexing
+  // Update title preview text in slide card header
+  function updateSlideTitlePreview(slideItem, titleValue) {
+    const preview = slideItem.querySelector('.slide-title-preview');
+    if (preview) {
+      preview.textContent = titleValue && titleValue.trim() !== '' ? titleValue : 'Untitled Slide';
+    }
+  }
+
+  // Highlight element animation
+  function flashHighlight(elem) {
+    elem.classList.remove('slide-reorder-highlight');
+    void elem.offsetWidth; // Trigger reflow
+    elem.classList.add('slide-reorder-highlight');
+    setTimeout(() => {
+      elem.classList.remove('slide-reorder-highlight');
+    }, 700);
+  }
+
+  // Move slide up
+  function moveSlideUp(button) {
+    const slideItem = button.closest('.slide-item');
+    const prevItem = slideItem.previousElementSibling;
+    if (prevItem && prevItem.classList.contains('slide-item')) {
+      slideItem.parentNode.insertBefore(slideItem, prevItem);
+      reindexSlides();
+      flashHighlight(slideItem);
+      slideItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  // Move slide down
+  function moveSlideDown(button) {
+    const slideItem = button.closest('.slide-item');
+    const nextItem = slideItem.nextElementSibling;
+    if (nextItem && nextItem.classList.contains('slide-item')) {
+      slideItem.parentNode.insertBefore(nextItem, slideItem);
+      reindexSlides();
+      flashHighlight(slideItem);
+      slideItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  // Remove a slide with confirmation and re-indexing
   function removeSlide(button) {
-    const slideItems = document.querySelectorAll('.slide-item');
+    const slideItems = document.querySelectorAll('#slides-container .slide-item');
     if (slideItems.length <= 1) {
       alert('You must have at least 1 hero slide.');
+      return;
+    }
+
+    if (!confirm('Are you sure you want to delete this slide?')) {
       return;
     }
 
@@ -235,22 +456,37 @@
     }
   }
 
-  // Add a new empty slide
+  // Add a new slide
   function addNewSlide() {
     const container = document.getElementById('slides-container');
-    const newIndex = document.querySelectorAll('.slide-item').length;
+    const newIndex = document.querySelectorAll('#slides-container .slide-item').length;
 
     const newSlideHtml = `
       <div class="slide-item p-3 rounded border position-relative" data-slide-index="${newIndex}" style="background: var(--admin-surface-soft); border-color: var(--admin-border) !important; animation: fadeIn 0.3s ease;">
-        <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2" style="border-color: var(--admin-border) !important;">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3 border-bottom pb-2" style="border-color: var(--admin-border) !important;">
           <div class="d-flex align-items-center gap-2">
+            <div class="drag-handle d-flex align-items-center px-1" title="Drag to reorder slide">
+              <i class="bi bi-grip-vertical fs-5"></i>
+            </div>
             <span class="badge bg-warning text-dark fw-bold px-2 py-1 slide-badge">Slide #${newIndex + 1}</span>
-            <span class="text-muted slide-info" style="font-size: 0.78rem;">New Hero frame</span>
+            <span class="text-truncate slide-title-preview fw-semibold ms-1" style="font-size: 0.85rem; max-width: 260px; color: var(--admin-text);">
+              NEW COLLECTION
+            </span>
           </div>
-          <button type="button" class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1 delete-slide-btn" onclick="removeSlide(this)" title="Delete this slide">
-            <i class="bi bi-trash"></i>
-            <span class="d-none d-sm-inline">Delete Slide</span>
-          </button>
+          <div class="d-flex align-items-center gap-1">
+            <div class="btn-group me-1" role="group" aria-label="Reorder Slide">
+              <button type="button" class="btn btn-sm btn-outline-secondary btn-move-slide move-up-btn" onclick="moveSlideUp(this)" title="Pindahkan Ke Atas (Move Up)">
+                <i class="bi bi-arrow-up"></i>
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-secondary btn-move-slide move-down-btn" onclick="moveSlideDown(this)" title="Pindahkan Ke Bawah (Move Down)">
+                <i class="bi bi-arrow-down"></i>
+              </button>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1 delete-slide-btn" onclick="removeSlide(this)" title="Delete this slide">
+              <i class="bi bi-trash"></i>
+              <span class="d-none d-sm-inline">Delete</span>
+            </button>
+          </div>
         </div>
 
         <div class="row g-3">
@@ -260,13 +496,24 @@
           </div>
 
           <div class="col-12 col-md-6">
-            <label class="form-label fw-semibold" style="font-size: 0.8rem;">Background Image Path</label>
-            <input type="text" class="form-control form-control-sm input-image" name="content[slides][${newIndex}][image]" value="images/hero_boots.png" placeholder="e.g. images/hero_boots.png" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);" />
+            <label class="form-label fw-semibold" style="font-size: 0.8rem;">Background Image (Upload)</label>
+            <div class="d-flex align-items-center gap-3">
+              <div class="slide-preview-box rounded border position-relative overflow-hidden flex-shrink-0" style="width: 96px; height: 62px; background: var(--admin-surface); border-color: var(--admin-border) !important;">
+                <img src="{{ asset('images/hero_boots.png') }}" alt="Slide Image" class="slide-preview-img w-100 h-100" style="object-fit: cover;" onerror="this.src='{{ asset('images/hero_boots.png') }}'" />
+              </div>
+              <div class="flex-grow-1 min-w-0">
+                <input type="file" class="form-control form-control-sm input-image-file mb-1" name="slide_files[${newIndex}]" accept="image/jpeg,image/png,image/webp,image/jpg,image/svg+xml" onchange="previewSlideImage(this)" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text); font-size: 0.78rem;" />
+                <input type="hidden" class="input-image" name="content[slides][${newIndex}][image]" value="images/hero_boots.png" />
+                <small class="text-muted d-block text-truncate current-image-label" style="font-size: 0.72rem;">
+                  images/hero_boots.png (Default)
+                </small>
+              </div>
+            </div>
           </div>
 
           <div class="col-12 col-md-6">
             <label class="form-label fw-semibold" style="font-size: 0.8rem;">Main Title (Line 1)</label>
-            <input type="text" class="form-control form-control-sm input-title" name="content[slides][${newIndex}][title]" value="NEW COLLECTION" placeholder="e.g. YANTO SHOES" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);" />
+            <input type="text" class="form-control form-control-sm input-title" name="content[slides][${newIndex}][title]" value="NEW COLLECTION" placeholder="e.g. YANTO SHOES" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);" oninput="updateSlideTitlePreview(this.closest('.slide-item'), this.value)" />
           </div>
 
           <div class="col-12 col-md-6">
@@ -304,10 +551,42 @@
 
     container.insertAdjacentHTML('beforeend', newSlideHtml);
     reindexSlides();
+    const newSlideEl = container.lastElementChild;
+    if (newSlideEl) {
+      flashHighlight(newSlideEl);
+      newSlideEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
   }
 
-  // Event listeners for Add buttons
-  document.getElementById('add-slide-btn')?.addEventListener('click', addNewSlide);
-  document.getElementById('add-slide-btn-bottom')?.addEventListener('click', addNewSlide);
+  // Initialize on DOM ready
+  document.addEventListener('DOMContentLoaded', function() {
+    const slidesContainer = document.getElementById('slides-container');
+    if (slidesContainer) {
+      new Sortable(slidesContainer, {
+        handle: '.drag-handle',
+        animation: 200,
+        ghostClass: 'slide-sortable-ghost',
+        chosenClass: 'slide-sortable-chosen',
+        dragClass: 'slide-sortable-drag',
+        onEnd: function() {
+          reindexSlides();
+        }
+      });
+    }
+
+    // Bind live title preview for initial slides
+    document.querySelectorAll('#slides-container .input-title').forEach(input => {
+      input.addEventListener('input', function() {
+        updateSlideTitlePreview(this.closest('.slide-item'), this.value);
+      });
+    });
+
+    // Initial indexing to set up button disabled states properly
+    reindexSlides();
+
+    // Event listeners for Add buttons
+    document.getElementById('add-slide-btn')?.addEventListener('click', addNewSlide);
+    document.getElementById('add-slide-btn-bottom')?.addEventListener('click', addNewSlide);
+  });
 </script>
 @endpush

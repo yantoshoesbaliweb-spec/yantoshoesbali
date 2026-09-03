@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class AdminController extends Controller
 {
@@ -14,7 +15,7 @@ class AdminController extends Controller
         $stats = [
             'total_inquiries' => 128,
             'active_orders' => 18,
-            'boot_models' => 12,
+            'boot_models' => Product::count(),
             'store_outlets' => 3,
             'revenue_estimate' => 'Rp 86.4M',
             'growth_rate' => '+24.5%'
@@ -88,40 +89,26 @@ class AdminController extends Controller
             ],
         ];
 
-        $popularBoots = [
-            [
-                'name' => 'Classic Tan Cowboy Boots',
-                'category' => 'Heritage Classic',
-                'image' => 'images/product_tan.png',
-                'orders_count' => 48,
-                'rating' => 5.0,
-                'status' => 'Best Seller'
-            ],
-            [
-                'name' => 'Midnight Black Flame Boots',
-                'category' => 'Dark Artisan',
-                'image' => 'images/product_black.png',
-                'orders_count' => 36,
-                'rating' => 4.9,
-                'status' => 'High Demand'
-            ],
-            [
-                'name' => 'Ivory Dream Floral Embroidered',
-                'category' => 'Boho Romantic',
-                'image' => 'images/product_cream.png',
-                'orders_count' => 29,
-                'rating' => 5.0,
-                'status' => 'Trending'
-            ],
-            [
-                'name' => 'Scarlet Flame Cowboy Boots',
-                'category' => 'Statement Western',
-                'image' => 'images/product_red.png',
-                'orders_count' => 22,
-                'rating' => 4.8,
-                'status' => 'Limited Leather'
-            ]
-        ];
+        $popularBoots = Product::active()->ordered()->take(4)->get()->map(function ($p) {
+            return [
+                'name' => $p->name,
+                'category' => $p->series ?? $p->category,
+                'image' => $p->image,
+                'orders_count' => rand(20, 50),
+                'rating' => round(rand(45, 50) / 10, 1),
+                'status' => $p->badge,
+            ];
+        })->toArray();
+
+        // Fallback if no products in DB yet
+        if (empty($popularBoots)) {
+            $popularBoots = [
+                ['name' => 'Classic Tan Cowboy Boots', 'category' => 'Heritage Classic', 'image' => 'images/product_tan.png', 'orders_count' => 48, 'rating' => 5.0, 'status' => 'Best Seller'],
+                ['name' => 'Midnight Black Flame Boots', 'category' => 'Dark Artisan', 'image' => 'images/product_black.png', 'orders_count' => 36, 'rating' => 4.9, 'status' => 'High Demand'],
+                ['name' => 'Ivory Dream Floral Embroidered', 'category' => 'Boho Romantic', 'image' => 'images/product_cream.png', 'orders_count' => 29, 'rating' => 5.0, 'status' => 'Trending'],
+                ['name' => 'Scarlet Flame Cowboy Boots', 'category' => 'Statement Western', 'image' => 'images/product_red.png', 'orders_count' => 22, 'rating' => 4.8, 'status' => 'Limited Leather'],
+            ];
+        }
 
         $stores = [
             ['name' => 'Legian Flagship Store', 'location' => 'Jl. Legian No. 388, Kuta', 'status' => 'Open Daily 10:00 - 18:00', 'badge' => 'Flagship'],
@@ -137,154 +124,95 @@ class AdminController extends Controller
      */
     public function products()
     {
-        $products = [
-            [
-                'id' => 1,
-                'name' => 'Classic Tan Cowboy Boots',
-                'series' => 'Heritage Classic Series',
-                'category' => 'Classic',
-                'image' => 'images/product_tan.png',
-                'leather' => 'Full Grain Cowhide (Tan Oil Pull-up)',
-                'turnaround' => '6-7 Days',
-                'badge' => 'Best Seller',
-                'badge_class' => 'bg-warning text-dark',
-                'status' => 'Active',
-            ],
-            [
-                'id' => 2,
-                'name' => 'Midnight Black Flame Boots',
-                'series' => 'Dark Artisan Series',
-                'category' => 'Classic',
-                'image' => 'images/product_black.png',
-                'leather' => 'Full Grain Black Aniline Leather',
-                'turnaround' => '6-7 Days',
-                'badge' => 'Popular',
-                'badge_class' => 'bg-dark text-white',
-                'status' => 'Active',
-            ],
-            [
-                'id' => 3,
-                'name' => 'Ivory Dream Floral Embroidered',
-                'series' => 'Boho Romance Series',
-                'category' => 'Bohemian',
-                'image' => 'images/product_cream.png',
-                'leather' => 'Supple Cream Nappa Leather',
-                'turnaround' => '7-10 Days',
-                'badge' => 'New Arrival',
-                'badge_class' => 'bg-success text-white',
-                'status' => 'Active',
-            ],
-            [
-                'id' => 4,
-                'name' => 'Scarlet Flame Cowboy Boots',
-                'series' => 'Statement Western Series',
-                'category' => 'Bold',
-                'image' => 'images/product_red.png',
-                'leather' => 'Crimson Full Grain & Contrast Inlay',
-                'turnaround' => '7-10 Days',
-                'badge' => 'Bold Edition',
-                'badge_class' => 'bg-danger text-white',
-                'status' => 'Active',
-            ],
-            [
-                'id' => 5,
-                'name' => 'Vintage Havana Brown Boots',
-                'series' => 'Heritage Classic Series',
-                'category' => 'Classic',
-                'image' => 'images/product_tan.png',
-                'leather' => 'Waxed Distressed Havana Leather',
-                'turnaround' => '6-7 Days',
-                'badge' => 'Classic',
-                'badge_class' => 'bg-secondary text-white',
-                'status' => 'Active',
-            ],
-            [
-                'id' => 6,
-                'name' => 'Obsidian Night Rider Boots',
-                'series' => 'Dark Artisan Series',
-                'category' => 'Bold',
-                'image' => 'images/product_black.png',
-                'leather' => 'Matte Jet-Black Bullhide',
-                'turnaround' => '7-8 Days',
-                'badge' => 'Heavy Duty',
-                'badge_class' => 'bg-dark text-white',
-                'status' => 'Active',
-            ],
-            [
-                'id' => 7,
-                'name' => 'Desert Sand Suede Western',
-                'series' => 'Boho Romance Series',
-                'category' => 'Bohemian',
-                'image' => 'images/product_cream.png',
-                'leather' => 'Velvety Tan Calf Suede',
-                'turnaround' => '6-7 Days',
-                'badge' => 'Suede',
-                'badge_class' => 'bg-info text-white',
-                'status' => 'Active',
-            ],
-            [
-                'id' => 8,
-                'name' => 'Royal Cognac Heritage Boots',
-                'series' => 'Heritage Classic Series',
-                'category' => 'Premium',
-                'image' => 'images/product_tan.png',
-                'leather' => 'French Calfskin Cognac Brown',
-                'turnaround' => '7-10 Days',
-                'badge' => 'Premium',
-                'badge_class' => 'bg-warning text-dark',
-                'status' => 'Active',
-            ],
-            [
-                'id' => 9,
-                'name' => 'Dusty Rose Boho Western',
-                'series' => 'Boho Romance Series',
-                'category' => 'Bohemian',
-                'image' => 'images/product_cream.png',
-                'leather' => 'Blush Full Grain Leather',
-                'turnaround' => '7-10 Days',
-                'badge' => 'Boho',
-                'badge_class' => 'bg-success text-white',
-                'status' => 'Active',
-            ],
-            [
-                'id' => 10,
-                'name' => 'Rustic Chestnut Work Western',
-                'series' => 'Heritage Classic Series',
-                'category' => 'Classic',
-                'image' => 'images/product_tan.png',
-                'leather' => 'Oiled Roughout Chestnut Leather',
-                'turnaround' => '6-7 Days',
-                'badge' => 'Durable',
-                'badge_class' => 'bg-secondary text-white',
-                'status' => 'Active',
-            ],
-            [
-                'id' => 11,
-                'name' => 'Viper Ember Textured Boots',
-                'series' => 'Statement Western Series',
-                'category' => 'Bold',
-                'image' => 'images/product_red.png',
-                'leather' => 'Embossed Scale Texture & Cowhide',
-                'turnaround' => '8-10 Days',
-                'badge' => 'Textured',
-                'badge_class' => 'bg-danger text-white',
-                'status' => 'Active',
-            ],
-            [
-                'id' => 12,
-                'name' => 'Platinum Eclipse Dress Boots',
-                'series' => 'Dark Artisan Series',
-                'category' => 'Premium',
-                'image' => 'images/product_black.png',
-                'leather' => 'Polished Black Boxcalf',
-                'turnaround' => '7-10 Days',
-                'badge' => 'Formal Western',
-                'badge_class' => 'bg-dark text-white',
-                'status' => 'Active',
-            ],
-        ];
-
+        $products = Product::ordered()->get();
         return view('admin.products', compact('products'));
+    }
+
+    /**
+     * Store a new product.
+     */
+    public function storeProduct(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'series' => 'nullable|string|max:255',
+            'category' => 'nullable|string|max:100',
+            'leather' => 'nullable|string|max:255',
+            'turnaround' => 'nullable|string|max:100',
+            'badge' => 'nullable|string|max:100',
+            'badge_class' => 'nullable|string|max:100',
+            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:5120',
+            'image' => 'nullable|string|max:255',
+        ]);
+
+        $data = $request->except(['_token', 'image_file']);
+
+        // Handle image upload
+        if ($request->hasFile('image_file') && $request->file('image_file')->isValid()) {
+            $file = $request->file('image_file');
+            $filename = 'product_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $storedPath = $file->storeAs('products', $filename, 'public');
+            $data['image'] = 'storage/' . $storedPath;
+        }
+
+        $data['sort_order'] = Product::max('sort_order') + 1;
+        $data['status'] = $data['status'] ?? 'Active';
+
+        Product::create($data);
+
+        return redirect()->route('admin.products')->with('success', 'Boot model added successfully!');
+    }
+
+    /**
+     * Update an existing product.
+     */
+    public function updateProduct(Request $request, Product $product)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'series' => 'nullable|string|max:255',
+            'category' => 'nullable|string|max:100',
+            'leather' => 'nullable|string|max:255',
+            'turnaround' => 'nullable|string|max:100',
+            'badge' => 'nullable|string|max:100',
+            'badge_class' => 'nullable|string|max:100',
+            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:5120',
+            'image' => 'nullable|string|max:255',
+        ]);
+
+        $data = $request->except(['_token', '_method', 'image_file']);
+
+        // Handle image upload
+        if ($request->hasFile('image_file') && $request->file('image_file')->isValid()) {
+            $file = $request->file('image_file');
+            $filename = 'product_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $storedPath = $file->storeAs('products', $filename, 'public');
+            $data['image'] = 'storage/' . $storedPath;
+        }
+
+        $product->update($data);
+
+        return redirect()->route('admin.products')->with('success', 'Boot model "' . $product->name . '" updated successfully!');
+    }
+
+    /**
+     * Delete a product.
+     */
+    public function deleteProduct(Product $product)
+    {
+        $name = $product->name;
+        $product->delete();
+        return redirect()->route('admin.products')->with('success', 'Boot model "' . $name . '" deleted successfully!');
+    }
+
+    /**
+     * Toggle product status (Active/Inactive).
+     */
+    public function toggleProductStatus(Product $product)
+    {
+        $product->status = $product->status === 'Active' ? 'Inactive' : 'Active';
+        $product->save();
+        return redirect()->route('admin.products')->with('success', '"' . $product->name . '" is now ' . $product->status . '.');
     }
 
     /**

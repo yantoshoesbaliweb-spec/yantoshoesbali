@@ -20,7 +20,10 @@
     <a class="nav-link {{ request()->routeIs('admin.products') ? 'active' : '' }}" href="{{ route('admin.products') }}">
       <span class="nav-icon"><i class="bi bi-box-seam" aria-hidden="true"></i></span>
       <span class="nav-text">Boots Catalog</span>
-      <span class="badge rounded-pill bg-warning text-dark ms-auto" style="font-size: 0.7rem; font-weight: 700;">12</span>
+      @php $productCount = \App\Models\Product::count(); @endphp
+      @if($productCount > 0)
+      <span class="badge rounded-pill bg-warning text-dark ms-auto" style="font-size: 0.7rem; font-weight: 700;">{{ $productCount }}</span>
+      @endif
     </a>
 
     <a class="nav-link {{ request()->routeIs('admin.orders') ? 'active' : '' }}" href="{{ route('admin.orders') }}">
@@ -50,6 +53,31 @@
             <span class="nav-icon" style="width: 24px; height: 24px; font-size: 0.7rem;"><i class="bi bi-eye"></i></span>
             <span class="nav-text">Vision</span>
           </a>
+          <a class="nav-link sub-link {{ request()->routeIs('admin.content.testimonies') ? 'active' : '' }}" href="{{ route('admin.content.testimonies') }}" style="font-size: 0.82rem; min-height: 38px;">
+            <span class="nav-icon" style="width: 24px; height: 24px; font-size: 0.7rem;"><i class="bi bi-star"></i></span>
+            <span class="nav-text">Testimonies</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- About Us Menu & Submenu -->
+    <div class="sidebar-menu-group">
+      <a class="nav-link {{ request()->is('admin/about*') ? 'active' : '' }}" data-bs-toggle="collapse" href="#aboutSubmenu" role="button" aria-expanded="{{ request()->is('admin/about*') ? 'true' : 'false' }}" aria-controls="aboutSubmenu">
+        <span class="nav-icon"><i class="bi bi-info-circle" aria-hidden="true"></i></span>
+        <span class="nav-text">About Us</span>
+        <i class="bi bi-chevron-down ms-auto submenu-arrow" style="font-size: 0.72rem; transition: transform 0.2s;"></i>
+      </a>
+      <div class="collapse {{ request()->is('admin/about*') ? 'show' : '' }}" id="aboutSubmenu">
+        <div class="sidebar-submenu ps-3 pe-1 py-1 d-flex flex-column gap-1">
+          <a class="nav-link sub-link {{ request()->routeIs('admin.about.contact') ? 'active' : '' }}" href="{{ route('admin.about.contact') }}" style="font-size: 0.82rem; min-height: 38px;">
+            <span class="nav-icon" style="width: 24px; height: 24px; font-size: 0.7rem;"><i class="bi bi-telephone"></i></span>
+            <span class="nav-text">Contact</span>
+          </a>
+          <a class="nav-link sub-link {{ request()->routeIs('admin.about.stores') ? 'active' : '' }}" href="{{ route('admin.about.stores') }}" style="font-size: 0.82rem; min-height: 38px;">
+            <span class="nav-icon" style="width: 24px; height: 24px; font-size: 0.7rem;"><i class="bi bi-geo-alt"></i></span>
+            <span class="nav-text">Stores</span>
+          </a>
         </div>
       </div>
     </div>
@@ -61,18 +89,6 @@
     </a>
 
     <div class="sidebar-divider my-2" style="border-top: 1px solid rgba(255,255,255,0.08);"></div>
-
-    <a class="nav-link" href="{{ route('visitor.home') }}#stores" target="_blank">
-      <span class="nav-icon"><i class="bi bi-geo-alt" aria-hidden="true"></i></span>
-      <span class="nav-text">Store Locations</span>
-      <span class="badge rounded-pill bg-secondary ms-auto" style="font-size: 0.7rem;">3 Stores</span>
-    </a>
-
-    <a class="nav-link" href="{{ route('visitor.home') }}#testimonials" target="_blank">
-      <span class="nav-icon"><i class="bi bi-star" aria-hidden="true"></i></span>
-      <span class="nav-text">Client Reviews</span>
-      <span class="badge rounded-pill bg-secondary ms-auto" style="font-size: 0.7rem;">6</span>
-    </a>
 
     <a class="nav-link" href="{{ route('visitor.home') }}" target="_blank">
       <span class="nav-icon"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></span>

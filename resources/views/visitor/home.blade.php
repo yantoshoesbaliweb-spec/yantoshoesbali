@@ -34,16 +34,16 @@
     </div>
 
     <div class="nav-right">
-      <a href="https://facebook.com/yantoshoesbali" target="_blank" class="nav-icon" aria-label="Facebook">
+      <a href="{{ $contact['facebook'] ?? 'https://facebook.com/yantoshoesbali' }}" target="_blank" class="nav-icon" aria-label="Facebook">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
       </a>
-      <a href="https://www.instagram.com/yantoshoes_bali/" target="_blank" class="nav-icon" aria-label="Instagram">
+      <a href="{{ $contact['instagram'] ?? 'https://www.instagram.com/yantoshoes_bali/' }}" target="_blank" class="nav-icon" aria-label="Instagram">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
       </a>
-      <a href="https://www.tiktok.com/@yantoshoesbali" target="_blank" class="nav-icon" aria-label="TikTok">
+      <a href="{{ $contact['tiktok'] ?? 'https://www.tiktok.com/@yantoshoesbali' }}" target="_blank" class="nav-icon" aria-label="TikTok">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
       </a>
-      <a href="https://wa.me/6281353055475" target="_blank" class="nav-icon" aria-label="WhatsApp">
+      <a href="https://wa.me/{{ $contact['whatsapp'] ?? '6281353055475' }}" target="_blank" class="nav-icon" aria-label="WhatsApp">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
       </a>
     </div>
@@ -62,10 +62,10 @@
     <a href="#stores" class="mobile-nav-link">Stores &amp; Maps</a>
     <a href="#testimonials" class="mobile-nav-link">Testimonials</a>
     <div class="mobile-nav-socials">
-      <a href="https://facebook.com/yantoshoesbali" target="_blank">Facebook</a>
-      <a href="https://www.instagram.com/yantoshoes_bali/" target="_blank">Instagram</a>
-      <a href="https://www.tiktok.com/@yantoshoesbali" target="_blank">TikTok</a>
-      <a href="https://wa.me/6281353055475" target="_blank">WhatsApp</a>
+      <a href="{{ $contact['facebook'] ?? 'https://facebook.com/yantoshoesbali' }}" target="_blank">Facebook</a>
+      <a href="{{ $contact['instagram'] ?? 'https://www.instagram.com/yantoshoes_bali/' }}" target="_blank">Instagram</a>
+      <a href="{{ $contact['tiktok'] ?? 'https://www.tiktok.com/@yantoshoesbali' }}" target="_blank">TikTok</a>
+      <a href="https://wa.me/{{ $contact['whatsapp'] ?? '6281353055475' }}" target="_blank">WhatsApp</a>
     </div>
   </div>
 
@@ -381,271 +381,117 @@
     </div>
   </section>
 
-  <!-- Store Locations with Google Maps -->
+  <!-- Store Locations with Google Maps (Dynamic from Admin) -->
   <section class="stores-section" id="stores">
     <div class="container">
       <div class="section-header">
-        <p class="section-eyebrow">Visit Our Stores</p>
-        <h2 class="section-title">Our Bali Store Locations</h2>
-        <p class="section-desc">Experience our boots firsthand. Visit any of our three stores across Bali for fittings, custom sizing, and instant purchases.</p>
+        <p class="section-eyebrow">{{ $storesContent['eyebrow'] ?? 'Visit Our Stores' }}</p>
+        <h2 class="section-title">{{ $storesContent['title'] ?? 'Our Bali Store Locations' }}</h2>
+        <p class="section-desc">{{ $storesContent['description'] ?? 'Experience our boots firsthand. Visit any of our three stores across Bali for fittings, custom sizing, and instant purchases.' }}</p>
       </div>
 
       <div class="stores-grid-enhanced">
-        
-        <!-- Store 1: Legian -->
-        <div class="store-card-enhanced reveal" id="store-legian">
-          <div class="store-map-wrapper">
-            <iframe 
-              title="Yanto Shoes Bali - Legian Store Map"
-              src="https://maps.google.com/maps?q=Yanto+Shoes+3+Uluwatu-Pecatu,+Bali&hl=en&z=16&output=embed" 
-              class="store-map-frame" 
-              loading="lazy" 
-              allowfullscreen>
-            </iframe>
-            <span class="store-badge-flag">Flagship Outlet</span>
-          </div>
-          <div class="store-body">
-            <div class="store-header-row">
-              <h3 class="store-title">Legian Flagship</h3>
-              <span class="store-status open">&#x25CF; Open Daily</span>
-            </div>
-            <p class="store-location-text">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Jl. Legian No. 388, Kuta, Badung, Bali 80361
-            </p>
-            <p class="store-time-text">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              10:00 AM – 6:00 PM (Mon – Sun)
-            </p>
-            <div class="store-btn-group">
-              <a href="https://maps.app.goo.gl/qH3JJZtfXYbTJqXw7?g_st=aw" target="_blank" class="btn-store-action btn-store-dir">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-                Get Directions
-              </a>
-              <a href="https://wa.me/6281353055475?text=Hi%20Yanto%20Shoes%20Legian%2C%20I%20am%20planning%20to%20visit%20your%20store" target="_blank" class="btn-store-action btn-store-wa">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-                Contact Store
-              </a>
-            </div>
-          </div>
-        </div>
+        @php
+          $storeItems = $storesContent['items'] ?? [
+            ['name' => 'Legian Flagship', 'badge' => 'Flagship Outlet', 'address' => 'Jl. Legian No. 388, Kuta, Badung, Bali 80361', 'hours' => '10:00 AM – 6:00 PM (Mon – Sun)', 'map_embed' => 'https://maps.google.com/maps?q=Yanto+Shoes+3+Uluwatu-Pecatu,+Bali&hl=en&z=16&output=embed', 'map_link' => 'https://maps.app.goo.gl/qH3JJZtfXYbTJqXw7?g_st=aw', 'whatsapp_text' => 'Hi Yanto Shoes Legian, I am planning to visit your store'],
+            ['name' => 'Canggu Store', 'badge' => 'Canggu Hub', 'address' => 'Jl. Pantai Batu Bolong No. 56, Canggu, Bali 80351', 'hours' => '10:00 AM – 6:00 PM (Mon – Sun)', 'map_embed' => 'https://maps.google.com/maps?q=Yanto+Shoes+2,+Jl.+Pantai+Batu+Bolong+No.11a,+Canggu,+Bali&hl=en&z=16&output=embed', 'map_link' => 'https://maps.app.goo.gl/v36RDnMZDLeoEkcd9?g_st=aw', 'whatsapp_text' => 'Hi Yanto Shoes Canggu, I am planning to visit your store'],
+            ['name' => 'Uluwatu Store', 'badge' => 'Clifftop Outlet', 'address' => 'Jl. Labuansait No. 12, Pecatu, Uluwatu, Bali 80361', 'hours' => '10:00 AM – 6:00 PM (Mon – Sun)', 'map_embed' => 'https://maps.google.com/maps?q=yanto+shoes,+Jl.+Werkudara+No.20,+Legian,+Bali&hl=en&z=16&output=embed', 'map_link' => 'https://maps.app.goo.gl/rWzUWYkMv3h5L53R8?g_st=aw', 'whatsapp_text' => 'Hi Yanto Shoes Uluwatu, I am planning to visit your store'],
+          ];
+          $storeDelays = ['reveal', 'reveal reveal-delay-1', 'reveal reveal-delay-2'];
+          $waNumber = $contact['whatsapp'] ?? '6281353055475';
+        @endphp
 
-        <!-- Store 2: Canggu -->
-        <div class="store-card-enhanced reveal reveal-delay-1" id="store-canggu">
+        @foreach($storeItems as $sIdx => $store)
+        <div class="store-card-enhanced {{ $storeDelays[$sIdx % 3] }}" id="store-{{ Str::slug($store['name'] ?? 'store-' . $sIdx) }}">
           <div class="store-map-wrapper">
             <iframe 
-              title="Yanto Shoes Bali - Canggu Store Map"
-              src="https://maps.google.com/maps?q=Yanto+Shoes+2,+Jl.+Pantai+Batu+Bolong+No.11a,+Canggu,+Bali&hl=en&z=16&output=embed" 
+              title="Yanto Shoes Bali - {{ $store['name'] ?? '' }} Map"
+              src="{{ $store['map_embed'] ?? '' }}" 
               class="store-map-frame" 
               loading="lazy" 
               allowfullscreen>
             </iframe>
-            <span class="store-badge-flag">Canggu Hub</span>
+            <span class="store-badge-flag">{{ $store['badge'] ?? '' }}</span>
           </div>
           <div class="store-body">
             <div class="store-header-row">
-              <h3 class="store-title">Canggu Store</h3>
+              <h3 class="store-title">{{ $store['name'] ?? '' }}</h3>
               <span class="store-status open">&#x25CF; Open Daily</span>
             </div>
             <p class="store-location-text">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Jl. Pantai Batu Bolong No. 56, Canggu, Bali 80351
+              {{ $store['address'] ?? '' }}
             </p>
             <p class="store-time-text">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              10:00 AM – 6:00 PM (Mon – Sun)
+              {{ $store['hours'] ?? '10:00 AM – 6:00 PM (Mon – Sun)' }}
             </p>
             <div class="store-btn-group">
-              <a href="https://maps.app.goo.gl/v36RDnMZDLeoEkcd9?g_st=aw" target="_blank" class="btn-store-action btn-store-dir">
+              <a href="{{ $store['map_link'] ?? '#' }}" target="_blank" class="btn-store-action btn-store-dir">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
                 Get Directions
               </a>
-              <a href="https://wa.me/6281353055475?text=Hi%20Yanto%20Shoes%20Canggu%2C%20I%20am%20planning%20to%20visit%20your%20store" target="_blank" class="btn-store-action btn-store-wa">
+              <a href="https://wa.me/{{ $waNumber }}?text={{ urlencode($store['whatsapp_text'] ?? 'Hi Yanto Shoes, I am planning to visit your store') }}" target="_blank" class="btn-store-action btn-store-wa">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
                 Contact Store
               </a>
             </div>
           </div>
         </div>
-
-        <!-- Store 3: Uluwatu -->
-        <div class="store-card-enhanced reveal reveal-delay-2" id="store-uluwatu">
-          <div class="store-map-wrapper">
-            <iframe 
-              title="Yanto Shoes Bali - Uluwatu Store Map"
-              src="https://maps.google.com/maps?q=yanto+shoes,+Jl.+Werkudara+No.20,+Legian,+Bali&hl=en&z=16&output=embed" 
-              class="store-map-frame" 
-              loading="lazy" 
-              allowfullscreen>
-            </iframe>
-            <span class="store-badge-flag">Clifftop Outlet</span>
-          </div>
-          <div class="store-body">
-            <div class="store-header-row">
-              <h3 class="store-title">Uluwatu Store</h3>
-              <span class="store-status open">&#x25CF; Open Daily</span>
-            </div>
-            <p class="store-location-text">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Jl. Labuansait No. 12, Pecatu, Uluwatu, Bali 80361
-            </p>
-            <p class="store-time-text">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              10:00 AM – 6:00 PM (Mon – Sun)
-            </p>
-            <div class="store-btn-group">
-              <a href="https://maps.app.goo.gl/rWzUWYkMv3h5L53R8?g_st=aw" target="_blank" class="btn-store-action btn-store-dir">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-                Get Directions
-              </a>
-              <a href="https://wa.me/6281353055475?text=Hi%20Yanto%20Shoes%20Uluwatu%2C%20I%20am%20planning%20to%20visit%20your%20store" target="_blank" class="btn-store-action btn-store-wa">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-                Contact Store
-              </a>
-            </div>
-          </div>
-        </div>
+        @endforeach
 
       </div>
     </div>
   </section>
 
-  <!-- Testimonials Section -->
+  <!-- Testimonials Section (Dynamic from Admin) -->
   <section class="testimonials-section" id="testimonials">
     <div class="container">
       <div class="section-header">
-        <p class="section-eyebrow">Client Reviews</p>
-        <h2 class="section-title">Loved by Boot Lovers <em>Worldwide</em></h2>
-        <p class="section-desc">From Bali vacationers to international collectors, see what our clients say about their bespoke boots.</p>
+        <p class="section-eyebrow">{{ $testimonies['eyebrow'] ?? 'Client Reviews' }}</p>
+        <h2 class="section-title">{{ $testimonies['title'] ?? 'Loved by Boot Lovers' }} <em>{{ $testimonies['title_highlight'] ?? 'Worldwide' }}</em></h2>
+        <p class="section-desc">{{ $testimonies['description'] ?? 'From Bali vacationers to international collectors, see what our clients say about their bespoke boots.' }}</p>
       </div>
 
       <div class="testimonials-grid">
-        
-        <!-- Review 1 -->
-        <div class="testimonial-card reveal">
-          <div class="testimonial-stars">
-            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-          </div>
-          <p class="testimonial-text">
-            &ldquo;I ordered a custom pair of cowboy boots while visiting Canggu. The leather quality is extraordinary and the fit is perfection. Picked them up within 6 days before my flight back home. Truly world-class craftsmanship!&rdquo;
-          </p>
-          <div class="testimonial-meta">
-            <div class="testimonial-avatar">
-              <img src="{{ asset('images/reviewer_sarah.jpg') }}" alt="Sarah Jenkins" class="testimonial-avatar-img" />
-            </div>
-            <div class="testimonial-info">
-              <h4 class="testimonial-author">Sarah Jenkins</h4>
-              <p class="testimonial-origin">Sydney, Australia &#x1F1E6;&#x1F1FA;</p>
-              <span class="testimonial-product">Custom Tan Classic Cowboy Boots</span>
-            </div>
-          </div>
-        </div>
+        @php
+          $testimonyItems = $testimonies['items'] ?? [
+            ['author' => 'Sarah Jenkins', 'origin' => 'Sydney, Australia \u{1F1E6}\u{1F1FA}', 'product' => 'Custom Tan Classic Cowboy Boots', 'stars' => 5, 'avatar' => 'images/reviewer_sarah.jpg', 'text' => 'I ordered a custom pair of cowboy boots while visiting Canggu. The leather quality is extraordinary and the fit is perfection. Picked them up within 6 days before my flight back home. Truly world-class craftsmanship!'],
+            ['author' => "Marcus O'Connor", 'origin' => 'London, United Kingdom \u{1F1EC}\u{1F1E7}', 'product' => 'Midnight Black Flame Boots', 'stars' => 5, 'avatar' => 'images/reviewer_marcus.jpg', 'text' => 'Hands down the most comfortable leather boots in my collection. Mr. Yanto took my measurements personally at the Legian store. The attention to detail on the welt and stitching is incredible.'],
+            ['author' => 'Emma Laurent', 'origin' => 'Los Angeles, USA \u{1F1FA}\u{1F1F8}', 'product' => 'Ivory Dream Floral Embroidered Boots', 'stars' => 5, 'avatar' => 'images/reviewer_emma.jpg', 'text' => 'Found Yanto Shoes on Instagram and ordered online from California via WhatsApp. The team sent photo updates throughout production and shipped via DHL. They arrived quickly and look even better in real life!'],
+            ['author' => 'Lukas Meyer', 'origin' => 'Munich, Germany \u{1F1E9}\u{1F1EA}', 'product' => 'Scarlet Flame Cowboy Boots', 'stars' => 5, 'avatar' => 'images/reviewer_lukas.jpg', 'text' => 'The quality of genuine leather is instantly recognizable. Sturdy, breathable, and molds to your foot effortlessly. I bought one pair in Uluwatu and immediately ordered another custom pair before leaving Bali.'],
+            ['author' => 'Chloe & Victor', 'origin' => 'Amsterdam, Netherlands \u{1F1F3}\u{1F1F1}', 'product' => 'Bespoke Wedding Western Pair', 'stars' => 5, 'avatar' => 'images/reviewer_couple.jpg', 'text' => 'We ordered matching cowboy boots for our wedding in Bali. The artisans custom engraved our initials on the pull-straps. An unforgettable memory and footwear we will cherish forever.'],
+            ['author' => 'David Fontaine', 'origin' => 'Paris, France \u{1F1EB}\u{1F1F7}', 'product' => 'Classic Tan Low-Cut Boot', 'stars' => 5, 'avatar' => 'images/reviewer_david.jpg', 'text' => 'Yanto Shoes is a true Bali hidden gem. The price-to-quality ratio for genuine handmade full-grain boots is unbeatable anywhere in the world. Cannot recommend them enough!'],
+          ];
+          $delayClasses = ['reveal', 'reveal reveal-delay-1', 'reveal reveal-delay-2'];
+        @endphp
 
-        <!-- Review 2 -->
-        <div class="testimonial-card reveal reveal-delay-1">
+        @foreach($testimonyItems as $idx => $review)
+        <div class="testimonial-card {{ $delayClasses[$idx % 3] }}">
           <div class="testimonial-stars">
-            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            @for($s = 0; $s < ($review['stars'] ?? 5); $s++)<span>★</span>@endfor
           </div>
           <p class="testimonial-text">
-            &ldquo;Hands down the most comfortable leather boots in my collection. Mr. Yanto took my measurements personally at the Legian store. The attention to detail on the welt and stitching is incredible.&rdquo;
+            &ldquo;{{ $review['text'] ?? '' }}&rdquo;
           </p>
           <div class="testimonial-meta">
             <div class="testimonial-avatar">
-              <img src="{{ asset('images/reviewer_marcus.jpg') }}" alt="Marcus O'Connor" class="testimonial-avatar-img" />
+              <img src="{{ asset($review['avatar'] ?? 'images/yanto-logo.png') }}" alt="{{ $review['author'] ?? '' }}" class="testimonial-avatar-img" />
             </div>
             <div class="testimonial-info">
-              <h4 class="testimonial-author">Marcus O&rsquo;Connor</h4>
-              <p class="testimonial-origin">London, United Kingdom &#x1F1EC;&#x1F1E7;</p>
-              <span class="testimonial-product">Midnight Black Flame Boots</span>
+              <h4 class="testimonial-author">{{ $review['author'] ?? '' }}</h4>
+              <p class="testimonial-origin">{{ $review['origin'] ?? '' }}</p>
+              <span class="testimonial-product">{{ $review['product'] ?? '' }}</span>
             </div>
           </div>
         </div>
-
-        <!-- Review 3 -->
-        <div class="testimonial-card reveal reveal-delay-2">
-          <div class="testimonial-stars">
-            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-          </div>
-          <p class="testimonial-text">
-            &ldquo;Found Yanto Shoes on Instagram and ordered online from California via WhatsApp. The team sent photo updates throughout production and shipped via DHL. They arrived quickly and look even better in real life!&rdquo;
-          </p>
-          <div class="testimonial-meta">
-            <div class="testimonial-avatar">
-              <img src="{{ asset('images/reviewer_emma.jpg') }}" alt="Emma Laurent" class="testimonial-avatar-img" />
-            </div>
-            <div class="testimonial-info">
-              <h4 class="testimonial-author">Emma Laurent</h4>
-              <p class="testimonial-origin">Los Angeles, USA &#x1F1FA;&#x1F1F8;</p>
-              <span class="testimonial-product">Ivory Dream Floral Embroidered Boots</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Review 4 -->
-        <div class="testimonial-card reveal">
-          <div class="testimonial-stars">
-            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-          </div>
-          <p class="testimonial-text">
-            &ldquo;The quality of genuine leather is instantly recognizable. Sturdy, breathable, and molds to your foot effortlessly. I bought one pair in Uluwatu and immediately ordered another custom pair before leaving Bali.&rdquo;
-          </p>
-          <div class="testimonial-meta">
-            <div class="testimonial-avatar">
-              <img src="{{ asset('images/reviewer_lukas.jpg') }}" alt="Lukas Meyer" class="testimonial-avatar-img" />
-            </div>
-            <div class="testimonial-info">
-              <h4 class="testimonial-author">Lukas Meyer</h4>
-              <p class="testimonial-origin">Munich, Germany &#x1F1E9;&#x1F1EA;</p>
-              <span class="testimonial-product">Scarlet Flame Cowboy Boots</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Review 5 -->
-        <div class="testimonial-card reveal reveal-delay-1">
-          <div class="testimonial-stars">
-            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-          </div>
-          <p class="testimonial-text">
-            &ldquo;We ordered matching cowboy boots for our wedding in Bali. The artisans custom engraved our initials on the pull-straps. An unforgettable memory and footwear we will cherish forever.&rdquo;
-          </p>
-          <div class="testimonial-meta">
-            <div class="testimonial-avatar">
-              <img src="{{ asset('images/reviewer_couple.jpg') }}" alt="Chloe & Victor" class="testimonial-avatar-img" />
-            </div>
-            <div class="testimonial-info">
-              <h4 class="testimonial-author">Chloe &amp; Victor</h4>
-              <p class="testimonial-origin">Amsterdam, Netherlands &#x1F1F3;&#x1F1F1;</p>
-              <span class="testimonial-product">Bespoke Wedding Western Pair</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Review 6 -->
-        <div class="testimonial-card reveal reveal-delay-2">
-          <div class="testimonial-stars">
-            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-          </div>
-          <p class="testimonial-text">
-            &ldquo;Yanto Shoes is a true Bali hidden gem. The price-to-quality ratio for genuine handmade full-grain boots is unbeatable anywhere in the world. Cannot recommend them enough!&rdquo;
-          </p>
-          <div class="testimonial-meta">
-            <div class="testimonial-avatar">
-              <img src="{{ asset('images/reviewer_david.jpg') }}" alt="David Fontaine" class="testimonial-avatar-img" />
-            </div>
-            <div class="testimonial-info">
-              <h4 class="testimonial-author">David Fontaine</h4>
-              <p class="testimonial-origin">Paris, France &#x1F1EB;&#x1F1F7;</p>
-              <span class="testimonial-product">Classic Tan Low-Cut Boot</span>
-            </div>
-          </div>
-        </div>
+        @endforeach
 
       </div>
     </div>
   </section>
 
-  <!-- Follow Us / Social Section (Facebook, Instagram, TikTok) -->
+  <!-- Follow Us / Social Section (Dynamic from Admin) -->
   <section class="socials-section" id="socials">
     <div class="container">
       <div class="socials-inner reveal">
@@ -653,19 +499,19 @@
         <h2 class="section-title">Follow Our Journey</h2>
         <p class="section-desc">Join our growing community on Facebook, Instagram, and TikTok for the newest handcrafted boot releases, artisan workshop stories, and Western styling inspirations.</p>
 
-        <!-- Social Buttons (Facebook, Instagram, TikTok) -->
+        <!-- Social Buttons (Dynamic from Contact) -->
         <div class="social-follow-buttons">
-          <a href="https://facebook.com/yantoshoesbali" target="_blank" class="social-btn facebook" aria-label="Facebook">
+          <a href="{{ $contact['facebook'] ?? 'https://facebook.com/yantoshoesbali' }}" target="_blank" class="social-btn facebook" aria-label="Facebook">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
             <span>Facebook</span>
           </a>
 
-          <a href="https://www.instagram.com/yantoshoes_bali/" target="_blank" class="social-btn instagram" aria-label="Instagram">
+          <a href="{{ $contact['instagram'] ?? 'https://www.instagram.com/yantoshoes_bali/' }}" target="_blank" class="social-btn instagram" aria-label="Instagram">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
             <span>Instagram</span>
           </a>
 
-          <a href="https://www.tiktok.com/@yantoshoesbali" target="_blank" class="social-btn tiktok" aria-label="TikTok">
+          <a href="{{ $contact['tiktok'] ?? 'https://www.tiktok.com/@yantoshoesbali' }}" target="_blank" class="social-btn tiktok" aria-label="TikTok">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
             <span>TikTok</span>
           </a>
@@ -691,7 +537,7 @@
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- Footer (Dynamic Contact from Admin) -->
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
@@ -702,16 +548,16 @@
           </div>
           <p class="footer-tagline">Handcrafted Genuine Leather Cowboy Boots.<br/>Made with Pride in Bali, Indonesia Since 1990.</p>
           <div class="footer-socials">
-            <a href="https://facebook.com/yantoshoesbali" target="_blank" class="social-link" aria-label="Facebook">
+            <a href="{{ $contact['facebook'] ?? 'https://facebook.com/yantoshoesbali' }}" target="_blank" class="social-link" aria-label="Facebook">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
             </a>
-            <a href="https://www.instagram.com/yantoshoes_bali/" target="_blank" class="social-link" aria-label="Instagram">
+            <a href="{{ $contact['instagram'] ?? 'https://www.instagram.com/yantoshoes_bali/' }}" target="_blank" class="social-link" aria-label="Instagram">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
             </a>
-            <a href="https://www.tiktok.com/@yantoshoesbali" target="_blank" class="social-link" aria-label="TikTok">
+            <a href="{{ $contact['tiktok'] ?? 'https://www.tiktok.com/@yantoshoesbali' }}" target="_blank" class="social-link" aria-label="TikTok">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
             </a>
-            <a href="https://wa.me/6281353055475" target="_blank" class="social-link" aria-label="WhatsApp">
+            <a href="https://wa.me/{{ $contact['whatsapp'] ?? '6281353055475' }}" target="_blank" class="social-link" aria-label="WhatsApp">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
             </a>
           </div>
@@ -735,15 +581,15 @@
             <li><a href="#custom">Custom Order Process</a></li>
             <li><a href="#stores">Bali Store Maps</a></li>
             <li><a href="#testimonials">Customer Reviews</a></li>
-            <li><a href="https://facebook.com/yantoshoesbali" target="_blank">Facebook Page</a></li>
+            <li><a href="{{ $contact['facebook'] ?? 'https://facebook.com/yantoshoesbali' }}" target="_blank">Facebook Page</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
           <h4 class="footer-heading">Contact &amp; Stores</h4>
           <ul>
-            <li><a href="https://wa.me/6281353055475">+62 813 5305 5475</a></li>
-            <li><a href="https://www.instagram.com/yantoshoes_bali/" target="_blank">@yantoshoes_bali</a></li>
+            <li><a href="https://wa.me/{{ $contact['whatsapp'] ?? '6281353055475' }}">{{ $contact['phone'] ?? '+62 813 5305 5475' }}</a></li>
+            <li><a href="{{ $contact['instagram'] ?? 'https://www.instagram.com/yantoshoes_bali/' }}" target="_blank">{{ $contact['instagram_handle'] ?? '@yantoshoes_bali' }}</a></li>
             <li><span>Legian &#x2022; Canggu &#x2022; Uluwatu</span></li>
             <li><span>Open Daily: 10:00 AM – 6:00 PM</span></li>
             <li><span>Worldwide Express Delivery</span></li>
