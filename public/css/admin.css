@@ -1,5 +1,6 @@
 /* ============================================================
    YANTO SHOES BALI — Admin Theme Customizations (#391802 Palette)
+   Light Mode Only
    ============================================================ */
 
 :root {
@@ -23,28 +24,6 @@
   --admin-sidebar-soft: #391802;
   --admin-sidebar-border: #4d2205;
   --admin-sidebar-text: #ebdcc9;
-  --admin-sidebar-text-strong: #ffffff;
-  --admin-sidebar-muted: #c2aa96;
-}
-
-html[data-theme="dark"] {
-  --admin-bg: #1a0b01;
-  --admin-surface: #2b1303;
-  --admin-surface-soft: #391802;
-  --admin-border: #4e2205;
-  --admin-border-light: #612d08;
-  --admin-text: #f7eee3;
-  --admin-muted: #c4ad99;
-  
-  --admin-primary: #dba24c;
-  --admin-primary-dark: #f3c77d;
-  --admin-gold: #dba24c;
-  --admin-gold-light: #f3c77d;
-  
-  --admin-sidebar: #170901;
-  --admin-sidebar-soft: #281002;
-  --admin-sidebar-border: #391802;
-  --admin-sidebar-text: #f6ede3;
   --admin-sidebar-text-strong: #ffffff;
   --admin-sidebar-muted: #c2aa96;
 }
@@ -140,13 +119,6 @@ h1, h2, h3, .brand-title, .metric-value, .font-serif {
   box-shadow: 0 4px 20px rgba(33, 14, 2, 0.04) !important;
 }
 
-html[data-theme="dark"] .card,
-html[data-theme="dark"] .panel,
-html[data-theme="dark"] .metric-card,
-html[data-theme="dark"] .table-container {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
-}
-
 /* Tables */
 .table {
   color: var(--admin-text) !important;
@@ -179,18 +151,6 @@ html[data-theme="dark"] .table-container {
   background-color: #210e02 !important;
   border-color: #210e02 !important;
   color: var(--admin-gold-light) !important;
-}
-
-html[data-theme="dark"] .btn-primary {
-  background-color: var(--admin-gold) !important;
-  border-color: var(--admin-gold) !important;
-  color: #210e02 !important;
-  font-weight: 600 !important;
-}
-
-html[data-theme="dark"] .btn-primary:hover {
-  background-color: var(--admin-gold-light) !important;
-  border-color: var(--admin-gold-light) !important;
 }
 
 /* Metric Cards */
@@ -321,12 +281,6 @@ html[data-theme="dark"] .btn-primary:hover {
   box-shadow: 0 2px 8px rgba(33, 14, 2, 0.2);
 }
 
-html[data-theme="dark"] .dataTables_wrapper .pagination .page-item.active .page-link {
-  background: var(--admin-gold) !important;
-  border-color: var(--admin-gold) !important;
-  color: #210e02 !important;
-}
-
 .dataTables_wrapper .pagination .page-item:not(.active):not(.disabled) .page-link:hover {
   background: var(--admin-surface);
   color: var(--admin-gold);
@@ -370,4 +324,3 @@ table.dataTable thead .sorting_asc,
 table.dataTable thead .sorting_desc {
   cursor: pointer;
 }
-

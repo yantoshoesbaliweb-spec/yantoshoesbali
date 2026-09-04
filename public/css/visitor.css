@@ -750,6 +750,395 @@ ul {
 }
 
 /* ============================================================
+   FINE LEATHER GUIDE SECTION
+   ============================================================ */
+.leather-guide-section {
+  padding: 6rem 0;
+  background: var(--color-surface);
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.leather-guide-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-gold) 50%, transparent);
+}
+
+.leather-guide-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.leather-guide-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 600;
+  color: var(--color-cream);
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  margin: 0.25rem 0 0.5rem;
+}
+
+.leather-guide-title em {
+  font-style: italic;
+  color: var(--color-gold);
+}
+
+.leather-guide-subtitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.92rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.leather-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--color-surface-2);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+.leather-card {
+  padding: 0;
+  background: var(--color-surface-2);
+  border-right: 1px solid var(--color-border);
+  transition: all 0.35s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.leather-card:last-child {
+  border-right: none;
+}
+
+.leather-card:hover {
+  background: var(--color-surface-3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+.leather-card-image {
+  width: 100%;
+  height: 220px;
+  background: #180a01;
+  overflow: hidden;
+  position: relative;
+}
+
+.leather-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.leather-card:hover .leather-card-image img {
+  transform: scale(1.08);
+}
+
+.leather-card-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--color-cream);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 1.1rem 1rem 0.5rem;
+  margin: 0;
+  border-top: 2px solid rgba(219, 162, 76, 0.25);
+}
+
+.leather-card-traits {
+  list-style: none;
+  padding: 0 1rem 1.35rem;
+  margin: 0;
+  flex: 1;
+}
+
+.leather-card-traits li {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+  padding: 0.25rem 0;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.leather-card-traits li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--color-gold);
+  font-weight: 700;
+}
+
+/* Responsive Leather: tablet (3 cols) */
+@media (max-width: 1024px) {
+  .leather-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .leather-card:nth-child(3),
+  .leather-card:nth-child(6) {
+    border-right: none;
+  }
+  .leather-card:nth-child(n+4) {
+    border-top: 1px solid var(--color-border);
+  }
+}
+
+/* Responsive Leather: mobile (2 cols) */
+@media (max-width: 640px) {
+  .leather-guide-section {
+    padding: 4.5rem 0;
+  }
+  .leather-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .leather-card:nth-child(3) {
+    border-right: 1px solid var(--color-border);
+  }
+  .leather-card:nth-child(even) {
+    border-right: none;
+  }
+  .leather-card:nth-child(n+3) {
+    border-top: 1px solid var(--color-border);
+  }
+  .leather-card-image {
+    height: 160px;
+  }
+  .leather-card-name {
+    font-size: 0.95rem;
+  }
+  .leather-card-traits li {
+    font-size: 0.72rem;
+  }
+}
+
+/* ============================================================
+   BOOT TOE PROFILES SECTION
+   ============================================================ */
+.toe-shapes-section {
+  padding: 6rem 0;
+  background: var(--color-bg);
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.toe-shapes-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-gold) 50%, transparent);
+}
+
+.toe-shapes-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.toe-shapes-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 600;
+  color: var(--color-cream);
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.toe-shapes-title em {
+  font-style: italic;
+  color: var(--color-gold);
+}
+
+/* 6-Column Seamless Grid for Toe Shapes */
+.toe-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--color-surface);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+.toe-card {
+  background: var(--color-surface);
+  border: none;
+  border-right: 1px solid var(--color-border);
+  border-radius: 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.35s ease;
+}
+
+.toe-card:last-child {
+  border-right: none;
+}
+
+.toe-card:hover {
+  background: var(--color-surface-2);
+  z-index: 2;
+}
+
+.toe-card-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(18, 7, 1, 0.85);
+  color: var(--color-gold);
+  border: 1px solid rgba(219, 162, 76, 0.3);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  backdrop-filter: blur(4px);
+  letter-spacing: 0;
+}
+
+.toe-card-media {
+  width: 100%;
+  height: 310px;
+  background: #180a01;
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.toe-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.5s ease;
+}
+
+.toe-card:hover .toe-card-media img {
+  transform: scale(1.06);
+}
+
+.toe-card-body {
+  padding: 1.35rem 1rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.toe-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-cream);
+  line-height: 1.15;
+  margin: 0;
+}
+
+/* Fixed-height description with vertical overflow scroll */
+.toe-desc {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  height: 95px;
+  overflow-y: auto;
+  margin-top: 0.65rem;
+  padding: 0 0.35rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-light) transparent;
+}
+
+.toe-desc::-webkit-scrollbar {
+  width: 3px;
+}
+
+.toe-desc::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.toe-desc::-webkit-scrollbar-thumb {
+  background: var(--color-border-light);
+  border-radius: 3px;
+}
+
+.toe-desc::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold);
+}
+
+/* Responsive Toe: tablet (3 cols) */
+@media (max-width: 1024px) {
+  .toe-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .toe-card:nth-child(3),
+  .toe-card:nth-child(6) {
+    border-right: none;
+  }
+  .toe-card:nth-child(n+4) {
+    border-top: 1px solid var(--color-border);
+  }
+  .toe-card-media {
+    height: 270px;
+  }
+  .toe-desc {
+    height: 90px;
+  }
+}
+
+/* Responsive Toe: mobile (2 cols) */
+@media (max-width: 640px) {
+  .toe-shapes-section {
+    padding: 4.5rem 0;
+  }
+  .toe-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .toe-card:nth-child(3) {
+    border-right: 1px solid var(--color-border);
+  }
+  .toe-card:nth-child(even) {
+    border-right: none;
+  }
+  .toe-card:nth-child(n+3) {
+    border-top: 1px solid var(--color-border);
+  }
+  .toe-card-media {
+    height: 230px;
+  }
+  .toe-desc {
+    height: 85px;
+  }
+}
+
+/* ============================================================
    CUSTOM ORDER SECTION
    ============================================================ */
 .custom-section {

@@ -16,9 +16,8 @@
         </ol>
       </nav>
       <h1 class="h3 fw-bold mb-0" style="color: var(--admin-text); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.85rem;">
-        Bespoke Custom Order (Vision) Settings
+        Vision
       </h1>
-      <p class="text-muted mb-0" style="font-size: 0.85rem;">Configure the Bespoke Custom Orders section, 7-day timeline details, features list, and WhatsApp consultation button.</p>
     </div>
 
     <div class="d-flex align-items-center gap-2">
@@ -83,7 +82,6 @@
         <h5 class="card-title fw-bold mb-0" style="color: var(--admin-text); font-size: 1.05rem;">
           <i class="bi bi-check2-circle me-2" style="color: var(--admin-gold, #dba24c);"></i>Bespoke Features &amp; Process Points
         </h5>
-        <small class="text-muted">4 key value propositions displayed with checkmark icons.</small>
       </div>
       <div class="card-body p-3">
         <div class="d-flex flex-column gap-3">

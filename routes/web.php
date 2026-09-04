@@ -32,12 +32,38 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
 
-    /* Products (Boots Catalog) CRUD */
+    /* Products CRUD */
     Route::get('/products', [AdminController::class, 'products'])->name('products');
+    Route::get('/products/create', [AdminController::class, 'createProduct'])->name('products.create');
     Route::post('/products', [AdminController::class, 'storeProduct'])->name('products.store');
+    Route::get('/products/{product}/edit', [AdminController::class, 'editProduct'])->name('products.edit');
     Route::put('/products/{product}', [AdminController::class, 'updateProduct'])->name('products.update');
     Route::delete('/products/{product}', [AdminController::class, 'deleteProduct'])->name('products.delete');
     Route::patch('/products/{product}/toggle', [AdminController::class, 'toggleProductStatus'])->name('products.toggle');
+    Route::delete('/product-images/{productImage}', [AdminController::class, 'deleteProductImage'])->name('products.image.delete');
+
+    /* Categories CRUD */
+    Route::get('/categories', [AdminController::class, 'categories'])->name('categories');
+    Route::post('/categories', [AdminController::class, 'storeCategory'])->name('categories.store');
+    Route::put('/categories/{category}', [AdminController::class, 'updateCategory'])->name('categories.update');
+    Route::delete('/categories/{category}', [AdminController::class, 'deleteCategory'])->name('categories.delete');
+
+    /* Guides CRUD (Shoe Toe & Leather) */
+    Route::prefix('guides')->name('guides.')->group(function () {
+        Route::get('/shoe-toes', [AdminController::class, 'shoeToes'])->name('shoe-toes');
+        Route::get('/shoe-toes/create', [AdminController::class, 'createShoeToe'])->name('shoe-toes.create');
+        Route::post('/shoe-toes', [AdminController::class, 'storeShoeToe'])->name('shoe-toes.store');
+        Route::get('/shoe-toes/{shoeToe}/edit', [AdminController::class, 'editShoeToe'])->name('shoe-toes.edit');
+        Route::put('/shoe-toes/{shoeToe}', [AdminController::class, 'updateShoeToe'])->name('shoe-toes.update');
+        Route::delete('/shoe-toes/{shoeToe}', [AdminController::class, 'destroyShoeToe'])->name('shoe-toes.destroy');
+
+        Route::get('/leathers', [AdminController::class, 'leathers'])->name('leathers');
+        Route::get('/leathers/create', [AdminController::class, 'createLeather'])->name('leathers.create');
+        Route::post('/leathers', [AdminController::class, 'storeLeather'])->name('leathers.store');
+        Route::get('/leathers/{leather}/edit', [AdminController::class, 'editLeather'])->name('leathers.edit');
+        Route::put('/leathers/{leather}', [AdminController::class, 'updateLeather'])->name('leathers.update');
+        Route::delete('/leathers/{leather}', [AdminController::class, 'destroyLeather'])->name('leathers.destroy');
+    });
 
     /* Orders & Inquiries */
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders');

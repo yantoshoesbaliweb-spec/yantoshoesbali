@@ -17,20 +17,47 @@
       <span class="nav-text">Dashboard</span>
     </a>
     
-    <a class="nav-link {{ request()->routeIs('admin.products') ? 'active' : '' }}" href="{{ route('admin.products') }}">
-      <span class="nav-icon"><i class="bi bi-box-seam" aria-hidden="true"></i></span>
-      <span class="nav-text">Boots Catalog</span>
-      @php $productCount = \App\Models\Product::count(); @endphp
-      @if($productCount > 0)
-      <span class="badge rounded-pill bg-warning text-dark ms-auto" style="font-size: 0.7rem; font-weight: 700;">{{ $productCount }}</span>
-      @endif
-    </a>
+    <!-- Catalog Menu & Submenu -->
+    <div class="sidebar-menu-group">
+      <a class="nav-link {{ request()->routeIs('admin.products*') || request()->routeIs('admin.categories*') ? 'active' : '' }}" data-bs-toggle="collapse" href="#catalogSubmenu" role="button" aria-expanded="{{ request()->routeIs('admin.products*') || request()->routeIs('admin.categories*') ? 'true' : 'false' }}" aria-controls="catalogSubmenu">
+        <span class="nav-icon"><i class="bi bi-box-seam" aria-hidden="true"></i></span>
+        <span class="nav-text">Catalog</span>
+        <i class="bi bi-chevron-down ms-auto submenu-arrow" style="font-size: 0.72rem; transition: transform 0.2s;"></i>
+      </a>
+      <div class="collapse {{ request()->routeIs('admin.products*') || request()->routeIs('admin.categories*') ? 'show' : '' }}" id="catalogSubmenu">
+        <div class="sidebar-submenu ps-3 pe-1 py-1 d-flex flex-column gap-1">
+          <a class="nav-link sub-link {{ request()->routeIs('admin.categories*') ? 'active' : '' }}" href="{{ route('admin.categories') }}" style="font-size: 0.82rem; min-height: 38px;">
+            <span class="nav-icon" style="width: 24px; height: 24px; font-size: 0.7rem;"><i class="bi bi-tags"></i></span>
+            <span class="nav-text">Categories</span>
+          </a>
+          <a class="nav-link sub-link {{ request()->routeIs('admin.products*') ? 'active' : '' }}" href="{{ route('admin.products') }}" style="font-size: 0.82rem; min-height: 38px;">
+            <span class="nav-icon" style="width: 24px; height: 24px; font-size: 0.7rem;"><i class="bi bi-grid"></i></span>
+            <span class="nav-text">Products</span>
+          </a>
+        </div>
+      </div>
+    </div>
 
-    <a class="nav-link {{ request()->routeIs('admin.orders') ? 'active' : '' }}" href="{{ route('admin.orders') }}">
-      <span class="nav-icon"><i class="bi bi-chat-left-dots" aria-hidden="true"></i></span>
-      <span class="nav-text">Orders &amp; Inquiries</span>
-      <span class="badge rounded-pill bg-success ms-auto" style="font-size: 0.7rem; font-weight: 700;">18</span>
-    </a>
+    <!-- Guides Menu & Submenu -->
+    <div class="sidebar-menu-group">
+      <a class="nav-link {{ request()->routeIs('admin.guides*') ? 'active' : '' }}" data-bs-toggle="collapse" href="#guidesSubmenu" role="button" aria-expanded="{{ request()->routeIs('admin.guides*') ? 'true' : 'false' }}" aria-controls="guidesSubmenu">
+        <span class="nav-icon"><i class="bi bi-journal-bookmark" aria-hidden="true"></i></span>
+        <span class="nav-text">Guides</span>
+        <i class="bi bi-chevron-down ms-auto submenu-arrow" style="font-size: 0.72rem; transition: transform 0.2s;"></i>
+      </a>
+      <div class="collapse {{ request()->routeIs('admin.guides*') ? 'show' : '' }}" id="guidesSubmenu">
+        <div class="sidebar-submenu ps-3 pe-1 py-1 d-flex flex-column gap-1">
+          <a class="nav-link sub-link {{ request()->routeIs('admin.guides.shoe-toes*') ? 'active' : '' }}" href="{{ route('admin.guides.shoe-toes') }}" style="font-size: 0.82rem; min-height: 38px;">
+            <span class="nav-icon" style="width: 24px; height: 24px; font-size: 0.7rem;"><i class="bi bi-bezier2"></i></span>
+            <span class="nav-text">Shoe Toe</span>
+          </a>
+          <a class="nav-link sub-link {{ request()->routeIs('admin.guides.leathers*') ? 'active' : '' }}" href="{{ route('admin.guides.leathers') }}" style="font-size: 0.82rem; min-height: 38px;">
+            <span class="nav-icon" style="width: 24px; height: 24px; font-size: 0.7rem;"><i class="bi bi-palette"></i></span>
+            <span class="nav-text">Leather</span>
+          </a>
+        </div>
+      </div>
+    </div>
 
     <!-- Content Menu & Submenu -->
     <div class="sidebar-menu-group">
@@ -99,11 +126,5 @@
   <div class="sidebar-user mt-auto">
     <img class="avatar-img avatar-md sidebar-user-avatar" src="{{ asset('images/yanto.jpeg') }}" alt="{{ Auth::user()->name ?? 'User' }}" style="width: 44px; height: 44px; object-fit: cover; border-radius: 50%; border: 2px solid var(--admin-gold, #dba24c);" />
     <strong class="text-truncate d-block" style="max-width: 180px;">{{ Auth::user()->name ?? 'Admin Yanto' }}</strong>
-    <small class="text-uppercase" style="color: var(--admin-gold, #dba24c); font-size: 0.72rem; font-weight: 600;">Role: {{ Auth::user()->role ?? 'admin' }}</small>
-  </div>
-
-  <div class="sidebar-footer">
-    <span class="status-dot" style="background: #22c55e;"></span>
-    <span class="sidebar-footer-text">Bali Workshops: Active</span>
   </div>
 </aside>

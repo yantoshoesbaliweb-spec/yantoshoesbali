@@ -345,6 +345,60 @@
     </div>
   </section>
 
+  <!-- Fine Leather Guide Section -->
+  <section class="leather-guide-section" id="leather-guide">
+    <div class="container">
+      <div class="leather-guide-header">
+        <p class="section-eyebrow">The Connoisseur's Guide to</p>
+        <h2 class="leather-guide-title">Fine <em>Leather</em></h2>
+        <p class="leather-guide-subtitle">Premium Varieties Explained</p>
+      </div>
+
+      <div class="leather-grid">
+        @foreach($leathers as $idx => $leather)
+        <div class="leather-card" data-aos="fade-up" data-aos-delay="{{ $idx * 80 }}">
+          <div class="leather-card-image">
+            <img src="{{ $leather->image_url }}" alt="{{ $leather->name }}" loading="lazy" />
+          </div>
+          <h3 class="leather-card-name">{{ $leather->name }}</h3>
+          <ul class="leather-card-traits">
+            @foreach($leather->traits_list as $trait)
+              <li>{{ $trait }}</li>
+            @endforeach
+          </ul>
+        </div>
+        @endforeach
+      </div>
+    </div>
+  </section>
+
+  <!-- Boot Toe Profiles Guide Section -->
+  <section class="toe-shapes-section" id="toe-shapes">
+    <div class="container">
+      <div class="toe-shapes-header">
+        <h2 class="toe-shapes-title">Boot <em>Profiles</em></h2>
+      </div>
+
+      <!-- 6 Toe Shapes Grid (Flush, No Gap) -->
+      <div class="toe-grid">
+        @foreach($shoeToes as $idx => $toe)
+        <div class="toe-card">
+          <div class="toe-card-badge">{{ sprintf('%02d', $idx + 1) }}</div>
+          <div class="toe-card-media">
+            <img src="{{ $toe->image_url }}" alt="{{ $toe->name }} Cowboy Boots" loading="lazy" />
+          </div>
+          <div class="toe-card-body">
+            <h3 class="toe-name">{{ $toe->name }}</h3>
+            @if($toe->description)
+              <div class="toe-desc">{{ $toe->description }}</div>
+            @endif
+          </div>
+        </div>
+        @endforeach
+      </div>
+    </div>
+  </section>
+
   <!-- Bespoke Custom Order (Vision) -->
   <section class="custom-section" id="custom">
     <div class="custom-grid">

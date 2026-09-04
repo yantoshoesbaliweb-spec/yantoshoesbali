@@ -16,9 +16,8 @@
         </ol>
       </nav>
       <h1 class="h3 fw-bold mb-0" style="color: var(--admin-text); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.85rem;">
-        Client Testimonies Management
+        Testimonies
       </h1>
-      <p class="text-muted mb-0" style="font-size: 0.85rem;">Manage customer reviews and testimonials displayed on the homepage.</p>
     </div>
 
     <div class="d-flex align-items-center gap-2">

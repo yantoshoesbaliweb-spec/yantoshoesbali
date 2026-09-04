@@ -12,15 +12,41 @@ class Product extends Model
     protected $fillable = [
         'name',
         'series',
-        'category',
+        'category_id',
         'image',
         'leather',
         'turnaround',
-        'badge',
-        'badge_class',
         'status',
         'sort_order',
     ];
+
+    /**
+     * Get the category this product belongs to.
+     */
+    public function categoryRelation()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    /**
+     * Get all images for this product.
+     */
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class)->orderBy('sort_order');
+    }
+
+    /**
+     * Get the primary image (first image or fallback to image column).
+     */
+    public function getPrimaryImageAttribute()
+    {
+        $firstImage = $this->images->first();
+        if ($firstImage) {
+            return $firstImage->image_path;
+        }
+        return $this->image;
+    }
 
     /**
      * Scope: only active products.

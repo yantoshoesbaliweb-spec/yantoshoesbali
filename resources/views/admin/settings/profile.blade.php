@@ -17,7 +17,6 @@
       <h1 class="h3 fw-bold mb-0" style="color: var(--admin-text); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.85rem;">
         Account &amp; User Settings
       </h1>
-      <p class="text-muted mb-0" style="font-size: 0.85rem;">Manage your user account profile, email address, and security credentials.</p>
     </div>
   </div>
 
@@ -65,23 +64,7 @@
           </span>
           @endif
         </div>
-
         <hr style="border-color: var(--admin-border);" />
-
-        <div class="text-start" style="font-size: 0.82rem;">
-          <div class="d-flex justify-content-between py-2 border-bottom" style="border-color: var(--admin-border) !important;">
-            <span class="text-muted">Account ID</span>
-            <span class="fw-semibold" style="color: var(--admin-text);">#USR-00{{ $user->id }}</span>
-          </div>
-          <div class="d-flex justify-content-between py-2 border-bottom" style="border-color: var(--admin-border) !important;">
-            <span class="text-muted">Registered Role</span>
-            <span class="fw-semibold text-uppercase" style="color: var(--admin-gold, #dba24c);">{{ $user->role }}</span>
-          </div>
-          <div class="d-flex justify-content-between py-2">
-            <span class="text-muted">Status</span>
-            <span class="badge bg-success-subtle text-success fw-bold">Active &bull; Verified</span>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -117,11 +100,7 @@
               </div>
             </div>
 
-            <div class="col-12 col-md-6">
-              <label class="form-label fw-semibold text-muted" style="font-size: 0.84rem;">Assigned Role</label>
-              <input type="text" class="form-control text-muted" value="{{ strtoupper($user->role) }}" disabled style="background: var(--admin-surface-soft); border-color: var(--admin-border);" />
-              <small class="text-muted" style="font-size: 0.72rem;">Role cannot be self-modified for security.</small>
-            </div>
+            
           </div>
 
           <!-- Password Change Section -->

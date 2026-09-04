@@ -17,11 +17,6 @@
         <span>Live Site</span>
       </a>
 
-      <!-- Theme Mode Toggle (Dark / Light) -->
-      <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" title="Switch color theme">
-        <i class="bi bi-moon-stars" data-theme-icon aria-hidden="true"></i>
-      </button>
-
       <!-- User Profile Dropdown -->
       <div class="dropdown ms-1">
         <button class="profile-button d-flex align-items-center gap-2 bg-transparent border-0 p-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -44,7 +39,7 @@
           </li>
           <li><a class="dropdown-item py-2" href="{{ route('admin.dashboard') }}"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
           <li><a class="dropdown-item py-2 {{ request()->routeIs('admin.profile') ? 'active' : '' }}" href="{{ route('admin.profile') }}"><i class="bi bi-person-gear me-2"></i>User Settings</a></li>
-          <li><a class="dropdown-item py-2" href="{{ route('admin.products') }}"><i class="bi bi-box-seam me-2"></i>Boots Catalog</a></li>
+          <li><a class="dropdown-item py-2" href="{{ route('admin.products') }}"><i class="bi bi-box-seam me-2"></i>Products</a></li>
           <li><a class="dropdown-item py-2" href="{{ route('admin.orders') }}"><i class="bi bi-chat-left-dots me-2"></i>Custom Orders</a></li>
           <li><hr class="dropdown-divider" style="border-color: var(--admin-border);"></li>
           <li><a class="dropdown-item py-2" href="{{ route('visitor.home') }}" target="_blank"><i class="bi bi-globe me-2"></i>Visitor Website</a></li>

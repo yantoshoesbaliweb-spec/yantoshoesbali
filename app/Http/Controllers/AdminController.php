@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\ProductImage;
+use App\Models\ShoeToe;
+use App\Models\Leather;
 
 class AdminController extends Controller
 {
@@ -92,11 +96,11 @@ class AdminController extends Controller
         $popularBoots = Product::active()->ordered()->take(4)->get()->map(function ($p) {
             return [
                 'name' => $p->name,
-                'category' => $p->series ?? $p->category,
-                'image' => $p->image,
+                'category' => $p->series ?? ($p->categoryRelation->name ?? '-'),
+                'image' => $p->primary_image ?? $p->image,
                 'orders_count' => rand(20, 50),
                 'rating' => round(rand(45, 50) / 10, 1),
-                'status' => $p->badge,
+                'status' => $p->status,
             ];
         })->toArray();
 
@@ -124,8 +128,33 @@ class AdminController extends Controller
      */
     public function products()
     {
-        $products = Product::ordered()->get();
+        $products = Product::with('images', 'categoryRelation')->ordered()->get();
         return view('admin.products', compact('products'));
+    }
+
+    /**
+     * Show form to create a new product.
+     */
+    public function createProduct()
+    {
+        $categories = Category::orderBy('name')->get();
+        return view('admin.product-form', [
+            'product' => null,
+            'categories' => $categories,
+        ]);
+    }
+
+    /**
+     * Show form to edit an existing product.
+     */
+    public function editProduct(Product $product)
+    {
+        $product->load('images');
+        $categories = Category::orderBy('name')->get();
+        return view('admin.product-form', [
+            'product' => $product,
+            'categories' => $categories,
+        ]);
     }
 
     /**
@@ -136,31 +165,44 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'series' => 'nullable|string|max:255',
-            'category' => 'nullable|string|max:100',
+            'category_id' => 'nullable|exists:categories,id',
             'leather' => 'nullable|string|max:255',
             'turnaround' => 'nullable|string|max:100',
-            'badge' => 'nullable|string|max:100',
-            'badge_class' => 'nullable|string|max:100',
-            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:5120',
-            'image' => 'nullable|string|max:255',
+            'image_files' => 'nullable|array|max:10',
+            'image_files.*' => 'image|mimes:jpeg,png,jpg,webp,svg|max:5120',
         ]);
 
-        $data = $request->except(['_token', 'image_file']);
+        $data = $request->only(['name', 'series', 'category_id', 'leather', 'turnaround']);
+        $data['sort_order'] = Product::max('sort_order') + 1;
+        $data['status'] = 'Active';
 
-        // Handle image upload
-        if ($request->hasFile('image_file') && $request->file('image_file')->isValid()) {
-            $file = $request->file('image_file');
-            $filename = 'product_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $storedPath = $file->storeAs('products', $filename, 'public');
-            $data['image'] = 'storage/' . $storedPath;
+
+        $product = Product::create($data);
+
+        // Handle multiple image uploads
+        if ($request->hasFile('image_files')) {
+            $sortOrder = 0;
+            foreach ($request->file('image_files') as $file) {
+                if ($file->isValid()) {
+                    $filename = 'product_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $storedPath = $file->storeAs('products', $filename, 'public');
+                    $imagePath = 'storage/' . $storedPath;
+
+                    ProductImage::create([
+                        'product_id' => $product->id,
+                        'image_path' => $imagePath,
+                        'sort_order' => $sortOrder++,
+                    ]);
+
+                    // Set first image as the product's main image
+                    if ($sortOrder === 1) {
+                        $product->update(['image' => $imagePath]);
+                    }
+                }
+            }
         }
 
-        $data['sort_order'] = Product::max('sort_order') + 1;
-        $data['status'] = $data['status'] ?? 'Active';
-
-        Product::create($data);
-
-        return redirect()->route('admin.products')->with('success', 'Boot model added successfully!');
+        return redirect()->route('admin.products')->with('success', 'Product added successfully!');
     }
 
     /**
@@ -171,28 +213,48 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'series' => 'nullable|string|max:255',
-            'category' => 'nullable|string|max:100',
+            'category_id' => 'nullable|exists:categories,id',
             'leather' => 'nullable|string|max:255',
             'turnaround' => 'nullable|string|max:100',
-            'badge' => 'nullable|string|max:100',
-            'badge_class' => 'nullable|string|max:100',
-            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:5120',
-            'image' => 'nullable|string|max:255',
+            'image_files' => 'nullable|array|max:10',
+            'image_files.*' => 'image|mimes:jpeg,png,jpg,webp,svg|max:5120',
         ]);
 
-        $data = $request->except(['_token', '_method', 'image_file']);
+        $data = $request->only(['name', 'series', 'category_id', 'leather', 'turnaround']);
 
-        // Handle image upload
-        if ($request->hasFile('image_file') && $request->file('image_file')->isValid()) {
-            $file = $request->file('image_file');
-            $filename = 'product_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $storedPath = $file->storeAs('products', $filename, 'public');
-            $data['image'] = 'storage/' . $storedPath;
+        if (!$request->category_id) {
+            $data['category_id'] = null;
         }
 
         $product->update($data);
 
-        return redirect()->route('admin.products')->with('success', 'Boot model "' . $product->name . '" updated successfully!');
+        // Handle multiple image uploads
+        if ($request->hasFile('image_files')) {
+            $maxSort = $product->images()->max('sort_order') ?? -1;
+            $sortOrder = $maxSort + 1;
+
+            foreach ($request->file('image_files') as $file) {
+                if ($file->isValid()) {
+                    $filename = 'product_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $storedPath = $file->storeAs('products', $filename, 'public');
+                    $imagePath = 'storage/' . $storedPath;
+
+                    ProductImage::create([
+                        'product_id' => $product->id,
+                        'image_path' => $imagePath,
+                        'sort_order' => $sortOrder++,
+                    ]);
+                }
+            }
+
+            // Update main image to the first image
+            $firstImage = $product->images()->orderBy('sort_order')->first();
+            if ($firstImage) {
+                $product->update(['image' => $firstImage->image_path]);
+            }
+        }
+
+        return redirect()->route('admin.products')->with('success', '"' . $product->name . '" updated successfully!');
     }
 
     /**
@@ -202,7 +264,25 @@ class AdminController extends Controller
     {
         $name = $product->name;
         $product->delete();
-        return redirect()->route('admin.products')->with('success', 'Boot model "' . $name . '" deleted successfully!');
+        return redirect()->route('admin.products')->with('success', '"' . $name . '" deleted successfully!');
+    }
+
+    /**
+     * Delete a single product image.
+     */
+    public function deleteProductImage(ProductImage $productImage)
+    {
+        $productId = $productImage->product_id;
+        $productImage->delete();
+
+        // Update product's main image
+        $product = Product::find($productId);
+        if ($product) {
+            $firstImage = $product->images()->orderBy('sort_order')->first();
+            $product->update(['image' => $firstImage ? $firstImage->image_path : null]);
+        }
+
+        return back()->with('success', 'Image deleted.');
     }
 
     /**
@@ -213,6 +293,251 @@ class AdminController extends Controller
         $product->status = $product->status === 'Active' ? 'Inactive' : 'Active';
         $product->save();
         return redirect()->route('admin.products')->with('success', '"' . $product->name . '" is now ' . $product->status . '.');
+    }
+
+    /**
+     * Display the categories management view.
+     */
+    public function categories()
+    {
+        $categories = Category::withCount('products')->orderBy('name')->get();
+        return view('admin.categories', compact('categories'));
+    }
+
+    /**
+     * Store a new category.
+     */
+    public function storeCategory(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:100|unique:categories,name',
+        ]);
+
+        Category::create($request->only('name'));
+
+        return redirect()->route('admin.categories')->with('success', 'Category added successfully!');
+    }
+
+    /**
+     * Update a category.
+     */
+    public function updateCategory(Request $request, Category $category)
+    {
+        $request->validate([
+            'name' => 'required|string|max:100|unique:categories,name,' . $category->id,
+        ]);
+
+        $category->update($request->only('name'));
+
+        return redirect()->route('admin.categories')->with('success', '"' . $category->name . '" updated successfully!');
+    }
+
+    /**
+     * Delete a category.
+     */
+    public function deleteCategory(Category $category)
+    {
+        $name = $category->name;
+        $category->delete();
+        return redirect()->route('admin.categories')->with('success', '"' . $name . '" deleted successfully!');
+    }
+
+    /**
+     * Display Shoe Toe guide management.
+     */
+    public function shoeToes()
+    {
+        $shoeToes = ShoeToe::orderBy('sort_order')->orderBy('id')->get();
+        $canAdd = $shoeToes->count() < 6;
+        return view('admin.guides.shoe-toes', compact('shoeToes', 'canAdd'));
+    }
+
+    /**
+     * Show form to create a new Shoe Toe.
+     */
+    public function createShoeToe()
+    {
+        if (ShoeToe::count() >= 6) {
+            return redirect()->route('admin.guides.shoe-toes')->with('error', 'Maksimal 6 item shoe toe.');
+        }
+        $shoeToe = null;
+        return view('admin.guides.shoe-toe-form', compact('shoeToe'));
+    }
+
+    /**
+     * Store a new Shoe Toe.
+     */
+    public function storeShoeToe(Request $request)
+    {
+        if (ShoeToe::count() >= 6) {
+            return redirect()->route('admin.guides.shoe-toes')->with('error', 'Maksimal 6 item shoe toe.');
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:5120',
+        ]);
+
+        $data = $request->only(['name', 'description']);
+        $data['sort_order'] = ShoeToe::max('sort_order') + 1;
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            if ($file->isValid()) {
+                $filename = 'toe_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $storedPath = $file->storeAs('guides', $filename, 'public');
+                $data['image'] = 'storage/' . $storedPath;
+            }
+        }
+
+        ShoeToe::create($data);
+
+        return redirect()->route('admin.guides.shoe-toes')->with('success', 'Shoe toe berhasil ditambahkan.');
+    }
+
+    /**
+     * Show form to edit a Shoe Toe.
+     */
+    public function editShoeToe(ShoeToe $shoeToe)
+    {
+        return view('admin.guides.shoe-toe-form', compact('shoeToe'));
+    }
+
+    /**
+     * Update a Shoe Toe.
+     */
+    public function updateShoeToe(Request $request, ShoeToe $shoeToe)
+    {
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:5120',
+        ]);
+
+        $data = $request->only(['name', 'description']);
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            if ($file->isValid()) {
+                $filename = 'toe_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $storedPath = $file->storeAs('guides', $filename, 'public');
+                $data['image'] = 'storage/' . $storedPath;
+            }
+        }
+
+        $shoeToe->update($data);
+
+        return redirect()->route('admin.guides.shoe-toes')->with('success', 'Shoe toe berhasil diperbarui.');
+    }
+
+    /**
+     * Delete a Shoe Toe.
+     */
+    public function destroyShoeToe(ShoeToe $shoeToe)
+    {
+        $name = $shoeToe->name;
+        $shoeToe->delete();
+        return redirect()->route('admin.guides.shoe-toes')->with('success', '"' . $name . '" berhasil dihapus.');
+    }
+
+    /**
+     * Display Leather guide management.
+     */
+    public function leathers()
+    {
+        $leathers = Leather::orderBy('sort_order')->orderBy('id')->get();
+        $canAdd = $leathers->count() < 6;
+        return view('admin.guides.leathers', compact('leathers', 'canAdd'));
+    }
+
+    /**
+     * Show form to create a new Leather.
+     */
+    public function createLeather()
+    {
+        if (Leather::count() >= 6) {
+            return redirect()->route('admin.guides.leathers')->with('error', 'Maksimal 6 item leather.');
+        }
+        $leather = null;
+        return view('admin.guides.leather-form', compact('leather'));
+    }
+
+    /**
+     * Store a new Leather.
+     */
+    public function storeLeather(Request $request)
+    {
+        if (Leather::count() >= 6) {
+            return redirect()->route('admin.guides.leathers')->with('error', 'Maksimal 6 item leather.');
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'traits' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:5120',
+        ]);
+
+        $data = $request->only(['name', 'traits']);
+        $data['sort_order'] = Leather::max('sort_order') + 1;
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            if ($file->isValid()) {
+                $filename = 'leather_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $storedPath = $file->storeAs('guides', $filename, 'public');
+                $data['image'] = 'storage/' . $storedPath;
+            }
+        }
+
+        Leather::create($data);
+
+        return redirect()->route('admin.guides.leathers')->with('success', 'Leather berhasil ditambahkan.');
+    }
+
+    /**
+     * Show form to edit a Leather.
+     */
+    public function editLeather(Leather $leather)
+    {
+        return view('admin.guides.leather-form', compact('leather'));
+    }
+
+    /**
+     * Update a Leather.
+     */
+    public function updateLeather(Request $request, Leather $leather)
+    {
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'traits' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:5120',
+        ]);
+
+        $data = $request->only(['name', 'traits']);
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            if ($file->isValid()) {
+                $filename = 'leather_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $storedPath = $file->storeAs('guides', $filename, 'public');
+                $data['image'] = 'storage/' . $storedPath;
+            }
+        }
+
+        $leather->update($data);
+
+        return redirect()->route('admin.guides.leathers')->with('success', 'Leather berhasil diperbarui.');
+    }
+
+    /**
+     * Delete a Leather.
+     */
+    public function destroyLeather(Leather $leather)
+    {
+        $name = $leather->name;
+        $leather->delete();
+        return redirect()->route('admin.guides.leathers')->with('success', '"' . $name . '" berhasil dihapus.');
     }
 
     /**

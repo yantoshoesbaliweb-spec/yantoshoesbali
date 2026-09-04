@@ -91,9 +91,8 @@
         </ol>
       </nav>
       <h1 class="h3 fw-bold mb-0" style="color: var(--admin-text); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.85rem;">
-        Header &amp; Hero Slider Settings
+        Header
       </h1>
-      <p class="text-muted mb-0" style="font-size: 0.85rem;">Upload slider images, reorder slides with drag &amp; drop or arrow buttons, and configure announcement rotator.</p>
     </div>
 
     <div class="d-flex align-items-center gap-2">
@@ -134,13 +133,11 @@
     <div class="card mb-4">
       <div class="card-header bg-transparent border-bottom p-3" style="border-color: var(--admin-border) !important;">
         <h5 class="card-title fw-bold mb-0" style="color: var(--admin-text); font-size: 1.05rem;">
-          <i class="bi bi-megaphone me-2" style="color: var(--admin-gold, #dba24c);"></i>Announcement Bar Rotator Messages
+          <i class="bi bi-megaphone me-2" style="color: var(--admin-gold, #dba24c);"></i>Announcement Bar
         </h5>
-        <small class="text-muted">Enter messages displayed in the rotating top banner (1 message per line).</small>
       </div>
       <div class="card-body p-3">
         <div class="mb-2">
-          <label class="form-label fw-semibold" style="font-size: 0.84rem;">Rotating Messages (1 per line)</label>
           <textarea class="form-control" name="content[announcements]" rows="4" style="font-size: 0.85rem; background: var(--admin-surface-soft); border-color: var(--admin-border); color: var(--admin-text);">{{ is_array($content['announcements'] ?? null) ? implode("\n", $content['announcements']) : ($content['announcements'] ?? '') }}</textarea>
         </div>
       </div>
@@ -153,7 +150,6 @@
           <h5 class="card-title fw-bold mb-0" style="color: var(--admin-text); font-size: 1.05rem;">
             <i class="bi bi-images me-2" style="color: var(--admin-gold, #dba24c);"></i>Hero Slides Management
           </h5>
-          <small class="text-muted">Upload slider images, drag handle <i class="bi bi-grip-vertical"></i> or use arrows <i class="bi bi-arrow-up"></i><i class="bi bi-arrow-down"></i> to reorder slides.</small>
         </div>
         <button type="button" class="btn btn-sm btn-primary d-inline-flex align-items-center gap-1" id="add-slide-btn">
           <i class="bi bi-plus-circle"></i>
@@ -298,11 +294,9 @@
         <h5 class="card-title fw-bold mb-0" style="color: var(--admin-text); font-size: 1.05rem;">
           <i class="bi bi-symmetry-horizontal me-2" style="color: var(--admin-gold, #dba24c);"></i>Marquee Brand Strip Items
         </h5>
-        <small class="text-muted">Items displayed in the continuous marquee strip below hero slider (1 item per line).</small>
       </div>
       <div class="card-body p-3">
         <div class="mb-2">
-          <label class="form-label fw-semibold" style="font-size: 0.84rem;">Marquee Text Items (1 per line)</label>
           <textarea class="form-control" name="content[marquee]" rows="5" style="font-size: 0.85rem; background: var(--admin-surface-soft); border-color: var(--admin-border); color: var(--admin-text);">{{ is_array($content['marquee'] ?? null) ? implode("\n", $content['marquee']) : ($content['marquee'] ?? '') }}</textarea>
         </div>
       </div>

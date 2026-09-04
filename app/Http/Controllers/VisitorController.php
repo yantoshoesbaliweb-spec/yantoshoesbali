@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Content;
 use App\Models\Product;
+use App\Models\ShoeToe;
+use App\Models\Leather;
 use App\Helpers\SeoHelper;
 
 class VisitorController extends Controller
@@ -20,6 +22,8 @@ class VisitorController extends Controller
         $testimonies = Content::getByKey('testimonies');
         $contact = Content::getByKey('contact');
         $storesContent = Content::getByKey('stores');
+        $shoeToes = ShoeToe::orderBy('sort_order')->orderBy('id')->get();
+        $leathers = Leather::orderBy('sort_order')->orderBy('id')->get();
 
         // SEO Meta Tags
         SeoHelper::reset();
@@ -71,7 +75,8 @@ class VisitorController extends Controller
 
         return view('visitor.home', compact(
             'headerContent', 'storyContent', 'visionContent',
-            'testimonies', 'contact', 'storesContent'
+            'testimonies', 'contact', 'storesContent',
+            'shoeToes', 'leathers'
         ));
     }
 
@@ -107,7 +112,7 @@ class VisitorController extends Controller
                         '@type' => 'Brand',
                         'name' => 'Yanto Shoes Bali',
                     ],
-                    'category' => $product->category,
+                    'category' => $product->categoryRelation->name ?? null,
                 ],
             ];
         }

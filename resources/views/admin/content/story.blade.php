@@ -16,9 +16,8 @@
         </ol>
       </nav>
       <h1 class="h3 fw-bold mb-0" style="color: var(--admin-text); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.85rem;">
-        Story Narrative Section Settings
+        Story
       </h1>
-      <p class="text-muted mb-0" style="font-size: 0.85rem;">Manage the authentic brand story narrative, Mr. Yanto craftsman journey, values box, and highlight badges.</p>
     </div>
 
     <div class="d-flex align-items-center gap-2">
@@ -88,7 +87,6 @@
         <h5 class="card-title fw-bold mb-0" style="color: var(--admin-text); font-size: 1.05rem;">
           <i class="bi bi-journal-text me-2" style="color: var(--admin-gold, #dba24c);"></i>Narrative Paragraphs
         </h5>
-        <small class="text-muted">Enter the lead sentence and story body paragraphs.</small>
       </div>
       <div class="card-body p-3">
         <div class="mb-3">
@@ -97,9 +95,7 @@
         </div>
 
         <div class="mb-2">
-          <label class="form-label fw-semibold" style="font-size: 0.82rem;">Story Body Paragraphs (1 per line or paragraph)</label>
           <textarea class="form-control" name="content[paragraphs]" rows="6" style="font-size: 0.85rem; background: var(--admin-surface-soft); border-color: var(--admin-border); color: var(--admin-text);">{{ is_array($content['paragraphs'] ?? null) ? implode("\n\n", $content['paragraphs']) : ($content['paragraphs'] ?? '') }}</textarea>
-          <small class="text-muted">Separate multiple paragraphs by pressing Enter.</small>
         </div>
       </div>
     </div>

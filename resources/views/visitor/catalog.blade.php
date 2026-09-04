@@ -121,7 +121,6 @@
         <div class="catalog-card" data-category="classic" data-name="Classic Tan Cowboy Boots">
           <div class="catalog-card-media">
             <img src="{{ asset('images/product_tan.png') }}" alt="Classic Tan Cowboy Boots" loading="lazy" />
-            <span class="card-badge bestseller">Bestseller</span>
             <div class="catalog-card-hover">
               <a href="https://wa.me/6281353055475?text=Hi%20Yanto%20Shoes%20Bali%2C%20I%20would%20like%20to%20order%20the%20Classic%20Tan%20Cowboy%20Boots" target="_blank" class="btn-card-order">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -144,7 +143,6 @@
         <div class="catalog-card" data-category="premium" data-name="Midnight Black Cowboy Boots">
           <div class="catalog-card-media">
             <img src="{{ asset('images/product_black.png') }}" alt="Midnight Black Cowboy Boots" loading="lazy" />
-            <span class="card-badge popular">Popular</span>
             <div class="catalog-card-hover">
               <a href="https://wa.me/6281353055475?text=Hi%20Yanto%20Shoes%20Bali%2C%20I%20would%20like%20to%20order%20the%20Midnight%20Black%20Cowboy%20Boots" target="_blank" class="btn-card-order">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -167,7 +165,6 @@
         <div class="catalog-card" data-category="bohemian" data-name="Ivory Dream Floral Boots">
           <div class="catalog-card-media">
             <img src="{{ asset('images/product_cream.png') }}" alt="Ivory Dream Floral Boots" loading="lazy" />
-            <span class="card-badge new">New Edition</span>
             <div class="catalog-card-hover">
               <a href="https://wa.me/6281353055475?text=Hi%20Yanto%20Shoes%20Bali%2C%20I%20would%20like%20to%20order%20the%20Ivory%20Dream%20Floral%20Boots" target="_blank" class="btn-card-order">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -190,7 +187,6 @@
         <div class="catalog-card" data-category="bold" data-name="Scarlet Flame Cowboy Boots">
           <div class="catalog-card-media">
             <img src="{{ asset('images/product_red.png') }}" alt="Scarlet Flame Cowboy Boots" loading="lazy" />
-            <span class="card-badge bold">Signature</span>
             <div class="catalog-card-hover">
               <a href="https://wa.me/6281353055475?text=Hi%20Yanto%20Shoes%20Bali%2C%20I%20would%20like%20to%20order%20the%20Scarlet%20Flame%20Cowboy%20Boots" target="_blank" class="btn-card-order">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -213,7 +209,6 @@
         <div class="catalog-card" data-category="classic" data-name="Vintage Havana Brown Boots">
           <div class="catalog-card-media">
             <img src="{{ asset('images/hero_boots.png') }}" alt="Vintage Havana Brown Boots" loading="lazy" />
-            <span class="card-badge">Classic</span>
             <div class="catalog-card-hover">
               <a href="https://wa.me/6281353055475?text=Hi%20Yanto%20Shoes%20Bali%2C%20I%20would%20like%20to%20order%20the%20Vintage%20Havana%20Brown%20Boots" target="_blank" class="btn-card-order">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -236,7 +231,6 @@
         <div class="catalog-card" data-category="premium" data-name="Obsidian Night Rider Boots">
           <div class="catalog-card-media">
             <img src="{{ asset('images/collection.png') }}" alt="Obsidian Night Rider Boots" loading="lazy" />
-            <span class="card-badge">Premium</span>
             <div class="catalog-card-hover">
               <a href="https://wa.me/6281353055475?text=Hi%20Yanto%20Shoes%20Bali%2C%20I%20would%20like%20to%20order%20the%20Obsidian%20Night%20Rider%20Boots" target="_blank" class="btn-card-order">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -259,7 +253,6 @@
         <div class="catalog-card" data-category="bohemian" data-name="Desert Sand Suede Western">
           <div class="catalog-card-media">
             <img src="{{ asset('images/product_cream.png') }}" alt="Desert Sand Suede Western" loading="lazy" />
-            <span class="card-badge">Bohemian</span>
             <div class="catalog-card-hover">
               <a href="https://wa.me/6281353055475?text=Hi%20Yanto%20Shoes%20Bali%2C%20I%20would%20like%20to%20order%20the%20Desert%20Sand%20Suede%20Western" target="_blank" class="btn-card-order">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -282,7 +275,6 @@
         <div class="catalog-card" data-category="bold" data-name="Royal Cognac Heritage Boots">
           <div class="catalog-card-media">
             <img src="{{ asset('images/product_tan.png') }}" alt="Royal Cognac Heritage Boots" loading="lazy" />
-            <span class="card-badge">Bold Edition</span>
             <div class="catalog-card-hover">
               <a href="https://wa.me/6281353055475?text=Hi%20Yanto%20Shoes%20Bali%2C%20I%20would%20like%20to%20order%20the%20Royal%20Cognac%20Heritage%20Boots" target="_blank" class="btn-card-order">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -305,7 +297,6 @@
         <div class="catalog-card" data-category="bohemian" data-name="Dusty Rose Boho Western">
           <div class="catalog-card-media">
             <img src="{{ asset('images/product_red.png') }}" alt="Dusty Rose Boho Western" loading="lazy" />
-            <span class="card-badge">Bohemian</span>
             <div class="catalog-card-hover">
               <a href="https://wa.me/6281353055475?text=Hi%20Yanto%20Shoes%20Bali%2C%20I%20would%20like%20to%20order%20the%20Dusty%20Rose%20Boho%20Western" target="_blank" class="btn-card-order">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -328,7 +319,6 @@
         <div class="catalog-card" data-category="classic" data-name="Rustic Chestnut Work Western">
           <div class="catalog-card-media">
             <img src="{{ asset('images/product_tan.png') }}" alt="Rustic Chestnut Work Western" loading="lazy" />
-            <span class="card-badge">Classic</span>
             <div class="catalog-card-hover">
               <a href="https://wa.me/6281353055475?text=Hi%20Yanto%20Shoes%20Bali%2C%20I%20would%20like%20to%20order%20the%20Rustic%20Chestnut%20Work%20Western" target="_blank" class="btn-card-order">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -351,7 +341,6 @@
         <div class="catalog-card" data-category="bold" data-name="Viper Ember Textured Boots">
           <div class="catalog-card-media">
             <img src="{{ asset('images/product_black.png') }}" alt="Viper Ember Textured Boots" loading="lazy" />
-            <span class="card-badge bold">Limited</span>
             <div class="catalog-card-hover">
               <a href="https://wa.me/6281353055475?text=Hi%20Yanto%20Shoes%20Bali%2C%20I%20would%20like%20to%20order%20the%20Viper%20Ember%20Textured%20Boots" target="_blank" class="btn-card-order">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -374,7 +363,6 @@
         <div class="catalog-card" data-category="premium" data-name="Platinum Eclipse Dress Boots">
           <div class="catalog-card-media">
             <img src="{{ asset('images/craftsmanship.png') }}" alt="Platinum Eclipse Dress Boots" loading="lazy" />
-            <span class="card-badge">Premium</span>
             <div class="catalog-card-hover">
               <a href="https://wa.me/6281353055475?text=Hi%20Yanto%20Shoes%20Bali%2C%20I%20would%20like%20to%20order%20the%20Platinum%20Eclipse%20Dress%20Boots" target="_blank" class="btn-card-order">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
