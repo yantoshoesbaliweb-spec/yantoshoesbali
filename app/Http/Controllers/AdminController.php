@@ -28,7 +28,7 @@ class AdminController extends Controller
         $totalProducts = Product::count();
         $activeProducts = Product::active()->count();
 
-        $recentProducts = Product::with('images', 'categoryRelation')->ordered()->take(6)->get();
+        $recentProducts = Product::with('images', 'categoryRelation')->ordered()->take(3)->get();
 
         return view('admin.dashboard', compact(
             'now',

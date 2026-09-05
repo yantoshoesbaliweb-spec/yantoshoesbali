@@ -16,7 +16,7 @@ class TrackVisitor
     {
         $response = $next($request);
 
-        if ($request->isMethod('GET') && $response->getStatusCode() < 400) {
+        if ($request->isMethod('GET') && $response->getStatusCode() < 400 && !$request->user()) {
             try {
                 VisitorLog::recordVisit($request);
             } catch (\Throwable $e) {
