@@ -358,7 +358,7 @@
         @foreach($leathers as $idx => $leather)
         <div class="leather-card" data-aos="fade-up" data-aos-delay="{{ $idx * 80 }}">
           <div class="leather-card-image">
-            <img src="{{ $leather->image_url }}" alt="{{ $leather->name }}" loading="lazy" />
+            <img src="{{ $leather->image_url }}" alt="{{ $leather->name }}" onerror="this.onerror=null;this.src='{{ asset('images/leather_calfskin.jpg') }}';" loading="lazy" />
           </div>
           <h3 class="leather-card-name">{{ $leather->name }}</h3>
           <ul class="leather-card-traits">
@@ -385,7 +385,7 @@
         <div class="toe-card">
           <div class="toe-card-badge">{{ sprintf('%02d', $idx + 1) }}</div>
           <div class="toe-card-media">
-            <img src="{{ $toe->image_url }}" alt="{{ $toe->name }} Cowboy Boots" loading="lazy" />
+            <img src="{{ $toe->image_url }}" alt="{{ $toe->name }} Cowboy Boots" onerror="this.onerror=null;this.src='{{ asset('images/toe_square_custom.jpg') }}';" loading="lazy" />
           </div>
           <div class="toe-card-body">
             <h3 class="toe-name">{{ $toe->name }}</h3>

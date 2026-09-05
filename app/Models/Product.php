@@ -21,6 +21,24 @@ class Product extends Model
     ];
 
     /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::deleting(function (Product $product) {
+            // Explicitly delete related images to fire ProductImage deleting hooks
+            foreach ($product->images()->get() as $productImage) {
+                $productImage->delete();
+            }
+
+            // Also clean the main image column if present
+            if (!empty($product->image)) {
+                \App\Services\MediaService::delete($product->image);
+            }
+        });
+    }
+
+    /**
      * Get the category this product belongs to.
      */
     public function categoryRelation()

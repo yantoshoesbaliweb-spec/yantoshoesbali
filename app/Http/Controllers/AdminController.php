@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\ProductImage;
 use App\Models\ShoeToe;
 use App\Models\Leather;
+use App\Services\MediaService;
 
 class AdminController extends Controller
 {
@@ -377,6 +378,11 @@ class AdminController extends Controller
             'name' => 'required|string|max:100',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:5120',
+        ], [
+            'name.required' => 'Nama shoe toe wajib diisi.',
+            'image.image' => 'File yang dipilih harus berupa gambar.',
+            'image.mimes' => 'Format gambar yang diperbolehkan: JPG, JPEG, PNG, WEBP, atau SVG.',
+            'image.max' => 'Ukuran file gambar maksimal 5MB.',
         ]);
 
         $data = $request->only(['name', 'description']);
@@ -384,10 +390,25 @@ class AdminController extends Controller
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            if ($file->isValid()) {
+            if (!$file->isValid()) {
+                return back()->withInput()->withErrors([
+                    'image' => 'File gambar gagal diunggah: ' . ($file->getErrorMessage() ?: 'File tidak valid atau terputus saat upload.')
+                ]);
+            }
+
+            try {
                 $filename = 'toe_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
                 $storedPath = $file->storeAs('guides', $filename, 'public');
+                if (!$storedPath) {
+                    return back()->withInput()->withErrors([
+                        'image' => 'Gagal menyimpan file gambar ke server. Pastikan folder storage dapat ditulisi.'
+                    ]);
+                }
                 $data['image'] = 'storage/' . $storedPath;
+            } catch (\Throwable $e) {
+                return back()->withInput()->withErrors([
+                    'image' => 'Terjadi kesalahan saat memproses gambar: ' . $e->getMessage()
+                ]);
             }
         }
 
@@ -413,20 +434,50 @@ class AdminController extends Controller
             'name' => 'required|string|max:100',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:5120',
+        ], [
+            'name.required' => 'Nama shoe toe wajib diisi.',
+            'image.image' => 'File yang dipilih harus berupa gambar.',
+            'image.mimes' => 'Format gambar yang diperbolehkan: JPG, JPEG, PNG, WEBP, atau SVG.',
+            'image.max' => 'Ukuran file gambar maksimal 5MB.',
         ]);
 
         $data = $request->only(['name', 'description']);
+        $oldImageToDelete = null;
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            if ($file->isValid()) {
+            if (!$file->isValid()) {
+                return back()->withInput()->withErrors([
+                    'image' => 'File gambar gagal diunggah: ' . ($file->getErrorMessage() ?: 'File tidak valid atau terputus saat upload.')
+                ]);
+            }
+
+            try {
                 $filename = 'toe_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
                 $storedPath = $file->storeAs('guides', $filename, 'public');
-                $data['image'] = 'storage/' . $storedPath;
+                if (!$storedPath) {
+                    return back()->withInput()->withErrors([
+                        'image' => 'Gagal menyimpan file gambar ke server. Gambar lama tetap dipertahankan.'
+                    ]);
+                }
+                $newImagePath = 'storage/' . $storedPath;
+                if (!empty($shoeToe->image) && $shoeToe->image !== $newImagePath) {
+                    $oldImageToDelete = $shoeToe->image;
+                }
+                $data['image'] = $newImagePath;
+            } catch (\Throwable $e) {
+                return back()->withInput()->withErrors([
+                    'image' => 'Terjadi kesalahan saat memproses gambar: ' . $e->getMessage()
+                ]);
             }
         }
 
         $shoeToe->update($data);
+
+        // Delete old image only after successful update
+        if ($oldImageToDelete) {
+            MediaService::delete($oldImageToDelete);
+        }
 
         return redirect()->route('admin.guides.shoe-toes')->with('success', 'Shoe toe berhasil diperbarui.');
     }
@@ -476,6 +527,11 @@ class AdminController extends Controller
             'name' => 'required|string|max:100',
             'traits' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:5120',
+        ], [
+            'name.required' => 'Nama leather wajib diisi.',
+            'image.image' => 'File yang dipilih harus berupa gambar.',
+            'image.mimes' => 'Format gambar yang diperbolehkan: JPG, JPEG, PNG, WEBP, atau SVG.',
+            'image.max' => 'Ukuran file gambar maksimal 5MB.',
         ]);
 
         $data = $request->only(['name', 'traits']);
@@ -483,10 +539,25 @@ class AdminController extends Controller
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            if ($file->isValid()) {
+            if (!$file->isValid()) {
+                return back()->withInput()->withErrors([
+                    'image' => 'File gambar gagal diunggah: ' . ($file->getErrorMessage() ?: 'File tidak valid atau terputus saat upload.')
+                ]);
+            }
+
+            try {
                 $filename = 'leather_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
                 $storedPath = $file->storeAs('guides', $filename, 'public');
+                if (!$storedPath) {
+                    return back()->withInput()->withErrors([
+                        'image' => 'Gagal menyimpan file gambar ke server. Pastikan folder storage dapat ditulisi.'
+                    ]);
+                }
                 $data['image'] = 'storage/' . $storedPath;
+            } catch (\Throwable $e) {
+                return back()->withInput()->withErrors([
+                    'image' => 'Terjadi kesalahan saat memproses gambar: ' . $e->getMessage()
+                ]);
             }
         }
 
@@ -512,20 +583,49 @@ class AdminController extends Controller
             'name' => 'required|string|max:100',
             'traits' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:5120',
+        ], [
+            'name.required' => 'Nama leather wajib diisi.',
+            'image.image' => 'File yang dipilih harus berupa gambar.',
+            'image.mimes' => 'Format gambar yang diperbolehkan: JPG, JPEG, PNG, WEBP, atau SVG.',
+            'image.max' => 'Ukuran file gambar maksimal 5MB.',
         ]);
 
         $data = $request->only(['name', 'traits']);
+        $oldImageToDelete = null;
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            if ($file->isValid()) {
+            if (!$file->isValid()) {
+                return back()->withInput()->withErrors([
+                    'image' => 'File gambar gagal diunggah: ' . ($file->getErrorMessage() ?: 'File tidak valid atau terputus saat upload.')
+                ]);
+            }
+
+            try {
                 $filename = 'leather_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
                 $storedPath = $file->storeAs('guides', $filename, 'public');
-                $data['image'] = 'storage/' . $storedPath;
+                if (!$storedPath) {
+                    return back()->withInput()->withErrors([
+                        'image' => 'Gagal menyimpan file gambar ke server. Gambar lama tetap dipertahankan.'
+                    ]);
+                }
+                $newImagePath = 'storage/' . $storedPath;
+                if (!empty($leather->image) && $leather->image !== $newImagePath) {
+                    $oldImageToDelete = $leather->image;
+                }
+                $data['image'] = $newImagePath;
+            } catch (\Throwable $e) {
+                return back()->withInput()->withErrors([
+                    'image' => 'Terjadi kesalahan saat memproses gambar: ' . $e->getMessage()
+                ]);
             }
         }
 
         $leather->update($data);
+
+        if ($oldImageToDelete) {
+            MediaService::delete($oldImageToDelete);
+        }
 
         return redirect()->route('admin.guides.leathers')->with('success', 'Leather berhasil diperbarui.');
     }

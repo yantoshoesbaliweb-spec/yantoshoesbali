@@ -18,14 +18,39 @@ class ShoeToe extends Model
         'sort_order',
     ];
 
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::deleting(function (ShoeToe $shoeToe) {
+            if (!empty($shoeToe->image)) {
+                \App\Services\MediaService::delete($shoeToe->image);
+            }
+        });
+    }
+
     public function getImageUrlAttribute()
     {
-        if (empty($this->image)) {
-            return asset('images/toe_square_custom.jpg');
+        $defaultImage = asset('images/toe_square_custom.jpg');
+
+        if (empty($this->image) || $this->image === 'storage/' || $this->image === 'storage') {
+            return $defaultImage;
         }
+
         if (str_starts_with($this->image, 'http://') || str_starts_with($this->image, 'https://')) {
             return $this->image;
         }
+
+        // Verify physical file exists on disk
+        $localPath = public_path($this->image);
+        if (!file_exists($localPath)) {
+            $storageRelative = \App\Services\MediaService::getStorageRelativePath($this->image);
+            if ($storageRelative && !\Illuminate\Support\Facades\Storage::disk('public')->exists($storageRelative)) {
+                return $defaultImage;
+            }
+        }
+
         return asset($this->image);
     }
 }

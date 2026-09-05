@@ -80,7 +80,7 @@
           <tr>
             <td>{{ $idx + 1 }}</td>
             <td>
-              <img src="{{ $leather->image_url }}" alt="{{ $leather->name }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px; border: 1px solid var(--admin-border);" />
+              <img src="{{ $leather->image_url }}" alt="{{ $leather->name }}" onerror="this.onerror=null;this.src='{{ asset('images/leather_calfskin.jpg') }}';" style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px; border: 1px solid var(--admin-border);" />
             </td>
             <td>
               <strong style="color: var(--admin-text); font-size: 0.92rem;">{{ $leather->name }}</strong>

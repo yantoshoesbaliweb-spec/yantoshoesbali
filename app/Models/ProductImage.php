@@ -16,6 +16,16 @@ class ProductImage extends Model
     ];
 
     /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::deleting(function (ProductImage $image) {
+            \App\Services\MediaService::delete($image->image_path);
+        });
+    }
+
+    /**
      * Get the product that owns this image.
      */
     public function product()

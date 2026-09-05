@@ -80,7 +80,7 @@
           <tr>
             <td>{{ $idx + 1 }}</td>
             <td>
-              <img src="{{ $toe->image_url }}" alt="{{ $toe->name }}" style="width: 50px; height: 65px; object-fit: cover; border-radius: 6px; border: 1px solid var(--admin-border);" />
+              <img src="{{ $toe->image_url }}" alt="{{ $toe->name }}" onerror="this.onerror=null;this.src='{{ asset('images/toe_square_custom.jpg') }}';" style="width: 50px; height: 65px; object-fit: cover; border-radius: 6px; border: 1px solid var(--admin-border);" />
             </td>
             <td>
               <strong style="color: var(--admin-text); font-size: 0.92rem;">{{ $toe->name }}</strong>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Content;
+use App\Services\MediaService;
 
 class AdminContentController extends Controller
 {
@@ -27,6 +28,16 @@ class AdminContentController extends Controller
 
         $data = $request->input('content', []);
 
+        $existingHeader = Content::getByKey('header');
+        $oldImages = [];
+        if (isset($existingHeader['slides']) && is_array($existingHeader['slides'])) {
+            foreach ($existingHeader['slides'] as $s) {
+                if (!empty($s['image'])) {
+                    $oldImages[] = $s['image'];
+                }
+            }
+        }
+
         // Clean & ensure array format for slides
         if (isset($data['slides']) && is_array($data['slides'])) {
             $cleanSlides = [];
@@ -47,6 +58,20 @@ class AdminContentController extends Controller
                 }
             }
             $data['slides'] = array_values($cleanSlides);
+
+            // Delete any images that were removed or replaced
+            $newImages = [];
+            foreach ($data['slides'] as $s) {
+                if (!empty($s['image'])) {
+                    $newImages[] = $s['image'];
+                }
+            }
+
+            foreach ($oldImages as $oldImg) {
+                if (!in_array($oldImg, $newImages, true)) {
+                    MediaService::delete($oldImg);
+                }
+            }
         }
 
         // Clean & ensure array format for announcements
@@ -132,6 +157,16 @@ class AdminContentController extends Controller
     {
         $data = $request->input('content', []);
 
+        $existingTestimonies = Content::getByKey('testimonies');
+        $oldAvatars = [];
+        if (isset($existingTestimonies['items']) && is_array($existingTestimonies['items'])) {
+            foreach ($existingTestimonies['items'] as $item) {
+                if (!empty($item['avatar'])) {
+                    $oldAvatars[] = $item['avatar'];
+                }
+            }
+        }
+
         // Clean testimonies array
         if (isset($data['items']) && is_array($data['items'])) {
             $cleanItems = [];
@@ -151,6 +186,20 @@ class AdminContentController extends Controller
                 }
             }
             $data['items'] = array_values($cleanItems);
+
+            // Delete any avatars that were removed or replaced
+            $newAvatars = [];
+            foreach ($data['items'] as $item) {
+                if (!empty($item['avatar'])) {
+                    $newAvatars[] = $item['avatar'];
+                }
+            }
+
+            foreach ($oldAvatars as $oldAvatar) {
+                if (!in_array($oldAvatar, $newAvatars, true)) {
+                    MediaService::delete($oldAvatar);
+                }
+            }
         }
 
         Content::setByKey('testimonies', $data);
