@@ -8,120 +8,38 @@ use App\Models\Category;
 use App\Models\ProductImage;
 use App\Models\ShoeToe;
 use App\Models\Leather;
+use App\Models\VisitorLog;
 use App\Services\MediaService;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
     /**
-     * Display the admin dashboard with rich mock data.
+     * Display the admin dashboard with real-time date/time, visitor traffic metrics, and product totals.
      */
     public function dashboard()
     {
-        $stats = [
-            'total_inquiries' => 128,
-            'active_orders' => 18,
-            'boot_models' => Product::count(),
-            'store_outlets' => 3,
-            'revenue_estimate' => 'Rp 86.4M',
-            'growth_rate' => '+24.5%'
-        ];
+        $now = Carbon::now();
+        $dayName = $now->locale('id')->translatedFormat('l');
+        $dateFormatted = $now->locale('id')->translatedFormat('d F Y');
+        $timeFormatted = $now->format('H:i:s');
 
-        $recentInquiries = [
-            [
-                'id' => 'INQ-1048',
-                'customer' => 'Sarah Jenkins',
-                'origin' => 'Sydney, Australia',
-                'country_code' => 'AU',
-                'flag' => '🇦🇺',
-                'model' => 'Classic Tan Cowboy Boots',
-                'type' => 'Custom Sizing',
-                'date' => '24 Aug 2026, 08:15',
-                'status' => 'In Production',
-                'status_class' => 'bg-warning text-dark',
-                'phone' => '+61 412 345 678',
-            ],
-            [
-                'id' => 'INQ-1047',
-                'customer' => 'Marcus O\'Connor',
-                'origin' => 'London, UK',
-                'country_code' => 'GB',
-                'flag' => '🇬🇧',
-                'model' => 'Midnight Black Flame Boots',
-                'type' => 'Ready Model',
-                'date' => '24 Aug 2026, 07:30',
-                'status' => 'Shipped (DHL)',
-                'status_class' => 'bg-info text-white',
-                'phone' => '+44 7700 900077',
-            ],
-            [
-                'id' => 'INQ-1046',
-                'customer' => 'Emma Laurent',
-                'origin' => 'Los Angeles, USA',
-                'country_code' => 'US',
-                'flag' => '🇺🇸',
-                'model' => 'Ivory Dream Floral Embroidered',
-                'type' => 'Bespoke Design',
-                'date' => '23 Aug 2026, 21:40',
-                'status' => 'Consulting',
-                'status_class' => 'bg-primary text-white',
-                'phone' => '+1 310 555 0192',
-            ],
-            [
-                'id' => 'INQ-1045',
-                'customer' => 'Lukas Meyer',
-                'origin' => 'Munich, Germany',
-                'country_code' => 'DE',
-                'flag' => '🇩🇪',
-                'model' => 'Scarlet Flame Cowboy Boots',
-                'type' => 'Custom Sizing',
-                'date' => '23 Aug 2026, 18:20',
-                'status' => 'Completed',
-                'status_class' => 'bg-success text-white',
-                'phone' => '+49 89 123456',
-            ],
-            [
-                'id' => 'INQ-1044',
-                'customer' => 'Chloe & Victor',
-                'origin' => 'Amsterdam, Netherlands',
-                'country_code' => 'NL',
-                'flag' => '🇳🇱',
-                'model' => 'Bespoke Wedding Western Pair',
-                'type' => 'Couple Set',
-                'date' => '23 Aug 2026, 15:10',
-                'status' => 'In Production',
-                'status_class' => 'bg-warning text-dark',
-                'phone' => '+31 20 123 4567',
-            ],
-        ];
+        $visitorMetrics = VisitorLog::getMetrics();
+        $totalProducts = Product::count();
+        $activeProducts = Product::active()->count();
 
-        $popularBoots = Product::active()->ordered()->take(4)->get()->map(function ($p) {
-            return [
-                'name' => $p->name,
-                'category' => $p->series ?? ($p->categoryRelation->name ?? '-'),
-                'image' => $p->primary_image ?? $p->image,
-                'orders_count' => rand(20, 50),
-                'rating' => round(rand(45, 50) / 10, 1),
-                'status' => $p->status,
-            ];
-        })->toArray();
+        $recentProducts = Product::with('images', 'categoryRelation')->ordered()->take(6)->get();
 
-        // Fallback if no products in DB yet
-        if (empty($popularBoots)) {
-            $popularBoots = [
-                ['name' => 'Classic Tan Cowboy Boots', 'category' => 'Heritage Classic', 'image' => 'images/product_tan.png', 'orders_count' => 48, 'rating' => 5.0, 'status' => 'Best Seller'],
-                ['name' => 'Midnight Black Flame Boots', 'category' => 'Dark Artisan', 'image' => 'images/product_black.png', 'orders_count' => 36, 'rating' => 4.9, 'status' => 'High Demand'],
-                ['name' => 'Ivory Dream Floral Embroidered', 'category' => 'Boho Romantic', 'image' => 'images/product_cream.png', 'orders_count' => 29, 'rating' => 5.0, 'status' => 'Trending'],
-                ['name' => 'Scarlet Flame Cowboy Boots', 'category' => 'Statement Western', 'image' => 'images/product_red.png', 'orders_count' => 22, 'rating' => 4.8, 'status' => 'Limited Leather'],
-            ];
-        }
-
-        $stores = [
-            ['name' => 'Legian Flagship Store', 'location' => 'Jl. Legian No. 388, Kuta', 'status' => 'Open Daily 10:00 - 18:00', 'badge' => 'Flagship'],
-            ['name' => 'Canggu Store Hub', 'location' => 'Jl. Pantai Batu Bolong No. 11a', 'status' => 'Open Daily 10:00 - 18:00', 'badge' => 'Canggu Hub'],
-            ['name' => 'Uluwatu Clifftop Store', 'location' => 'Jl. Labuansait No. 12, Pecatu', 'status' => 'Open Daily 10:00 - 18:00', 'badge' => 'Clifftop'],
-        ];
-
-        return view('admin.dashboard', compact('stats', 'recentInquiries', 'popularBoots', 'stores'));
+        return view('admin.dashboard', compact(
+            'now',
+            'dayName',
+            'dateFormatted',
+            'timeFormatted',
+            'visitorMetrics',
+            'totalProducts',
+            'activeProducts',
+            'recentProducts'
+        ));
     }
 
     /**
