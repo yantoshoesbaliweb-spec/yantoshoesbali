@@ -20,8 +20,8 @@ class AdminController extends Controller
     public function dashboard()
     {
         $now = Carbon::now();
-        $dayName = $now->locale('id')->translatedFormat('l');
-        $dateFormatted = $now->locale('id')->translatedFormat('d F Y');
+        $dayName = $now->locale('en')->translatedFormat('l');
+        $dateFormatted = $now->locale('en')->translatedFormat('F d, Y');
         $timeFormatted = $now->format('H:i:s');
 
         $visitorMetrics = VisitorLog::getMetrics();

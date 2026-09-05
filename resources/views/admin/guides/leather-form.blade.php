@@ -27,7 +27,7 @@
 
   @if(isset($errors) && $errors->any())
   <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
-    <div class="fw-semibold mb-1"><i class="bi bi-exclamation-triangle-fill me-1"></i> Terjadi kesalahan pengisian form:</div>
+    <div class="fw-semibold mb-1"><i class="bi bi-exclamation-triangle-fill me-1"></i> Please fix the following errors:</div>
     <ul class="mb-0 ps-3">
       @foreach($errors->all() as $error)
         <li>{{ $error }}</li>
@@ -59,12 +59,12 @@
           </div>
 
           <div class="mb-3">
-            <label class="form-label fw-semibold" style="font-size: 0.85rem;">Traits (1 baris per poin)</label>
+            <label class="form-label fw-semibold" style="font-size: 0.85rem;">Traits (1 line per bullet)</label>
             <textarea class="form-control @error('traits') is-invalid @enderror" name="traits" rows="6" placeholder="Smooth, supple and refined&#10;Fine, even grain with a soft touch&#10;Excellent durability">{{ old('traits', $leather->traits ?? '') }}</textarea>
             @error('traits')
               <div class="invalid-feedback">{{ $message }}</div>
             @enderror
-            <small class="text-muted d-block mt-1" style="font-size: 0.75rem;">Setiap baris baru akan menjadi 1 bullet point karakteristik pada panduan.</small>
+            <small class="text-muted d-block mt-1" style="font-size: 0.75rem;">Each new line will become one characteristic bullet point on the guide.</small>
           </div>
         </div>
       </div>
@@ -75,14 +75,14 @@
           <label class="form-label fw-semibold mb-2" style="font-size: 0.85rem;">
             Image
             @if(!$leather)
-              <small class="text-muted fw-normal">(Opsional, fallback otomatis tersedia)</small>
+              <small class="text-muted fw-normal">(Optional, automatic fallback provided)</small>
             @endif
           </label>
 
           @if($leather && $leather->image)
             <div class="mb-3 text-center" id="currentImageContainer">
               <img src="{{ $leather->image_url }}" alt="{{ $leather->name }}" onerror="this.onerror=null;this.src='{{ asset('images/leather_calfskin.jpg') }}';" class="img-fluid rounded border shadow-sm" style="max-height: 200px; object-fit: cover;" />
-              <div class="text-muted mt-1" style="font-size: 0.75rem;">Foto saat ini di sistem</div>
+              <div class="text-muted mt-1" style="font-size: 0.75rem;">Current photo in system</div>
             </div>
           @endif
 
@@ -94,12 +94,12 @@
           <!-- New Image Live Preview -->
           <div id="imagePreviewContainer" class="mb-3 d-none text-center p-2 rounded border" style="background: var(--admin-surface-soft, rgba(0,0,0,0.02));">
             <div class="d-flex align-items-center justify-content-between mb-2">
-              <span class="badge bg-primary-subtle text-primary" style="font-size: 0.72rem;">Pratinjau Foto Baru</span>
+              <span class="badge bg-primary-subtle text-primary" style="font-size: 0.72rem;">New Photo Preview</span>
               <button type="button" class="btn btn-link text-danger p-0 text-decoration-none" id="btnCancelPreview" style="font-size: 0.75rem;">
-                <i class="bi bi-x-circle me-1"></i>Batal
+                <i class="bi bi-x-circle me-1"></i>Cancel
               </button>
             </div>
-            <img id="previewImg" src="" alt="Pratinjau baru" class="img-fluid rounded border shadow-sm mb-2" style="max-height: 180px; object-fit: cover;" />
+            <img id="previewImg" src="" alt="New preview" class="img-fluid rounded border shadow-sm mb-2" style="max-height: 180px; object-fit: cover;" />
             <div class="text-muted d-flex justify-content-between px-1" style="font-size: 0.72rem;">
               <span id="previewFileName" class="text-truncate" style="max-width: 150px;">-</span>
               <span id="previewFileSize">-</span>
@@ -118,7 +118,7 @@
               <div class="invalid-feedback d-block mt-1">{{ $message }}</div>
             @enderror
             <small class="text-muted d-block mt-1" style="font-size: 0.75rem;">
-              Format: JPG, PNG, WEBP, SVG (Maks. 5MB).
+              Formats: JPG, PNG, WEBP, SVG (Max. 5MB).
             </small>
           </div>
 
@@ -185,14 +185,14 @@
         const maxBytes = 5 * 1024 * 1024;
         if (file.size > maxBytes) {
           const actualMb = (file.size / (1024 * 1024)).toFixed(2);
-          showError(`Ukuran file terlalu besar (${actualMb} MB). Maksimal yang diperbolehkan adalah 5 MB.`);
+          showError(`File size is too large (${actualMb} MB). Maximum allowed is 5 MB.`);
           resetPreview();
           return;
         }
 
         // 2. Validate File Type
         if (!file.type.startsWith('image/')) {
-          showError('File yang dipilih bukan gambar yang valid. Pilih file JPG, PNG, WEBP, atau SVG.');
+          showError('The selected file is not a valid image. Please select a JPG, PNG, WEBP, or SVG file.');
           resetPreview();
           return;
         }
@@ -208,7 +208,7 @@
         };
 
         reader.onerror = function() {
-          showError('Gagal membaca file gambar. Kemungkinan file rusak atau tidak dapat diakses.');
+          showError('Failed to read image file. The file may be corrupt or inaccessible.');
           resetPreview();
         };
 

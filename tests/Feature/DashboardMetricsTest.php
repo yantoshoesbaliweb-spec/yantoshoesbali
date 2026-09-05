@@ -70,14 +70,14 @@ class DashboardMetricsTest extends TestCase
         $response->assertSee('liveClockDisplay', false);
         $response->assertSee('WITA');
 
-        // 2. Check Total Kunjungan Hari Ini, Minggu Ini, Bulan Ini
-        $response->assertSee('Kunjungan Hari Ini');
-        $response->assertSee('Kunjungan Minggu Ini');
-        $response->assertSee('Kunjungan Bulan Ini');
+        // 2. Check Total Visits Today, This Week, This Month
+        $response->assertSee('Visits Today');
+        $response->assertSee('Visits This Week');
+        $response->assertSee('Visits This Month');
 
         // 3. Check Total Product
-        $response->assertSee('Total Produk');
-        $response->assertSee('Model Sepatu');
+        $response->assertSee('Total Products');
+        $response->assertSee('Shoe Models');
     }
 
     public function test_track_visitor_middleware_ignores_admin_and_api(): void

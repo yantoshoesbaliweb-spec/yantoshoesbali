@@ -196,10 +196,10 @@
               <div class="d-flex align-items-center gap-1">
                 <!-- Move Up / Down Buttons -->
                 <div class="btn-group me-1" role="group" aria-label="Reorder Slide">
-                  <button type="button" class="btn btn-sm btn-outline-secondary btn-move-slide move-up-btn" onclick="moveSlideUp(this)" title="Pindahkan Ke Atas (Move Up)" {{ $loop->first ? 'disabled' : '' }}>
+                  <button type="button" class="btn btn-sm btn-outline-secondary btn-move-slide move-up-btn" onclick="moveSlideUp(this)" title="Move Up" {{ $loop->first ? 'disabled' : '' }}>
                     <i class="bi bi-arrow-up"></i>
                   </button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary btn-move-slide move-down-btn" onclick="moveSlideDown(this)" title="Pindahkan Ke Bawah (Move Down)" {{ $loop->last ? 'disabled' : '' }}>
+                  <button type="button" class="btn btn-sm btn-outline-secondary btn-move-slide move-down-btn" onclick="moveSlideDown(this)" title="Move Down" {{ $loop->last ? 'disabled' : '' }}>
                     <i class="bi bi-arrow-down"></i>
                   </button>
                 </div>
@@ -469,10 +469,10 @@
           </div>
           <div class="d-flex align-items-center gap-1">
             <div class="btn-group me-1" role="group" aria-label="Reorder Slide">
-              <button type="button" class="btn btn-sm btn-outline-secondary btn-move-slide move-up-btn" onclick="moveSlideUp(this)" title="Pindahkan Ke Atas (Move Up)">
+              <button type="button" class="btn btn-sm btn-outline-secondary btn-move-slide move-up-btn" onclick="moveSlideUp(this)" title="Move Up">
                 <i class="bi bi-arrow-up"></i>
               </button>
-              <button type="button" class="btn btn-sm btn-outline-secondary btn-move-slide move-down-btn" onclick="moveSlideDown(this)" title="Pindahkan Ke Bawah (Move Down)">
+              <button type="button" class="btn btn-sm btn-outline-secondary btn-move-slide move-down-btn" onclick="moveSlideDown(this)" title="Move Down">
                 <i class="bi bi-arrow-down"></i>
               </button>
             </div>

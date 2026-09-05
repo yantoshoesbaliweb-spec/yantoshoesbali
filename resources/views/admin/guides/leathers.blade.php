@@ -22,7 +22,7 @@
 
     <div class="d-flex align-items-center gap-2">
       <span class="badge {{ $leathers->count() >= 6 ? 'bg-warning text-dark' : 'bg-secondary-subtle text-secondary' }} px-3 py-2" style="font-size: 0.82rem;">
-        {{ $leathers->count() }} / 6 Item
+        {{ $leathers->count() }} / 6 Items
       </span>
 
       @if($canAdd)
@@ -31,7 +31,7 @@
           <span>Add Leather</span>
         </a>
       @else
-        <button class="btn btn-secondary d-inline-flex align-items-center gap-2 px-3 py-2 opacity-50" style="font-size: 0.85rem;" disabled title="Maksimal 6 item telah tercapai">
+        <button class="btn btn-secondary d-inline-flex align-items-center gap-2 px-3 py-2 opacity-50" style="font-size: 0.85rem;" disabled title="Maximum of 6 items reached">
           <i class="bi bi-plus-lg"></i>
           <span>Add Leather</span>
         </button>
@@ -58,7 +58,7 @@
   @if(!$canAdd)
   <div class="alert alert-info py-2 px-3 mb-4 d-flex align-items-center gap-2" style="font-size: 0.84rem;">
     <i class="bi bi-info-circle-fill text-info"></i>
-    <span>Maksimal 6 item leather telah tercapai. Hapus salah satu item jika ingin menambahkan yang baru.</span>
+    <span>Maximum of 6 leather items reached. Delete an existing item if you wish to add a new one.</span>
   </div>
   @endif
 
@@ -97,7 +97,7 @@
                 <a href="{{ route('admin.guides.leathers.edit', $leather) }}" class="btn btn-outline-primary" title="Edit">
                   <i class="bi bi-pencil"></i>
                 </a>
-                <form action="{{ route('admin.guides.leathers.destroy', $leather) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus varietas kulit {{ $leather->name }}?');">
+                <form action="{{ route('admin.guides.leathers.destroy', $leather) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete leather variety {{ $leather->name }}?');">
                   @csrf
                   @method('DELETE')
                   <button type="submit" class="btn btn-outline-danger" title="Delete">
