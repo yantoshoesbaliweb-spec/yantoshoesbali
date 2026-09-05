@@ -12,7 +12,6 @@
       <span class="ann-msg active">FOLLOW US @YANTOSHOES_BALI &nbsp;&#x2022;&nbsp; BEST COWBOY BOOTS IN BALI</span>
       <span class="ann-msg">FREE CONSULTATION &#x2022; CUSTOM MADE TO ORDER IN 7 DAYS</span>
       <span class="ann-msg">LEGIAN &nbsp;|&nbsp; CANGGU &nbsp;|&nbsp; ULUWATU &#x2022; OPEN DAILY 10AM - 6PM</span>
-      <span class="ann-msg">WORLDWIDE EXPRESS SHIPPING AVAILABLE ON ALL ORDERS</span>
     </div>
     <button class="ann-next" id="ann-next" aria-label="Next">&#8250;</button>
   </div>

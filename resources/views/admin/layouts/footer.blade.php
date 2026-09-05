@@ -3,6 +3,8 @@
     <div>
       &copy; {{ date('Y') }} <strong style="color: var(--admin-text);">Yanto Shoes Bali</strong>
     </div>
-     
+    <div>
+       by <strong style="color: var(--admin-text);">Joshua Nugraha</strong>
+    </div>
   </div>
 </footer>
