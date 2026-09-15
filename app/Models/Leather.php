@@ -23,10 +23,15 @@ class Leather extends Model
      */
     protected static function booted(): void
     {
-        static::deleting(function (Leather $leather) {
+        static::saved(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget('leathers_all');
+        });
+
+        static::deleted(function (Leather $leather) {
             if (!empty($leather->image)) {
                 \App\Services\MediaService::delete($leather->image);
             }
+            \Illuminate\Support\Facades\Cache::forget('leathers_all');
         });
     }
 

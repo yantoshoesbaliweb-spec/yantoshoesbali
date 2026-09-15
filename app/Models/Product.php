@@ -25,7 +25,11 @@ class Product extends Model
      */
     protected static function booted(): void
     {
-        static::deleting(function (Product $product) {
+        static::saved(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget('products_active');
+        });
+
+        static::deleted(function (Product $product) {
             // Explicitly delete related images to fire ProductImage deleting hooks
             foreach ($product->images()->get() as $productImage) {
                 $productImage->delete();
@@ -35,6 +39,7 @@ class Product extends Model
             if (!empty($product->image)) {
                 \App\Services\MediaService::delete($product->image);
             }
+            \Illuminate\Support\Facades\Cache::forget('products_active');
         });
     }
 

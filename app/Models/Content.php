@@ -19,16 +19,31 @@ class Content extends Model
     ];
 
     /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::saved(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget("content.{$model->key}");
+        });
+
+        static::deleted(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget("content.{$model->key}");
+        });
+    }
+
+    /**
      * Retrieve content by key, returning default array if not found.
      */
     public static function getByKey(string $key, array $default = []): array
     {
-        $record = static::where('key', $key)->first();
-        if ($record && is_array($record->content)) {
-            return $record->content;
-        }
-
-        return $default;
+        return \Illuminate\Support\Facades\Cache::rememberForever("content.{$key}", function () use ($key, $default) {
+            $record = static::where('key', $key)->first();
+            if ($record && is_array($record->content)) {
+                return $record->content;
+            }
+            return $default;
+        });
     }
 
     /**

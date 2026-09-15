@@ -23,10 +23,15 @@ class ShoeToe extends Model
      */
     protected static function booted(): void
     {
-        static::deleting(function (ShoeToe $shoeToe) {
+        static::saved(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget('shoe_toes_all');
+        });
+
+        static::deleted(function (ShoeToe $shoeToe) {
             if (!empty($shoeToe->image)) {
                 \App\Services\MediaService::delete($shoeToe->image);
             }
+            \Illuminate\Support\Facades\Cache::forget('shoe_toes_all');
         });
     }
 

@@ -16,6 +16,13 @@ class ProductImage extends Model
     ];
 
     /**
+     * All of the relationships to be touched.
+     *
+     * @var array
+     */
+    protected $touches = ['product'];
+
+    /**
      * The "booted" method of the model.
      */
     protected static function booted(): void

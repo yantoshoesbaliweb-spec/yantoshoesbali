@@ -22,8 +22,13 @@ class VisitorController extends Controller
         $testimonies = Content::getByKey('testimonies');
         $contact = Content::getByKey('contact');
         $storesContent = Content::getByKey('stores');
-        $shoeToes = ShoeToe::orderBy('sort_order')->orderBy('id')->get();
-        $leathers = Leather::orderBy('sort_order')->orderBy('id')->get();
+        $shoeToes = \Illuminate\Support\Facades\Cache::rememberForever('shoe_toes_all', function () {
+            return ShoeToe::orderBy('sort_order')->orderBy('id')->get();
+        });
+        
+        $leathers = \Illuminate\Support\Facades\Cache::rememberForever('leathers_all', function () {
+            return Leather::orderBy('sort_order')->orderBy('id')->get();
+        });
 
         // SEO Meta Tags
         SeoHelper::reset();
@@ -85,7 +90,10 @@ class VisitorController extends Controller
      */
     public function catalog()
     {
-        $products = Product::active()->ordered()->get();
+        $products = \Illuminate\Support\Facades\Cache::rememberForever('products_active', function () {
+            return Product::with(['categoryRelation', 'images'])->active()->ordered()->get();
+        });
+        
         $contact = Content::getByKey('contact');
 
         // SEO Meta Tags
