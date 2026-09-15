@@ -68,73 +68,24 @@
     </div>
   </div>
 
-  <!-- Hero Slider -->
+  <!-- Hero Video -->
   <section class="hero" id="hero">
-    <div class="hero-slides">
-      @php
-        $slides = $headerContent['slides'] ?? [
-          [
-            'subtitle' => 'Handcrafted in Bali • Genuine Leather',
-            'title' => 'Authentic Cowboy Boots',
-            'title_highlight' => 'Made in Bali Since 1990',
-            'description' => 'Experience master Balinese artisan craftsmanship. 100% genuine full-grain leather, custom fitted to your measurements in just 7 days.',
-            'btn_primary_text' => 'Order Custom Boots',
-            'btn_primary_link' => 'https://wa.me/6281353055475?text=Hi%20Yanto%20Shoes%20Bali%2C%20I%20would%20like%20to%20order%20custom%20cowboy%20boots',
-            'btn_secondary_text' => 'Explore Catalog',
-            'btn_secondary_link' => '#catalog',
-            'image' => 'images/hero_boots.png'
-          ],
-          [
-            'subtitle' => 'Artisan Heritage • 35+ Years Mastery',
-            'title' => 'Bespoke Western Boots',
-            'title_highlight' => 'Tailored in 7 Days',
-            'description' => 'From custom flame embroidery to classic roper styles, our Bali craftsmen bring your dream footwear to life with premium leathers.',
-            'btn_primary_text' => 'Custom Order Boots',
-            'btn_primary_link' => '#custom',
-            'btn_secondary_text' => 'View All Boots',
-            'btn_secondary_link' => '#catalog',
-            'image' => 'images/craftsmanship.png'
-          ],
-          [
-            'subtitle' => 'Visit Our Stores • Bali Outlets',
-            'title' => 'Legian • Canggu • Uluwatu',
-            'title_highlight' => 'Experience the Leather',
-            'description' => 'Step into any of our 3 Bali locations for in-person fittings, custom leather selection, and off-the-shelf purchases.',
-            'btn_primary_text' => 'Find Store Locations',
-            'btn_primary_link' => '#stores',
-            'btn_secondary_text' => 'WhatsApp Us',
-            'btn_secondary_link' => 'https://wa.me/6281353055475',
-            'image' => 'images/collection.png'
-          ]
-        ];
-      @endphp
-
-      @foreach($slides as $idx => $slide)
-      <div class="hero-slide {{ $idx === 0 ? 'active' : '' }}" id="slide-{{ $idx + 1 }}">
-        <img src="{{ asset($slide['image'] ?? 'images/hero_boots.png') }}" alt="{{ $slide['title'] ?? 'Yanto Shoes Bali' }}" class="hero-bg" />
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-          <p class="hero-eyebrow">{{ $slide['subtitle'] ?? '' }}</p>
-          <h1 class="hero-title">{!! $slide['title'] ?? '' !!}@if(!empty($slide['title_highlight']))<br/><em>{!! $slide['title_highlight'] !!}</em>@endif</h1>
-          <p class="hero-subtitle">{{ $slide['description'] ?? '' }}</p>
-          <div class="hero-actions">
-            @if(!empty($slide['btn_primary_text']))
-            <a href="{{ $slide['btn_primary_link'] ?? '#' }}" class="btn btn-primary">{{ $slide['btn_primary_text'] }}</a>
-            @endif
-            @if(!empty($slide['btn_secondary_text']))
-            <a href="{{ $slide['btn_secondary_link'] ?? '#' }}" class="btn btn-ghost">{{ $slide['btn_secondary_text'] }}</a>
-            @endif
-          </div>
-        </div>
-      </div>
-      @endforeach
+    @if(!empty($headerContent['video']))
+    <video class="hero-bg" autoplay muted loop playsinline preload="auto" poster="{{ asset('images/hero_boots.png') }}">
+      <source src="{{ asset($headerContent['video']) }}">
+    </video>
+    @else
+    <img src="{{ asset('images/hero_boots.png') }}" alt="Yanto Shoes Bali" class="hero-bg" />
+    @endif
+    
+    @if(!empty($headerContent['caption']))
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">
+        {!! nl2br(e($headerContent['caption'])) !!}
+      </h1>
     </div>
-
-    <div class="hero-dots">
-      @foreach($slides as $idx => $slide)
-      <button class="hero-dot {{ $idx === 0 ? 'active' : '' }}" data-slide="{{ $idx }}" aria-label="Slide {{ $idx + 1 }}"></button>
-      @endforeach
-    </div>
+    @endif
 
     <div class="scroll-indicator">
       <span>Scroll</span>

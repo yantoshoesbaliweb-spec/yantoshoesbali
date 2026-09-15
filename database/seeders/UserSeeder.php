@@ -42,5 +42,25 @@ class UserSeeder extends Seeder
                 'role' => 'admin',
             ]
         );
+
+        // 4. Yanto Admin
+        User::updateOrCreate(
+            ['email' => 'yanto@admin'],
+            [
+                'name' => 'Yanto',
+                'password' => Hash::make('admin'),
+                'role' => 'admin',
+            ]
+        );
+
+        // 5. Staff (Catalog Only)
+        User::updateOrCreate(
+            ['email' => 'admin@staff'],
+            [
+                'name' => 'Staff',
+                'password' => Hash::make('admin'),
+                'role' => 'staff',
+            ]
+        );
     }
 }

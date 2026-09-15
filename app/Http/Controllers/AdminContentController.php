@@ -9,7 +9,7 @@ use App\Services\MediaService;
 class AdminContentController extends Controller
 {
     /**
-     * Display Header Slider & Announcement Section settings.
+     * Display Header Video & Announcement Section settings.
      */
     public function header()
     {
@@ -18,60 +18,38 @@ class AdminContentController extends Controller
     }
 
     /**
-     * Update Header Section content.
+     * Update Header Section content (video + caption).
      */
     public function updateHeader(Request $request)
     {
         $request->validate([
-            'slide_files.*' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:5120',
+            'video_file' => 'nullable|mimetypes:video/mp4,video/webm,video/quicktime|max:51200',
+        ], [
+            'video_file.mimetypes' => 'The video must be MP4, WebM, or MOV format.',
+            'video_file.max' => 'The video file may not be larger than 50MB.',
         ]);
 
         $data = $request->input('content', []);
 
         $existingHeader = Content::getByKey('header');
-        $oldImages = [];
-        if (isset($existingHeader['slides']) && is_array($existingHeader['slides'])) {
-            foreach ($existingHeader['slides'] as $s) {
-                if (!empty($s['image'])) {
-                    $oldImages[] = $s['image'];
+
+        // Handle video upload
+        if ($request->hasFile('video_file')) {
+            $file = $request->file('video_file');
+            if ($file->isValid()) {
+                $extension = $file->getClientOriginalExtension();
+                $filename = 'hero_video_' . time() . '_' . uniqid() . '.' . $extension;
+                $storedPath = $file->storeAs('hero', $filename, 'public');
+                $data['video'] = 'storage/' . $storedPath;
+
+                // Delete old video if exists
+                if (!empty($existingHeader['video'])) {
+                    MediaService::delete($existingHeader['video']);
                 }
             }
-        }
-
-        // Clean & ensure array format for slides
-        if (isset($data['slides']) && is_array($data['slides'])) {
-            $cleanSlides = [];
-            foreach ($data['slides'] as $index => $slide) {
-                // Check if an image file was uploaded for this slide
-                if ($request->hasFile("slide_files.{$index}")) {
-                    $file = $request->file("slide_files.{$index}");
-                    if ($file->isValid()) {
-                        $extension = $file->getClientOriginalExtension();
-                        $filename = 'hero_' . time() . '_' . uniqid() . '.' . $extension;
-                        $storedPath = $file->storeAs('hero', $filename, 'public');
-                        $slide['image'] = 'storage/' . $storedPath;
-                    }
-                }
-
-                if (!empty($slide['title']) || !empty($slide['image']) || !empty($slide['subtitle'])) {
-                    $cleanSlides[] = $slide;
-                }
-            }
-            $data['slides'] = array_values($cleanSlides);
-
-            // Delete any images that were removed or replaced
-            $newImages = [];
-            foreach ($data['slides'] as $s) {
-                if (!empty($s['image'])) {
-                    $newImages[] = $s['image'];
-                }
-            }
-
-            foreach ($oldImages as $oldImg) {
-                if (!in_array($oldImg, $newImages, true)) {
-                    MediaService::delete($oldImg);
-                }
-            }
+        } else {
+            // Keep existing video if no new upload
+            $data['video'] = $existingHeader['video'] ?? '';
         }
 
         // Clean & ensure array format for announcements
@@ -86,7 +64,7 @@ class AdminContentController extends Controller
 
         Content::setByKey('header', $data);
 
-        return redirect()->route('admin.content.header')->with('success', 'Header Slider & Announcement settings updated successfully!');
+        return redirect()->route('admin.content.header')->with('success', 'Header Video & Announcement settings updated successfully!');
     }
 
     /**

@@ -31,7 +31,7 @@ class VisitorController extends Controller
         SeoHelper::setDescription('Discover handcrafted genuine leather cowboy boots made in Bali since 1990. Custom made to order in 7 days, retail and wholesale. Legian, Canggu, Uluwatu.');
         SeoHelper::setUrl(route('visitor.home'));
         SeoHelper::setImage(asset('images/hero_boots.png'));
-        SeoHelper::setKeywords('cowboy boots bali, handcrafted leather boots, yanto shoes bali, custom cowboy boots, genuine leather boots, bali boots, western boots bali, handmade boots indonesia');
+        SeoHelper::setKeywords('custom shoes bali, cowboy shoes, shoes bali, cowboy boots bali, handcrafted leather boots, yanto shoes bali, custom cowboy boots, genuine leather boots, bali boots, western boots bali, handmade boots indonesia');
         SeoHelper::setType('website');
 
         // JSON-LD: LocalBusiness

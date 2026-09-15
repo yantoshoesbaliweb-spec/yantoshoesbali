@@ -1,78 +1,64 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Header & Hero Slider Settings - Yanto Shoes Admin')
+@section('title', 'Header Video & Announcement Settings - Yanto Shoes Admin')
 
 @push('styles')
 <style>
-  .slide-item {
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  .video-preview-box {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
   }
-  .drag-handle {
-    cursor: grab;
-    user-select: none;
-    touch-action: none;
-    color: var(--admin-muted);
-    transition: color 0.15s ease, transform 0.15s ease;
+  .video-preview-box video {
+    width: 100%;
+    max-height: 320px;
+    object-fit: cover;
+    display: block;
   }
-  .drag-handle:hover {
-    color: var(--admin-gold, #dba24c);
-    transform: scale(1.15);
-  }
-  .drag-handle:active {
-    cursor: grabbing;
-  }
-  /* SortableJS States */
-  .slide-sortable-ghost {
-    opacity: 0.45;
-    background: rgba(219, 162, 76, 0.08) !important;
-    border: 2px dashed var(--admin-gold, #dba24c) !important;
-  }
-  .slide-sortable-chosen {
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
-    border-color: var(--admin-gold, #dba24c) !important;
-  }
-  .slide-sortable-drag {
-    opacity: 0.95;
-    cursor: grabbing !important;
-  }
-  /* Flash animation on position swap */
-  @keyframes slideHighlight {
-    0% {
-      background-color: rgba(219, 162, 76, 0.25);
-      border-color: var(--admin-gold, #dba24c);
-      transform: scale(1.008);
-    }
-    100% {
-      background-color: var(--admin-surface-soft);
-      transform: scale(1);
-    }
-  }
-  .slide-reorder-highlight {
-    animation: slideHighlight 0.6s ease-out;
-  }
-  .btn-move-slide {
-    width: 32px;
-    height: 32px;
-    padding: 0;
-    display: inline-flex;
+  .video-placeholder {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: 6px;
-    color: var(--admin-text);
-    border-color: var(--admin-border);
-    background: var(--admin-surface);
+    padding: 60px 20px;
+    color: var(--admin-muted);
+    text-align: center;
   }
-  .btn-move-slide:hover:not(:disabled) {
-    background-color: var(--admin-gold, #dba24c);
+  .video-placeholder i {
+    font-size: 3rem;
+    margin-bottom: 12px;
+    color: var(--admin-gold, #dba24c);
+    opacity: 0.6;
+  }
+  .upload-zone {
+    border: 2px dashed var(--admin-border);
+    border-radius: 10px;
+    padding: 24px;
+    text-align: center;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    cursor: pointer;
+    position: relative;
+  }
+  .upload-zone:hover, .upload-zone.dragover {
     border-color: var(--admin-gold, #dba24c);
-    color: #ffffff;
+    background-color: rgba(219, 162, 76, 0.05);
   }
-  .btn-move-slide:disabled {
-    opacity: 0.35;
-    cursor: not-allowed;
+  .upload-zone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
   }
-  .slide-preview-box {
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  .upload-icon {
+    font-size: 2rem;
+    color: var(--admin-gold, #dba24c);
+    margin-bottom: 8px;
   }
 </style>
 @endpush
@@ -91,7 +77,7 @@
         </ol>
       </nav>
       <h1 class="h3 fw-bold mb-0" style="color: var(--admin-text); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.85rem;">
-        Header
+        Header Video & Caption
       </h1>
     </div>
 
@@ -143,148 +129,77 @@
       </div>
     </div>
 
-    <!-- 2. Dynamic Hero Slides Settings -->
+    <!-- 2. Hero Video Settings -->
     <div class="card mb-4">
-      <div class="card-header bg-transparent border-bottom p-3 d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-2" style="border-color: var(--admin-border) !important;">
-        <div>
-          <h5 class="card-title fw-bold mb-0" style="color: var(--admin-text); font-size: 1.05rem;">
-            <i class="bi bi-images me-2" style="color: var(--admin-gold, #dba24c);"></i>Hero Slides Management
-          </h5>
-        </div>
-        <button type="button" class="btn btn-sm btn-primary d-inline-flex align-items-center gap-1" id="add-slide-btn">
-          <i class="bi bi-plus-circle"></i>
-          <span>Add New Slide</span>
-        </button>
+      <div class="card-header bg-transparent border-bottom p-3" style="border-color: var(--admin-border) !important;">
+        <h5 class="card-title fw-bold mb-0" style="color: var(--admin-text); font-size: 1.05rem;">
+          <i class="bi bi-camera-video me-2" style="color: var(--admin-gold, #dba24c);"></i>Hero Video
+        </h5>
       </div>
-
       <div class="card-body p-3">
-        <!-- Container for Slides -->
-        <div class="d-flex flex-column gap-4" id="slides-container">
-          @php
-            $slides = $content['slides'] ?? [
-              [
-                'subtitle' => 'Made in Bali • Genuine Leather',
-                'title' => 'YANTO SHOES',
-                'title_highlight' => 'BALI',
-                'description' => 'Handcrafted Cowboy Boots — Made by master artisans, from genuine leather, crafted exclusively for you.',
-                'btn_primary_text' => 'Explore Catalog',
-                'btn_primary_link' => '/catalog',
-                'btn_secondary_text' => 'Custom Order',
-                'btn_secondary_link' => '#custom',
-                'image' => 'images/hero_boots.png'
-              ]
-            ];
-          @endphp
-
-          @foreach($slides as $i => $slide)
-          <div class="slide-item p-3 rounded border position-relative" data-slide-index="{{ $i }}" style="background: var(--admin-surface-soft); border-color: var(--admin-border) !important;">
-            
-            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3 border-bottom pb-2" style="border-color: var(--admin-border) !important;">
-              <div class="d-flex align-items-center gap-2">
-                <!-- Drag Handle -->
-                <div class="drag-handle d-flex align-items-center px-1" title="Drag to reorder slide">
-                  <i class="bi bi-grip-vertical fs-5"></i>
-                </div>
-                <!-- Badge -->
-                <span class="badge bg-warning text-dark fw-bold px-2 py-1 slide-badge">Slide #{{ $i + 1 }}</span>
-                <!-- Live Title Preview -->
-                <span class="text-truncate slide-title-preview fw-semibold ms-1" style="font-size: 0.85rem; max-width: 260px; color: var(--admin-text);">
-                  {{ !empty($slide['title']) ? $slide['title'] : 'Untitled Slide' }}
-                </span>
+        <div class="row g-4">
+          <!-- Video Preview -->
+          <div class="col-12 col-lg-7">
+            <label class="form-label fw-semibold mb-2" style="font-size: 0.85rem;">Current Video</label>
+            <div class="video-preview-box" id="videoPreviewBox">
+              @if(!empty($content['video']))
+              <video id="videoPreview" controls muted playsinline>
+                <source src="{{ asset($content['video']) }}">
+                Your browser does not support the video tag.
+              </video>
+              @else
+              <div class="video-placeholder" id="videoPlaceholder">
+                <i class="bi bi-camera-video"></i>
+                <p class="mb-0" style="font-size: 0.85rem;">No video uploaded yet</p>
+                <small>Upload an MP4, WebM, or MOV file (max 50MB)</small>
               </div>
-
-              <div class="d-flex align-items-center gap-1">
-                <!-- Move Up / Down Buttons -->
-                <div class="btn-group me-1" role="group" aria-label="Reorder Slide">
-                  <button type="button" class="btn btn-sm btn-outline-secondary btn-move-slide move-up-btn" onclick="moveSlideUp(this)" title="Move Up" {{ $loop->first ? 'disabled' : '' }}>
-                    <i class="bi bi-arrow-up"></i>
-                  </button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary btn-move-slide move-down-btn" onclick="moveSlideDown(this)" title="Move Down" {{ $loop->last ? 'disabled' : '' }}>
-                    <i class="bi bi-arrow-down"></i>
-                  </button>
-                </div>
-
-                <!-- Delete Button -->
-                <button type="button" class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1 delete-slide-btn" onclick="removeSlide(this)" title="Delete this slide">
-                  <i class="bi bi-trash"></i>
-                  <span class="d-none d-sm-inline">Delete</span>
-                </button>
-              </div>
+              @endif
             </div>
-
-            <div class="row g-3">
-              <div class="col-12 col-md-6">
-                <label class="form-label fw-semibold" style="font-size: 0.8rem;">Subtitle Eyebrow</label>
-                <input type="text" class="form-control form-control-sm input-subtitle" name="content[slides][{{ $i }}][subtitle]" value="{{ $slide['subtitle'] ?? '' }}" placeholder="e.g. Made in Bali • Genuine Leather" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);" />
-              </div>
-
-              <div class="col-12 col-md-6">
-                <label class="form-label fw-semibold" style="font-size: 0.8rem;">Background Image (Upload)</label>
-                <div class="d-flex align-items-center gap-3">
-                  <!-- Live Thumbnail Preview Box -->
-                  <div class="slide-preview-box rounded border position-relative overflow-hidden flex-shrink-0" style="width: 96px; height: 62px; background: var(--admin-surface); border-color: var(--admin-border) !important;">
-                    <img src="{{ !empty($slide['image']) ? asset($slide['image']) : asset('images/hero_boots.png') }}" alt="Slide Image" class="slide-preview-img w-100 h-100" style="object-fit: cover;" onerror="this.src='{{ asset('images/hero_boots.png') }}'" />
-                  </div>
-                  
-                  <!-- File Input and Hidden Path -->
-                  <div class="flex-grow-1 min-w-0">
-                    <input type="file" class="form-control form-control-sm input-image-file mb-1" name="slide_files[{{ $i }}]" accept="image/jpeg,image/png,image/webp,image/jpg,image/svg+xml" onchange="previewSlideImage(this)" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text); font-size: 0.78rem;" />
-                    <input type="hidden" class="input-image" name="content[slides][{{ $i }}][image]" value="{{ $slide['image'] ?? 'images/hero_boots.png' }}" />
-                    <small class="text-muted d-block text-truncate current-image-label" style="font-size: 0.72rem;">
-                      {{ $slide['image'] ?? 'images/hero_boots.png' }}
-                    </small>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-12 col-md-6">
-                <label class="form-label fw-semibold" style="font-size: 0.8rem;">Main Title (Line 1)</label>
-                <input type="text" class="form-control form-control-sm input-title" name="content[slides][{{ $i }}][title]" value="{{ $slide['title'] ?? '' }}" placeholder="e.g. YANTO SHOES" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);" oninput="updateSlideTitlePreview(this.closest('.slide-item'), this.value)" />
-              </div>
-
-              <div class="col-12 col-md-6">
-                <label class="form-label fw-semibold" style="font-size: 0.8rem;">Title Highlight / Italic (Line 2)</label>
-                <input type="text" class="form-control form-control-sm input-title-highlight" name="content[slides][{{ $i }}][title_highlight]" value="{{ $slide['title_highlight'] ?? '' }}" placeholder="e.g. BALI" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);" />
-              </div>
-
-              <div class="col-12">
-                <label class="form-label fw-semibold" style="font-size: 0.8rem;">Description Paragraph</label>
-                <textarea class="form-control form-control-sm input-description" name="content[slides][{{ $i }}][description]" rows="2" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);">{{ $slide['description'] ?? '' }}</textarea>
-              </div>
-
-              <div class="col-12 col-sm-6 col-md-3">
-                <label class="form-label fw-semibold" style="font-size: 0.78rem;">Primary Button Text</label>
-                <input type="text" class="form-control form-control-sm input-btn-p-text" name="content[slides][{{ $i }}][btn_primary_text]" value="{{ $slide['btn_primary_text'] ?? '' }}" placeholder="e.g. Explore Catalog" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);" />
-              </div>
-
-              <div class="col-12 col-sm-6 col-md-3">
-                <label class="form-label fw-semibold" style="font-size: 0.78rem;">Primary Button Link</label>
-                <input type="text" class="form-control form-control-sm input-btn-p-link" name="content[slides][{{ $i }}][btn_primary_link]" value="{{ $slide['btn_primary_link'] ?? '' }}" placeholder="e.g. /catalog or https://wa.me/..." style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);" />
-              </div>
-
-              <div class="col-12 col-sm-6 col-md-3">
-                <label class="form-label fw-semibold" style="font-size: 0.78rem;">Secondary Button Text</label>
-                <input type="text" class="form-control form-control-sm input-btn-s-text" name="content[slides][{{ $i }}][btn_secondary_text]" value="{{ $slide['btn_secondary_text'] ?? '' }}" placeholder="e.g. Custom Order" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);" />
-              </div>
-
-              <div class="col-12 col-sm-6 col-md-3">
-                <label class="form-label fw-semibold" style="font-size: 0.78rem;">Secondary Button Link</label>
-                <input type="text" class="form-control form-control-sm input-btn-s-link" name="content[slides][{{ $i }}][btn_secondary_link]" value="{{ $slide['btn_secondary_link'] ?? '' }}" placeholder="e.g. #custom" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);" />
-              </div>
-            </div>
-
           </div>
-          @endforeach
-        </div>
 
-        <!-- Add Slide Bottom Action -->
-        <div class="text-center mt-3 pt-3 border-top" style="border-color: var(--admin-border) !important;">
-          <button type="button" class="btn btn-outline-primary d-inline-flex align-items-center gap-2 px-4 py-2" id="add-slide-btn-bottom">
-            <i class="bi bi-plus-circle-fill"></i>
-            <span>Add Another Slide</span>
-          </button>
-        </div>
+          <!-- Video Upload & Caption -->
+          <div class="col-12 col-lg-5">
+            <div class="mb-4">
+              <label class="form-label fw-semibold" style="font-size: 0.85rem;">Upload New Video</label>
+              <div class="upload-zone" id="uploadZone">
+                <input type="file" name="video_file" accept="video/mp4,video/webm,video/quicktime" id="videoFileInput" />
+                <div class="upload-icon"><i class="bi bi-cloud-arrow-up"></i></div>
+                <p class="mb-1 fw-semibold" style="font-size: 0.88rem; color: var(--admin-text);">
+                  Drag & drop or click to upload
+                </p>
+                <small style="color: var(--admin-muted);">MP4, WebM, or MOV • Max 50MB</small>
+                <div class="mt-2 d-none" id="selectedFileName" style="font-size: 0.8rem; color: var(--admin-gold, #dba24c);"></div>
+              </div>
+              @if(!empty($content['video']))
+              <small class="text-muted mt-2 d-block" style="font-size: 0.75rem;">
+                <i class="bi bi-check-circle text-success me-1"></i>Current: {{ basename($content['video']) }}
+              </small>
+              @endif
+            </div>
 
+            <div class="mb-3">
+              <label class="form-label fw-semibold" style="font-size: 0.85rem;">
+                <i class="bi bi-chat-quote me-1" style="color: var(--admin-gold, #dba24c);"></i>Caption Text
+              </label>
+              <textarea class="form-control" name="content[caption]" rows="3" placeholder="e.g. Handcrafted Genuine Leather Cowboy Boots, Made in Bali Since 1990" style="font-size: 0.85rem; background: var(--admin-surface-soft); border-color: var(--admin-border); color: var(--admin-text);">{{ $content['caption'] ?? '' }}</textarea>
+              <small style="color: var(--admin-muted); font-size: 0.75rem;">This caption will appear overlaid on the hero video.</small>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold" style="font-size: 0.85rem;">
+                <i class="bi bi-link-45deg me-1" style="color: var(--admin-gold, #dba24c);"></i>CTA Button Text
+              </label>
+              <input type="text" class="form-control form-control-sm" name="content[cta_text]" value="{{ $content['cta_text'] ?? 'Explore Catalog' }}" placeholder="e.g. Explore Catalog" style="background: var(--admin-surface-soft); border-color: var(--admin-border); color: var(--admin-text);" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold" style="font-size: 0.85rem;">
+                <i class="bi bi-link-45deg me-1" style="color: var(--admin-gold, #dba24c);"></i>CTA Button Link
+              </label>
+              <input type="text" class="form-control form-control-sm" name="content[cta_link]" value="{{ $content['cta_link'] ?? '/catalog' }}" placeholder="e.g. /catalog or https://wa.me/..." style="background: var(--admin-surface-soft); border-color: var(--admin-border); color: var(--admin-text);" />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -316,271 +231,56 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
 <script>
-  // Function to preview selected image instantly
-  function previewSlideImage(input) {
-    const file = input.files && input.files[0];
-    if (file) {
-      const reader = new FileReader();
-      const slideItem = input.closest('.slide-item');
-      const previewImg = slideItem.querySelector('.slide-preview-img');
-      const label = slideItem.querySelector('.current-image-label');
-
-      reader.onload = function(e) {
-        if (previewImg) previewImg.src = e.target.result;
-        if (label) label.textContent = 'Selected: ' + file.name;
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-  // Function to re-index all slides in the form
-  function reindexSlides() {
-    const slideItems = document.querySelectorAll('#slides-container .slide-item');
-    const total = slideItems.length;
-
-    slideItems.forEach((item, idx) => {
-      item.setAttribute('data-slide-index', idx);
-      
-      // Update badge
-      const badge = item.querySelector('.slide-badge');
-      if (badge) badge.textContent = `Slide #${idx + 1}`;
-
-      // Update Move Up / Move Down buttons disabled state
-      const upBtn = item.querySelector('.move-up-btn');
-      const downBtn = item.querySelector('.move-down-btn');
-      if (upBtn) upBtn.disabled = (idx === 0);
-      if (downBtn) downBtn.disabled = (idx === total - 1);
-
-      // Update input names
-      const subtitleInput = item.querySelector('.input-subtitle');
-      if (subtitleInput) subtitleInput.name = `content[slides][${idx}][subtitle]`;
-
-      const fileInput = item.querySelector('.input-image-file');
-      if (fileInput) fileInput.name = `slide_files[${idx}]`;
-
-      const imageInput = item.querySelector('.input-image');
-      if (imageInput) imageInput.name = `content[slides][${idx}][image]`;
-
-      const titleInput = item.querySelector('.input-title');
-      if (titleInput) {
-        titleInput.name = `content[slides][${idx}][title]`;
-        updateSlideTitlePreview(item, titleInput.value);
-      }
-
-      const titleHighlightInput = item.querySelector('.input-title-highlight');
-      if (titleHighlightInput) titleHighlightInput.name = `content[slides][${idx}][title_highlight]`;
-
-      const descInput = item.querySelector('.input-description');
-      if (descInput) descInput.name = `content[slides][${idx}][description]`;
-
-      const btnPText = item.querySelector('.input-btn-p-text');
-      if (btnPText) btnPText.name = `content[slides][${idx}][btn_primary_text]`;
-
-      const btnPLink = item.querySelector('.input-btn-p-link');
-      if (btnPLink) btnPLink.name = `content[slides][${idx}][btn_primary_link]`;
-
-      const btnSText = item.querySelector('.input-btn-s-text');
-      if (btnSText) btnSText.name = `content[slides][${idx}][btn_secondary_text]`;
-
-      const btnSLink = item.querySelector('.input-btn-s-link');
-      if (btnSLink) btnSLink.name = `content[slides][${idx}][btn_secondary_link]`;
-    });
-  }
-
-  // Update title preview text in slide card header
-  function updateSlideTitlePreview(slideItem, titleValue) {
-    const preview = slideItem.querySelector('.slide-title-preview');
-    if (preview) {
-      preview.textContent = titleValue && titleValue.trim() !== '' ? titleValue : 'Untitled Slide';
-    }
-  }
-
-  // Highlight element animation
-  function flashHighlight(elem) {
-    elem.classList.remove('slide-reorder-highlight');
-    void elem.offsetWidth; // Trigger reflow
-    elem.classList.add('slide-reorder-highlight');
-    setTimeout(() => {
-      elem.classList.remove('slide-reorder-highlight');
-    }, 700);
-  }
-
-  // Move slide up
-  function moveSlideUp(button) {
-    const slideItem = button.closest('.slide-item');
-    const prevItem = slideItem.previousElementSibling;
-    if (prevItem && prevItem.classList.contains('slide-item')) {
-      slideItem.parentNode.insertBefore(slideItem, prevItem);
-      reindexSlides();
-      flashHighlight(slideItem);
-      slideItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-  }
-
-  // Move slide down
-  function moveSlideDown(button) {
-    const slideItem = button.closest('.slide-item');
-    const nextItem = slideItem.nextElementSibling;
-    if (nextItem && nextItem.classList.contains('slide-item')) {
-      slideItem.parentNode.insertBefore(nextItem, slideItem);
-      reindexSlides();
-      flashHighlight(slideItem);
-      slideItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-  }
-
-  // Remove a slide with confirmation and re-indexing
-  function removeSlide(button) {
-    const slideItems = document.querySelectorAll('#slides-container .slide-item');
-    if (slideItems.length <= 1) {
-      alert('You must have at least 1 hero slide.');
-      return;
-    }
-
-    if (!confirm('Are you sure you want to delete this slide?')) {
-      return;
-    }
-
-    const slideItem = button.closest('.slide-item');
-    if (slideItem) {
-      slideItem.remove();
-      reindexSlides();
-    }
-  }
-
-  // Add a new slide
-  function addNewSlide() {
-    const container = document.getElementById('slides-container');
-    const newIndex = document.querySelectorAll('#slides-container .slide-item').length;
-
-    const newSlideHtml = `
-      <div class="slide-item p-3 rounded border position-relative" data-slide-index="${newIndex}" style="background: var(--admin-surface-soft); border-color: var(--admin-border) !important; animation: fadeIn 0.3s ease;">
-        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3 border-bottom pb-2" style="border-color: var(--admin-border) !important;">
-          <div class="d-flex align-items-center gap-2">
-            <div class="drag-handle d-flex align-items-center px-1" title="Drag to reorder slide">
-              <i class="bi bi-grip-vertical fs-5"></i>
-            </div>
-            <span class="badge bg-warning text-dark fw-bold px-2 py-1 slide-badge">Slide #${newIndex + 1}</span>
-            <span class="text-truncate slide-title-preview fw-semibold ms-1" style="font-size: 0.85rem; max-width: 260px; color: var(--admin-text);">
-              NEW COLLECTION
-            </span>
-          </div>
-          <div class="d-flex align-items-center gap-1">
-            <div class="btn-group me-1" role="group" aria-label="Reorder Slide">
-              <button type="button" class="btn btn-sm btn-outline-secondary btn-move-slide move-up-btn" onclick="moveSlideUp(this)" title="Move Up">
-                <i class="bi bi-arrow-up"></i>
-              </button>
-              <button type="button" class="btn btn-sm btn-outline-secondary btn-move-slide move-down-btn" onclick="moveSlideDown(this)" title="Move Down">
-                <i class="bi bi-arrow-down"></i>
-              </button>
-            </div>
-            <button type="button" class="btn btn-sm btn-outline-danger d-inline-flex align-items-center gap-1 delete-slide-btn" onclick="removeSlide(this)" title="Delete this slide">
-              <i class="bi bi-trash"></i>
-              <span class="d-none d-sm-inline">Delete</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="row g-3">
-          <div class="col-12 col-md-6">
-            <label class="form-label fw-semibold" style="font-size: 0.8rem;">Subtitle Eyebrow</label>
-            <input type="text" class="form-control form-control-sm input-subtitle" name="content[slides][${newIndex}][subtitle]" value="Handcrafted in Bali • Genuine Leather" placeholder="e.g. Made in Bali • Genuine Leather" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);" />
-          </div>
-
-          <div class="col-12 col-md-6">
-            <label class="form-label fw-semibold" style="font-size: 0.8rem;">Background Image (Upload)</label>
-            <div class="d-flex align-items-center gap-3">
-              <div class="slide-preview-box rounded border position-relative overflow-hidden flex-shrink-0" style="width: 96px; height: 62px; background: var(--admin-surface); border-color: var(--admin-border) !important;">
-                <img src="{{ asset('images/hero_boots.png') }}" alt="Slide Image" class="slide-preview-img w-100 h-100" style="object-fit: cover;" onerror="this.src='{{ asset('images/hero_boots.png') }}'" />
-              </div>
-              <div class="flex-grow-1 min-w-0">
-                <input type="file" class="form-control form-control-sm input-image-file mb-1" name="slide_files[${newIndex}]" accept="image/jpeg,image/png,image/webp,image/jpg,image/svg+xml" onchange="previewSlideImage(this)" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text); font-size: 0.78rem;" />
-                <input type="hidden" class="input-image" name="content[slides][${newIndex}][image]" value="images/hero_boots.png" />
-                <small class="text-muted d-block text-truncate current-image-label" style="font-size: 0.72rem;">
-                  images/hero_boots.png (Default)
-                </small>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6">
-            <label class="form-label fw-semibold" style="font-size: 0.8rem;">Main Title (Line 1)</label>
-            <input type="text" class="form-control form-control-sm input-title" name="content[slides][${newIndex}][title]" value="NEW COLLECTION" placeholder="e.g. YANTO SHOES" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);" oninput="updateSlideTitlePreview(this.closest('.slide-item'), this.value)" />
-          </div>
-
-          <div class="col-12 col-md-6">
-            <label class="form-label fw-semibold" style="font-size: 0.8rem;">Title Highlight / Italic (Line 2)</label>
-            <input type="text" class="form-control form-control-sm input-title-highlight" name="content[slides][${newIndex}][title_highlight]" value="BALI STYLE" placeholder="e.g. BALI" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);" />
-          </div>
-
-          <div class="col-12">
-            <label class="form-label fw-semibold" style="font-size: 0.8rem;">Description Paragraph</label>
-            <textarea class="form-control form-control-sm input-description" name="content[slides][${newIndex}][description]" rows="2" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);">Discover our latest handcrafted leather boots made by Bali master artisans.</textarea>
-          </div>
-
-          <div class="col-12 col-sm-6 col-md-3">
-            <label class="form-label fw-semibold" style="font-size: 0.78rem;">Primary Button Text</label>
-            <input type="text" class="form-control form-control-sm input-btn-p-text" name="content[slides][${newIndex}][btn_primary_text]" value="Explore Catalog" placeholder="e.g. Explore Catalog" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);" />
-          </div>
-
-          <div class="col-12 col-sm-6 col-md-3">
-            <label class="form-label fw-semibold" style="font-size: 0.78rem;">Primary Button Link</label>
-            <input type="text" class="form-control form-control-sm input-btn-p-link" name="content[slides][${newIndex}][btn_primary_link]" value="/catalog" placeholder="e.g. /catalog" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);" />
-          </div>
-
-          <div class="col-12 col-sm-6 col-md-3">
-            <label class="form-label fw-semibold" style="font-size: 0.78rem;">Secondary Button Text</label>
-            <input type="text" class="form-control form-control-sm input-btn-s-text" name="content[slides][${newIndex}][btn_secondary_text]" value="Custom Order" placeholder="e.g. Custom Order" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);" />
-          </div>
-
-          <div class="col-12 col-sm-6 col-md-3">
-            <label class="form-label fw-semibold" style="font-size: 0.78rem;">Secondary Button Link</label>
-            <input type="text" class="form-control form-control-sm input-btn-s-link" name="content[slides][${newIndex}][btn_secondary_link]" value="#custom" placeholder="e.g. #custom" style="background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-text);" />
-          </div>
-        </div>
-      </div>
-    `;
-
-    container.insertAdjacentHTML('beforeend', newSlideHtml);
-    reindexSlides();
-    const newSlideEl = container.lastElementChild;
-    if (newSlideEl) {
-      flashHighlight(newSlideEl);
-      newSlideEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  }
-
-  // Initialize on DOM ready
   document.addEventListener('DOMContentLoaded', function() {
-    const slidesContainer = document.getElementById('slides-container');
-    if (slidesContainer) {
-      new Sortable(slidesContainer, {
-        handle: '.drag-handle',
-        animation: 200,
-        ghostClass: 'slide-sortable-ghost',
-        chosenClass: 'slide-sortable-chosen',
-        dragClass: 'slide-sortable-drag',
-        onEnd: function() {
-          reindexSlides();
+    const fileInput = document.getElementById('videoFileInput');
+    const uploadZone = document.getElementById('uploadZone');
+    const selectedFileName = document.getElementById('selectedFileName');
+
+    // Show selected file name
+    if (fileInput) {
+      fileInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+          const file = this.files[0];
+          selectedFileName.textContent = '✓ Selected: ' + file.name + ' (' + (file.size / (1024 * 1024)).toFixed(1) + 'MB)';
+          selectedFileName.classList.remove('d-none');
+
+          // Preview the video
+          const videoPreviewBox = document.getElementById('videoPreviewBox');
+          const existingPlaceholder = document.getElementById('videoPlaceholder');
+          let videoEl = document.getElementById('videoPreview');
+
+          if (existingPlaceholder) existingPlaceholder.remove();
+
+          if (!videoEl) {
+            videoEl = document.createElement('video');
+            videoEl.id = 'videoPreview';
+            videoEl.controls = true;
+            videoEl.muted = true;
+            videoEl.playsInline = true;
+            videoPreviewBox.appendChild(videoEl);
+          }
+
+          const url = URL.createObjectURL(file);
+          videoEl.src = url;
+          videoEl.load();
         }
       });
     }
 
-    // Bind live title preview for initial slides
-    document.querySelectorAll('#slides-container .input-title').forEach(input => {
-      input.addEventListener('input', function() {
-        updateSlideTitlePreview(this.closest('.slide-item'), this.value);
+    // Drag & drop visual feedback
+    if (uploadZone) {
+      uploadZone.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        this.classList.add('dragover');
       });
-    });
-
-    // Initial indexing to set up button disabled states properly
-    reindexSlides();
-
-    // Event listeners for Add buttons
-    document.getElementById('add-slide-btn')?.addEventListener('click', addNewSlide);
-    document.getElementById('add-slide-btn-bottom')?.addEventListener('click', addNewSlide);
+      uploadZone.addEventListener('dragleave', function() {
+        this.classList.remove('dragover');
+      });
+      uploadZone.addEventListener('drop', function() {
+        this.classList.remove('dragover');
+      });
+    }
   });
 </script>
 @endpush

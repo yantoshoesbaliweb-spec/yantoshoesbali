@@ -60,4 +60,12 @@ class User extends Authenticatable
     {
         return $this->role === 'store';
     }
+
+    /**
+     * Check if user is a catalog staff (limited access).
+     */
+    public function isStaff(): bool
+    {
+        return $this->role === 'staff';
+    }
 }

@@ -12,7 +12,7 @@ class ContentSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Header Slider & Announcement Content
+        // 1. Header Video & Announcement Content
         Content::updateOrCreate(
             ['key' => 'header'],
             [
@@ -23,41 +23,10 @@ class ContentSeeder extends Seeder
                         'LEGIAN | CANGGU | ULUWATU • OPEN DAILY 10AM - 6PM',
                         'WORLDWIDE EXPRESS SHIPPING AVAILABLE ON ALL ORDERS',
                     ],
-                    'slides' => [
-                        [
-                            'subtitle' => 'Made in Bali • Genuine Leather',
-                            'title' => 'YANTO SHOES',
-                            'title_highlight' => 'BALI',
-                            'description' => 'Handcrafted Cowboy Boots — Made by master artisans, from genuine leather, crafted exclusively for you.',
-                            'btn_primary_text' => 'Explore Catalog',
-                            'btn_primary_link' => '/catalog',
-                            'btn_secondary_text' => 'Custom Order',
-                            'btn_secondary_link' => '#custom',
-                            'image' => 'images/hero_boots.png',
-                        ],
-                        [
-                            'subtitle' => 'Latest Catalog',
-                            'title' => 'AUTHENTIC',
-                            'title_highlight' => 'COLLECTION',
-                            'description' => 'Hundreds of classic and modern styles available. Visit our stores in Legian, Canggu, and Uluwatu.',
-                            'btn_primary_text' => 'View Full Catalog',
-                            'btn_primary_link' => '/catalog',
-                            'btn_secondary_text' => '',
-                            'btn_secondary_link' => '',
-                            'image' => 'images/collection.png',
-                        ],
-                        [
-                            'subtitle' => 'Master Craftsmanship',
-                            'title' => 'CRAFTED WITH',
-                            'title_highlight' => 'HEART & SOUL',
-                            'description' => 'Every stitch is a testament to 35+ years of Balinese leather heritage.',
-                            'btn_primary_text' => 'Our Story',
-                            'btn_primary_link' => '#about',
-                            'btn_secondary_text' => '',
-                            'btn_secondary_link' => '',
-                            'image' => 'images/craftsmanship.png',
-                        ],
-                    ],
+                    'video' => 'storage/hero/handcrafted_boots.webm',
+                    'caption' => "YANTO SHOES\n*BALI*",
+                    'cta_text' => 'Explore Catalog',
+                    'cta_link' => '/catalog',
                     'marquee' => [
                         '100% GENUINE LEATHER',
                         'CUSTOM MADE IN 7 DAYS',

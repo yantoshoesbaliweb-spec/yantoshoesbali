@@ -38,6 +38,7 @@
       </div>
     </div>
 
+    @if(!Auth::user()->isStaff())
     <!-- Guides Menu & Submenu -->
     <div class="sidebar-menu-group">
       <a class="nav-link {{ request()->routeIs('admin.guides*') ? 'active' : '' }}" data-bs-toggle="collapse" href="#guidesSubmenu" role="button" aria-expanded="{{ request()->routeIs('admin.guides*') ? 'true' : 'false' }}" aria-controls="guidesSubmenu">
@@ -108,6 +109,7 @@
         </div>
       </div>
     </div>
+    @endif
 
     <!-- User Settings Nav Link -->
     <a class="nav-link {{ request()->routeIs('admin.profile') ? 'active' : '' }}" href="{{ route('admin.profile') }}">
