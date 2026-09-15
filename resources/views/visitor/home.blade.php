@@ -71,7 +71,7 @@
   <!-- Hero Video -->
   <section class="hero" id="hero">
     @if(!empty($headerContent['video']))
-    <video class="hero-bg" autoplay muted loop playsinline preload="auto" poster="{{ asset('images/hero_boots.png') }}">
+    <video class="hero-bg" autoplay muted loop playsinline preload="auto">
       <source src="{{ asset($headerContent['video']) }}">
     </video>
     @else
@@ -223,7 +223,7 @@
           <div class="product-img-wrap">
             <img src="{{ asset('images/product_tan.png') }}" alt="Classic Tan Cowboy Boots" class="product-img" loading="lazy" />
             <div class="product-overlay">
-              <a href="https://wa.me/6281353055475?text=Hi%20Yanto%20Shoes%20Bali%2C%20I%20am%20interested%20in%20the%20Classic%20Tan%20Cowboy%20Boots" target="_blank" class="product-cta">Order via WhatsApp</a>
+              <a href="javascript:void(0)" onclick="openWaOrderModal('Classic Tan Cowboy Boots')" class="product-cta">Order via WhatsApp</a>
             </div>
             <span class="product-badge">Bestseller</span>
           </div>
@@ -239,7 +239,7 @@
           <div class="product-img-wrap">
             <img src="{{ asset('images/product_black.png') }}" alt="Midnight Black Cowboy Boots" class="product-img" loading="lazy" />
             <div class="product-overlay">
-              <a href="https://wa.me/6281353055475?text=Hi%20Yanto%20Shoes%20Bali%2C%20I%20am%20interested%20in%20the%20Midnight%20Black%20Cowboy%20Boots" target="_blank" class="product-cta">Order via WhatsApp</a>
+              <a href="javascript:void(0)" onclick="openWaOrderModal('Midnight Black Cowboy Boots')" class="product-cta">Order via WhatsApp</a>
             </div>
             <span class="product-badge">Popular</span>
           </div>
@@ -255,7 +255,7 @@
           <div class="product-img-wrap">
             <img src="{{ asset('images/product_cream.png') }}" alt="Ivory Dream Floral Boots" class="product-img" loading="lazy" />
             <div class="product-overlay">
-              <a href="https://wa.me/6281353055475?text=Hi%20Yanto%20Shoes%20Bali%2C%20I%20am%20interested%20in%20the%20Ivory%20Dream%20Floral%20Boots" target="_blank" class="product-cta">Order via WhatsApp</a>
+              <a href="javascript:void(0)" onclick="openWaOrderModal('Ivory Dream Floral Boots')" class="product-cta">Order via WhatsApp</a>
             </div>
             <span class="product-badge new">New Edition</span>
           </div>
@@ -271,7 +271,7 @@
           <div class="product-img-wrap">
             <img src="{{ asset('images/product_red.png') }}" alt="Scarlet Flame Cowboy Boots" class="product-img" loading="lazy" />
             <div class="product-overlay">
-              <a href="https://wa.me/6281353055475?text=Hi%20Yanto%20Shoes%20Bali%2C%20I%20am%20interested%20in%20the%20Scarlet%20Flame%20Cowboy%20Boots" target="_blank" class="product-cta">Order via WhatsApp</a>
+              <a href="javascript:void(0)" onclick="openWaOrderModal('Scarlet Flame Cowboy Boots')" class="product-cta">Order via WhatsApp</a>
             </div>
             <span class="product-badge">Bold Edition</span>
           </div>
@@ -535,7 +535,7 @@
       <h2 class="cta-title">Ready to Own Your<br/><em>Dream Boots?</em></h2>
       <p class="cta-desc">Consult directly with our master artisan team. Free sizing advice, bespoke sketches, and worldwide shipping.</p>
       <div class="cta-actions">
-        <a href="https://wa.me/6281353055475?text=Hi%20Yanto%20Shoes%20Bali%2C%20I%20would%20like%20to%20consult%20about%20your%20boots" target="_blank" class="btn btn-primary">Chat on WhatsApp</a>
+        <a href="javascript:void(0)" onclick="openWaOrderModal('Custom Cowboy Boots')" class="btn btn-primary">Custom Order on WhatsApp</a>
         <a href="{{ route('visitor.catalog') }}" class="btn btn-ghost">Browse Full Catalog</a>
       </div>
     </div>
@@ -607,5 +607,7 @@
       </div>
     </div>
   </footer>
+
+@include('visitor.partials.wa-modal')
 
 @endsection
