@@ -476,9 +476,9 @@ ul {
 
 .hero-content {
   position: absolute;
-  bottom: 15%;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   text-align: center;
   width: 90%;
   max-width: 800px;
@@ -1991,9 +1991,7 @@ ul {
     padding: 0 20px;
   }
 
-  .hero-content {
-    bottom: 12%;
-  }
+  /* .hero-content is vertically centered */
 
   .products-grid {
     grid-template-columns: 1fr 1fr;
