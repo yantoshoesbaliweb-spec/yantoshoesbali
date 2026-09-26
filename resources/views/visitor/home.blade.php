@@ -79,10 +79,16 @@
     @endif
     
     @if(!empty($headerContent['caption']))
+    @php
+      $words = array_values(array_filter(preg_split('/\s+/', trim($headerContent['caption']))));
+      $wordCount = max(1, count($words));
+    @endphp
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <h1 class="hero-title">
-        {!! nl2br(e($headerContent['caption'])) !!}
+      <h1 class="hero-title hero-caption-grid" style="--col-count: {{ $wordCount }};">
+        @foreach($words as $word)
+        <span class="hero-caption-col">{{ $word }}</span>
+        @endforeach
       </h1>
     </div>
     @endif

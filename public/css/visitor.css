@@ -497,15 +497,32 @@ ul {
 
 .hero-content {
   position: absolute;
-  bottom: 48px;
+  bottom: 40px;
   left: 50%;
   top: auto;
   transform: translateX(-50%);
   text-align: center;
-  width: 90%;
-  max-width: 860px;
+  width: calc(100% - 180px);
+  max-width: 1100px;
   z-index: 5;
   pointer-events: none;
+}
+
+.hero-title.hero-caption-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--col-count, 1), minmax(0, 1fr));
+  align-items: center;
+  width: 100%;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+.hero-caption-col {
+  display: block;
+  text-align: center;
+  white-space: nowrap;
+  letter-spacing: 0.12em;
 }
 
 .hero-eyebrow {
@@ -521,12 +538,11 @@ ul {
 
 .hero-title {
   font-family: var(--font-serif);
-  font-size: clamp(1.15rem, 2.2vw, 1.6rem);
+  font-size: clamp(1.1rem, 2vw, 1.55rem);
   font-weight: 400;
   color: var(--color-cream);
-  line-height: 1.45;
-  letter-spacing: 0.04em;
-  word-spacing: 1.25em;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 0;
   opacity: 0;
