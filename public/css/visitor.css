@@ -2049,8 +2049,8 @@ ul {
   .hero-title {
     font-size: clamp(0.72rem, 3.2vw, 0.92rem);
     line-height: 1.35;
-    letter-spacing: 0.14em;
-    word-spacing: 0.3em;
+    letter-spacing: 0.03em;
+    word-spacing: 0.6em;
     text-shadow: 0 1px 6px rgba(0, 0, 0, 0.95);
   }
 
