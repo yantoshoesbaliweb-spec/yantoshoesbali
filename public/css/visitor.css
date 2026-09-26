@@ -513,7 +513,8 @@ ul {
   font-weight: 400;
   color: var(--color-cream);
   line-height: 1.45;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.16em;
+  word-spacing: 0.35em;
   text-transform: uppercase;
   margin-bottom: 0;
   opacity: 0;
@@ -2048,7 +2049,8 @@ ul {
   .hero-title {
     font-size: clamp(0.72rem, 3.2vw, 0.92rem);
     line-height: 1.35;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.14em;
+    word-spacing: 0.3em;
     text-shadow: 0 1px 6px rgba(0, 0, 0, 0.95);
   }
 
