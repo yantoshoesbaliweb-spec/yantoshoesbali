@@ -513,8 +513,8 @@ ul {
   font-weight: 400;
   color: var(--color-cream);
   line-height: 1.45;
-  letter-spacing: 0.16em;
-  word-spacing: 0.35em;
+  letter-spacing: 0.04em;
+  word-spacing: 0.85em;
   text-transform: uppercase;
   margin-bottom: 0;
   opacity: 0;
