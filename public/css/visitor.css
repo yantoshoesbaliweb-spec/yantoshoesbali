@@ -14,23 +14,37 @@
 :root {
   /* Color Palette — #391802 Rich Leather Mahogany Theme */
   --color-brand: #391802;
-  --color-bg: #210e02;            /* Deep dark leather background */
-  --color-surface: #391802;       /* The requested core theme color */
-  --color-surface-2: #4d2205;     /* Warm secondary surface for cards & panels */
-  --color-surface-3: #612d08;     /* Lighter warm brown for active & elevated states */
-  --color-border: #562706;        /* Subtle warm mahogany border */
-  --color-border-light: #72370c;  /* Accent border */
+  --color-bg: #210e02;
+  /* Deep dark leather background */
+  --color-surface: #391802;
+  /* The requested core theme color */
+  --color-surface-2: #4d2205;
+  /* Warm secondary surface for cards & panels */
+  --color-surface-3: #612d08;
+  /* Lighter warm brown for active & elevated states */
+  --color-border: #562706;
+  /* Subtle warm mahogany border */
+  --color-border-light: #72370c;
+  /* Accent border */
 
-  --color-gold: #dba24c;          /* Radiant warm leather gold */
-  --color-gold-light: #f3c77d;    /* Soft gold highlight */
-  --color-gold-dark: #b27a29;     /* Antique brass / deep gold */
-  --color-cream: #faf2e8;         /* Crisp warm ivory */
-  --color-cream-2: #ebdcc9;       /* Soft parchment cream */
+  --color-gold: #dba24c;
+  /* Radiant warm leather gold */
+  --color-gold-light: #f3c77d;
+  /* Soft gold highlight */
+  --color-gold-dark: #b27a29;
+  /* Antique brass / deep gold */
+  --color-cream: #faf2e8;
+  /* Crisp warm ivory */
+  --color-cream-2: #ebdcc9;
+  /* Soft parchment cream */
   --color-white: #ffffff;
 
-  --color-text: #f6ede3;          /* Warm white text for supreme legibility */
-  --color-text-muted: #c2aa96;    /* Soft muted brown-cream text */
-  --color-text-faint: #8e7561;    /* Subtle caption text */
+  --color-text: #f6ede3;
+  /* Warm white text for supreme legibility */
+  --color-text-muted: #c2aa96;
+  /* Soft muted brown-cream text */
+  --color-text-faint: #8e7561;
+  /* Subtle caption text */
 
   /* Typography */
   --font-serif: 'Cormorant Garamond', Georgia, serif;
@@ -254,7 +268,7 @@ ul {
   box-shadow: 0 1px 0 var(--color-border);
 }
 
-.navbar.scrolled + .mobile-nav {
+.navbar.scrolled+.mobile-nav {
   top: 72px;
 }
 
@@ -473,13 +487,11 @@ ul {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(20, 10, 5, 0.4) 0%,
-    rgba(20, 10, 5, 0.12) 35%,
-    rgba(20, 10, 5, 0.25) 65%,
-    rgba(20, 10, 5, 0.85) 100%
-  );
+  background: linear-gradient(to bottom,
+      rgba(20, 10, 5, 0.4) 0%,
+      rgba(20, 10, 5, 0.12) 35%,
+      rgba(20, 10, 5, 0.25) 65%,
+      rgba(20, 10, 5, 0.85) 100%);
   pointer-events: none;
 }
 
@@ -514,7 +526,7 @@ ul {
   color: var(--color-cream);
   line-height: 1.45;
   letter-spacing: 0.04em;
-  word-spacing: 0.85em;
+  word-spacing: 1.25em;
   text-transform: uppercase;
   margin-bottom: 0;
   opacity: 0;
@@ -906,10 +918,12 @@ ul {
   .leather-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+
   .leather-card:nth-child(3),
   .leather-card:nth-child(6) {
     border-right: none;
   }
+
   .leather-card:nth-child(n+4) {
     border-top: 1px solid var(--color-border);
   }
@@ -920,24 +934,31 @@ ul {
   .leather-guide-section {
     padding: 4.5rem 0;
   }
+
   .leather-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .leather-card:nth-child(3) {
     border-right: 1px solid var(--color-border);
   }
+
   .leather-card:nth-child(even) {
     border-right: none;
   }
+
   .leather-card:nth-child(n+3) {
     border-top: 1px solid var(--color-border);
   }
+
   .leather-card-image {
     height: 160px;
   }
+
   .leather-card-name {
     font-size: 0.95rem;
   }
+
   .leather-card-traits li {
     font-size: 0.72rem;
   }
@@ -1112,16 +1133,20 @@ ul {
   .toe-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+
   .toe-card:nth-child(3),
   .toe-card:nth-child(6) {
     border-right: none;
   }
+
   .toe-card:nth-child(n+4) {
     border-top: 1px solid var(--color-border);
   }
+
   .toe-card-media {
     height: 270px;
   }
+
   .toe-desc {
     height: 90px;
   }
@@ -1132,21 +1157,27 @@ ul {
   .toe-shapes-section {
     padding: 4.5rem 0;
   }
+
   .toe-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .toe-card:nth-child(3) {
     border-right: 1px solid var(--color-border);
   }
+
   .toe-card:nth-child(even) {
     border-right: none;
   }
+
   .toe-card:nth-child(n+3) {
     border-top: 1px solid var(--color-border);
   }
+
   .toe-card-media {
     height: 230px;
   }
+
   .toe-desc {
     height: 85px;
   }
@@ -2008,7 +2039,7 @@ ul {
     top: 0;
   }
 
-  .navbar.scrolled + .mobile-nav {
+  .navbar.scrolled+.mobile-nav {
     top: 72px;
   }
 
@@ -2018,7 +2049,8 @@ ul {
     min-height: unset;
     aspect-ratio: 16 / 9;
     width: 100%;
-    margin-top: 72px; /* Starts cleanly below navbar */
+    margin-top: 72px;
+    /* Starts cleanly below navbar */
     overflow: hidden;
   }
 
@@ -2031,13 +2063,11 @@ ul {
   }
 
   .hero-overlay {
-    background: linear-gradient(
-      to bottom,
-      rgba(20, 10, 5, 0.1) 0%,
-      transparent 35%,
-      rgba(20, 10, 5, 0.3) 60%,
-      rgba(20, 10, 5, 0.88) 100%
-    );
+    background: linear-gradient(to bottom,
+        rgba(20, 10, 5, 0.1) 0%,
+        transparent 35%,
+        rgba(20, 10, 5, 0.3) 60%,
+        rgba(20, 10, 5, 0.88) 100%);
   }
 
   .hero-content {
