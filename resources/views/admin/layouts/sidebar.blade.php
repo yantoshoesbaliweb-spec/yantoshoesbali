@@ -2,10 +2,10 @@
   <div class="sidebar-header">
     <a class="brand-mark" href="{{ route('admin.dashboard') }}" aria-label="Yanto Shoes Admin Dashboard">
       <span class="brand-icon">
-        <img src="{{ asset('images/yanto-logo.png') }}" alt="Logo" style="width: 28px; height: 28px; object-fit: contain;" />
+        <img src="{{ asset('images/shoes_by_yanto.png') }}" alt="Logo" style="width: 28px; height: 28px; object-fit: contain;" />
       </span>
       <span class="brand-copy">
-        <span class="brand-title">YANTO SHOES</span>
+        <span class="brand-title">SHOES BY YANTO</span>
         <span class="brand-subtitle">Bali &bull; Admin Panel</span>
       </span>
     </a>
